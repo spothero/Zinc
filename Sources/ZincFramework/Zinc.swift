@@ -79,8 +79,7 @@ public class Zinc {
     public static let shared = Zinc()
 
     public func sync(_ file: String = "Zincfile") {
-        guard
-            let text = FileClerk.read(file: file),
+        guard let text = FileClerk.read(file: file),
             let zincfile: Zincfile = Farmer.shared.deserialize(text) else {
             Lumberjack.shared.log("Unable to sync \(file).", level: .error)
             return
