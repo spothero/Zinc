@@ -72,13 +72,13 @@ class Lumberjack {
 
     private func getColor(for level: LogLevel) -> Color? {
         switch level {
-        case .message,
-             .debug:
-            return nil
-        case .warning:
-            return .yellow
-        case .error:
-            return .red
+            case .message,
+                 .debug:
+                return nil
+            case .warning:
+                return .yellow
+            case .error:
+                return .red
         }
     }
 

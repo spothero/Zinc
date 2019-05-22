@@ -1,6 +1,7 @@
  # Rules
---self insert
---stripunusedargs closure-only
+--indentcase true # indents cases within a switch statement
+--self insert # makes sure the self. prefix is added where appropriate
+--stripunusedargs closure-only # only strips unused arguments (replacing with _) in closures, not methods
 
  # Disabled Rules
 --disable specifiers # because it isn't configurable

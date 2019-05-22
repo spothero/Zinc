@@ -120,17 +120,17 @@ public class Zinc {
         var url: String
 
         switch zincfile.source.sourceType {
-        case .default:
-            // it should be impossible to reach this point
-            Lumberjack.shared.report("Default source is empty.")
-            return
-        case .repository:
-            url = "https://github.com/\(zincfile.source).git"
-        case .url:
-            url = zincfile.source
-        case .invalid:
-            // TODO: throw error
-            return
+            case .default:
+                // it should be impossible to reach this point
+                Lumberjack.shared.report("Default source is empty.")
+                return
+            case .repository:
+                url = "https://github.com/\(zincfile.source).git"
+            case .url:
+                url = zincfile.source
+            case .invalid:
+                // TODO: throw error
+                return
         }
 
         var directory = "\(FileClerk.tempDirectory)/default"
@@ -155,18 +155,18 @@ public class Zinc {
             var url: String
 
             switch file.source.sourceType {
-            case .default:
-                // nothing to do here if we use the default source for this file
-                continue
-            case .repository:
-                name = file.source
-                url = "https://github.com/\(file.source).git"
-            case .url:
-                name = file.source.repositoryName
-                url = file.source
-            case .invalid:
-                Lumberjack.shared.report("Invalid source: \(file.source)")
-                continue
+                case .default:
+                    // nothing to do here if we use the default source for this file
+                    continue
+                case .repository:
+                    name = file.source
+                    url = "https://github.com/\(file.source).git"
+                case .url:
+                    name = file.source.repositoryName
+                    url = file.source
+                case .invalid:
+                    Lumberjack.shared.report("Invalid source: \(file.source)")
+                    continue
             }
 
             var directory = "\(FileClerk.tempDirectory)/\(name)"

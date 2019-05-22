@@ -59,8 +59,8 @@ public class Zincfile: Codable {
 extension Zincfile.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .sourceConflict:
-            return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
+            case .sourceConflict:
+                return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
         }
     }
 }
