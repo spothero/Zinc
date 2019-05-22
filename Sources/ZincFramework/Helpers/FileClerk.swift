@@ -31,8 +31,12 @@ class FileClerk {
         }
     }
     
-    static func createDirectory(_ path: String) {
+    static func createDirectory(_ path: String, deleteExisting: Bool = false) {
         do {
+            if deleteExisting {
+                removeTempDirectory()
+            }
+
             try FileManager.default.createDirectory(atPath: path,
                                                     withIntermediateDirectories: true,
                                                     attributes: nil)
@@ -41,8 +45,8 @@ class FileClerk {
         }
     }
     
-    static func createTempDirectory() {
-        createDirectory(tempDirectory)
+    static func createTempDirectory(deleteExisting: Bool = false) {
+        createDirectory(tempDirectory, deleteExisting: deleteExisting)
     }
     
     static func filename(for path: String) -> String {

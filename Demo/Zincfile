@@ -1,12 +1,10 @@
 ---
-source: http://github.com/bdrelling/Utils-iOS.git
-sources:
-  Utils: http://github.com/bdrelling/Utils-iOS.git
+source: https://github.com/bdrelling/Utils-iOS.git
 variables:
   APPLICATION_NAME: ZincDemo
 files:
-  - source_path: SwiftLint/.swiftlint.yml
-  - name: .rubocop.yml
+  - name: .swiftlint.yml
     destination_path: .
-    source: Utils
-    source_path: Rubocop/.rubocop.yml
+    source: bdrelling/Utils-iOS
+    source_path: SwiftLint/.swiftlint.yml
+  - source_path: Rubocop/.rubocop.yml
