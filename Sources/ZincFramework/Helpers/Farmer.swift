@@ -11,8 +11,8 @@ import Yams
 
 class Farmer {
     static let shared = Farmer()
-    
-    func deserialize<T>(_ text: String) -> T? where T : Decodable {
+
+    func deserialize<T>(_ text: String) -> T? where T: Decodable {
         do {
             return try YAMLDecoder().decode(T.self, from: text)
         } catch {

@@ -10,23 +10,23 @@ import Foundation
 
 class Commander {
     static let shared = Commander()
-    
+
     @discardableResult
     func bash(_ command: String) -> String {
         let task = Process()
         task.launchPath = "/bin/bash"
         task.arguments = ["-c", command]
-        
+
         let pipe = Pipe()
         task.standardOutput = pipe
 //        task.standardError = pipe
         task.launch()
-        
+
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
-        
+
         task.waitUntilExit()
-        
+
         return output!
     }
 
@@ -35,7 +35,7 @@ class Commander {
 
         if let branch = branch, branch.isEmpty == false {
             // --branch can specify a branch or tag
-            // --single-branch 
+            // --single-branch
             command += " --branch \(branch) --single-branch"
         }
 
@@ -51,7 +51,7 @@ class Commander {
     }
 
     func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
-        return gitClone(url, branch: tag, directory: directory)
+        return self.gitClone(url, branch: tag, directory: directory)
     }
 
     // TODO: Add clone by commit

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-//import os.log
+// import os.log
 
 typealias LumberjackCompletion = () throws -> Void
 
@@ -17,59 +17,59 @@ class Lumberjack {
     private static let debugPrefix = "⚙"
 
     var isDebugEnabled = true
-    
+
     enum Color: String {
         case red = "\033[31m"
         case yellow = ""
-        
+
         static var close = "\033[m"
     }
-    
+
     enum LogLevel {
         case message
         case warning
         case error
         case debug
     }
-    
+
     func log(_ message: String, level: LogLevel = .message) {
         guard level != .debug || self.isDebugEnabled else {
             return
         }
 
-        let color = getColor(for: level)
-        printColored(message, color: color)
+        let color = self.getColor(for: level)
+        self.printColored(message, color: color)
     }
-    
+
     func log(_ error: Error, level: LogLevel = .error) {
-        log(error.localizedDescription, level: level)
+        self.log(error.localizedDescription, level: level)
     }
 
     func debug(_ message: String) {
-        log("\(Lumberjack.debugPrefix) \(message)", level: .debug)
+        self.log("\(Lumberjack.debugPrefix) \(message)", level: .debug)
     }
 
     func warn(_ message: String) {
-        log(message, level: .warning)
+        self.log(message, level: .warning)
     }
 
     func report(_ message: String) {
-        log(message, level: .error)
+        self.log(message, level: .error)
     }
 
     func report(_ error: Error) {
-        log(error)
+        self.log(error)
     }
-    
+
     private func printColored(_ message: String, color: Color?) {
         guard let color = color else {
             print(message)
             return
         }
-        
+
         print("\(color.rawValue)\(message)\(Color.close)")
     }
-    
+
     private func getColor(for level: LogLevel) -> Color? {
         switch level {
         case .message,
@@ -81,7 +81,7 @@ class Lumberjack {
             return .red
         }
     }
-    
+
 //    static func handle(_ completion: LumberjackCompletion) {
 //        do {
 //            try completion()

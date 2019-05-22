@@ -22,7 +22,7 @@ extension String {
         // we only want to do bare minimum validation to understand if the user is trying to enter a URL or not
 
         // if the string contains illegal characters, it's not a valid URL
-        guard self.rangeOfCharacter(from: legalURLCharacterSet.inverted) == nil else {
+        guard self.rangeOfCharacter(from: self.legalURLCharacterSet.inverted) == nil else {
             // TODO: throw error
             return false
         }
@@ -32,7 +32,7 @@ extension String {
             // TODO: throw error
             return false
         }
-        
+
         return true
     }
 
@@ -82,17 +82,17 @@ public class Zinc {
         guard
             let text = FileClerk.read(file: file),
             let zincfile: Zincfile = Farmer.shared.deserialize(text) else {
-                Lumberjack.shared.log("Unable to sync \(file).", level: .error)
-                return
+            Lumberjack.shared.log("Unable to sync \(file).", level: .error)
+            return
         }
-        
+
         // create the temporary directory
         FileClerk.createTempDirectory(deleteExisting: true)
-        
+
         // // clone the sources
         // for (key, repoURL) in Zincfile.allSources {
         //     // --branch can specify a branch or tag
-        //     // --single-branch 
+        //     // --single-branch
         //     var branch = ""
         //     Commander.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
         // }
@@ -105,10 +105,9 @@ public class Zinc {
 
         // sync all the files
         self.syncFiles(zincfile)
-        
+
         // delete the temporary directory
         FileClerk.removeTempDirectory()
-        
     }
 
     private func cloneDefaultRepository(_ zincfile: Zincfile) {
@@ -119,29 +118,29 @@ public class Zinc {
 
         Lumberjack.shared.debug("Syncing default source...")
 
-            var url: String
+        var url: String
 
-            switch zincfile.source.sourceType {
-                case .default:
-                    // it should be impossible to reach this point
-                    Lumberjack.shared.report("Default source is empty.")
-                    return 
-                case .repository:
-                    url = "https://github.com/\(zincfile.source).git"
-                case .url:
-                    url = zincfile.source
-                case .invalid:
-                    // TODO: throw error
-                    return
-            }
+        switch zincfile.source.sourceType {
+        case .default:
+            // it should be impossible to reach this point
+            Lumberjack.shared.report("Default source is empty.")
+            return
+        case .repository:
+            url = "https://github.com/\(zincfile.source).git"
+        case .url:
+            url = zincfile.source
+        case .invalid:
+            // TODO: throw error
+            return
+        }
 
-            var directory = "\(FileClerk.tempDirectory)/default"
+        var directory = "\(FileClerk.tempDirectory)/default"
 
-            Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
+        Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
 
-            Commander.shared.gitClone(url, 
-                                      branch: zincfile.sourceBranch ?? zincfile.sourceTag, 
-                                      directory: directory)
+        Commander.shared.gitClone(url,
+                                  branch: zincfile.sourceBranch ?? zincfile.sourceTag,
+                                  directory: directory)
     }
 
     private func cloneFileRepositories(_ zincfile: Zincfile) {
@@ -157,18 +156,18 @@ public class Zinc {
             var url: String
 
             switch file.source.sourceType {
-                case .default:
-                    // nothing to do here if we use the default source for this file
-                    continue 
-                case .repository:
-                    name = file.source
-                    url = "https://github.com/\(file.source).git"
-                case .url:
-                    name = file.source.repositoryName
-                    url = file.source
-                case .invalid:
-                    Lumberjack.shared.report("Invalid source: \(file.source)")
-                    continue
+            case .default:
+                // nothing to do here if we use the default source for this file
+                continue
+            case .repository:
+                name = file.source
+                url = "https://github.com/\(file.source).git"
+            case .url:
+                name = file.source.repositoryName
+                url = file.source
+            case .invalid:
+                Lumberjack.shared.report("Invalid source: \(file.source)")
+                continue
             }
 
             var directory = "\(FileClerk.tempDirectory)/\(name)"
@@ -179,48 +178,48 @@ public class Zinc {
 
             Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
 
-            Commander.shared.gitClone(url, 
-                                      branch: file.sourceBranch ?? file.sourceTag, 
+            Commander.shared.gitClone(url,
+                                      branch: file.sourceBranch ?? file.sourceTag,
                                       directory: directory)
         }
     }
 
     private func syncFiles(_ zincfile: Zincfile) {
         Lumberjack.shared.debug("Syncing \(zincfile.files.count) files...")
-        
+
         // update all files
         for file in zincfile.files {
             // get full source path
             let fullSourcePath = "\(FileClerk.tempDirectory)/\(file.fullSourcePath)"
-            
+
             // get full destination path
             var fullDestinationPath = file.fullDestinationPath
-            
+
             // if there's no file name property, use the filename from the source path
             if file.name.isEmpty {
                 let filename = FileClerk.filename(for: fullSourcePath)
                 fullDestinationPath += "\(filename)"
             }
-            
+
             // copy file into destination location
             FileClerk.copyItem(from: fullSourcePath, to: fullDestinationPath)
         }
     }
-    
+
     // public static func lint(_ file: String = "Zincfile") {
     //     guard let text = FileClerk.read(file: file) else {
     //         return
     //     }
-        
+
     //     print(text)
-        
+
     //     guard let Zincfile: Zincfile = Farmer.shared.deserialize(text) else {
     //         return
     //     }
-        
+
     //     // check for warnings
     //     // TODO: Check for duplicate sources
-        
+
     //     // pretty print the result
     //     do {
     //         let encodedFile = try YAMLEncoder().encode(Zincfile)

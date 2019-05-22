@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "SwiftFormat",
+        "repositoryURL": "https://github.com/nicklockwood/SwiftFormat",
+        "state": {
+          "branch": null,
+          "revision": "8b3e855384f15847915fa3a02019185ee7515107",
+          "version": "0.40.8"
+        }
+      },
+      {
         "package": "Yams",
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
