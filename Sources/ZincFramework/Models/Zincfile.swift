@@ -1,10 +1,4 @@
-//
-//  Zincfile.swift
-//  Zinc
-//
-//  Created by Brian Drelling on 5/20/2019.
-//  Copyright © 2019 SpotHero. All rights reserved.
-//
+// Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
 
@@ -23,11 +17,17 @@ public class Zincfile: Codable {
         case variables
     }
 
+    // MARK: Parsed Properties
+
     public let files: [File]
     public let source: String
     public let sourceBranch: String?
     public let sourceTag: String?
     public let variables: YamlDictionary
+
+    // MARK: Post-Parse Properties
+
+    public var filename: String?
 
     // public var allSources: YamlDictionary {
     //     guard !self.source.isEmpty else {
@@ -45,6 +45,8 @@ public class Zincfile: Codable {
 //        }
 //    }
 
+    // MARK: Methods
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -59,8 +61,8 @@ public class Zincfile: Codable {
 extension Zincfile.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-            case .sourceConflict:
-                return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
+        case .sourceConflict:
+            return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
         }
     }
 }

@@ -1,10 +1,4 @@
-//
-//  Farmer.swift
-//  Zinc
-//
-//  Created by Brian Drelling on 5/20/2019.
-//  Copyright © 2019 SpotHero. All rights reserved.
-//
+// Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
 import Yams
@@ -16,7 +10,7 @@ class Farmer {
         do {
             return try YAMLDecoder().decode(T.self, from: text)
         } catch {
-            Lumberjack.shared.log(error)
+            Lumberjack.shared.report(error)
             return nil
         }
     }

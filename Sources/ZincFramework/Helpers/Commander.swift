@@ -1,10 +1,4 @@
-//
-//  Commander.swift
-//  Zinc
-//
-//  Created by Brian Drelling on 5/20/2019.
-//  Copyright © 2019 SpotHero. All rights reserved.
-//
+// Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
 
@@ -30,6 +24,7 @@ class Commander {
         return output!
     }
 
+    @discardableResult
     func gitClone(_ url: String, branch: String? = nil, directory: String? = nil) -> String {
         var command = "git clone"
 
@@ -50,6 +45,7 @@ class Commander {
         return Commander.shared.bash(command)
     }
 
+    @discardableResult
     func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
         return self.gitClone(url, branch: tag, directory: directory)
     }

@@ -1,3 +1,5 @@
+// Copyright © 2019 SpotHero. All rights reserved.
+
 import class Foundation.Bundle
 import XCTest
 

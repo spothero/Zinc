@@ -1,10 +1,4 @@
-//
-//  FileClerk.swift
-//  Zinc
-//
-//  Created by Brian Drelling on 5/20/2019.
-//  Copyright © 2019 SpotHero. All rights reserved.
-//
+// Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
 
@@ -47,6 +41,10 @@ class FileClerk {
 
     static func createTempDirectory(deleteExisting: Bool = false) {
         self.createDirectory(self.tempDirectory, deleteExisting: deleteExisting)
+    }
+
+    static func fileExists(file filePath: String) -> Bool {
+        return FileManager.default.fileExists(atPath: filePath)
     }
 
     static func filename(for path: String) -> String {
