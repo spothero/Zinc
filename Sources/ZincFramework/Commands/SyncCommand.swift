@@ -1,8 +1,14 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
 class SyncCommand: Command {
-    func run() throws {
+    typealias Options = CommandOptions
+    
+    func run(with options: Options) throws {
         self.sync()
+    }
+    
+    func run(with args: [String]) {
+        
     }
 
     private func sync(_ filename: String? = nil) {

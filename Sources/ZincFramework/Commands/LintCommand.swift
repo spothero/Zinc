@@ -1,8 +1,18 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
+import Foundation
+
 class LintCommand: Command {
-    func run() throws {
+    typealias Options = LintOptions
+    
+    func run(with options: Options) throws {
         self.lint()
+    }
+    
+    func run(with args: [String]) {
+        let options = LintOptions()
+        
+//        Lumberjack.shared.log("Properties: \(options.properties)")
     }
 
     public func lint(_ filename: String? = nil) {
@@ -16,27 +26,49 @@ class LintCommand: Command {
             Lumberjack.shared.report(error, message: "Unable to lint Zincfile.")
         }
     }
+}
 
-    // public static func lint(_ file: String = "Zincfile") {
-    //     guard let text = FileClerk.read(file: file) else {
-    //         return
-    //     }
+struct LintOptions: CommandOptions {
+    var file: Option<String> = Option(key: "file",
+                                      usage: "Specifies the Zincfile to parse.",
+                                      abbreviation: "f",
+                                      isRequired: true)
+}
 
-    //     print(text)
+protocol CommandOptions: PropertyReflecting {
+    
+}
 
-    //     guard let Zincfile: Zincfile = Farmer.shared.deserialize(text) else {
-    //         return
-    //     }
+//protocol CommandOption {
+//    var key: String { get }
+//    var abbreviation: String? { get }
+//    var description: String { get }
+//    var defaultValue: T? { get }
+//}
 
-    //     // check for warnings
-    //     // TODO: Check for duplicate sources
-
-    //     // pretty print the result
-    //     do {
-    //         let encodedFile = try YAMLEncoder().encode(Zincfile)
-    //         print(encodedFile)
-    //     } catch {
-    //         Lumberjack.shared.log(error)
-    //     }
-    // }
+class Option<T>: NSObject {
+    let key: String
+    let abbreviation: Character?
+    let defaultValue: T?
+    let usage: String
+    let isRequired: Bool
+    
+    var value: T?
+    
+    init(key: String,
+         usage: String,
+         abbreviation: Character? = nil,
+         defaultValue: T? = nil,
+         isRequired: Bool = false) {
+        self.key = key
+        self.usage = usage
+        self.abbreviation = abbreviation
+        self.defaultValue = defaultValue
+        self.isRequired = isRequired
+    }
+    
+    func set(value: Any?, forKey key: String) {
+//        self.setValue(value, forKey: key)
+    }
+    
 }

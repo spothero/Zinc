@@ -65,11 +65,11 @@ public class Zinc {
         do {
             switch command {
             case .help:
-                try HelpCommand().run()
+                try HelpCommand().run(with: args)
             case .lint:
-                try LintCommand().run()
+                try LintCommand().run(with: args)
             case .sync:
-                try SyncCommand().run()
+                try SyncCommand().run(with: args)
             case .testColors:
                 Lumberjack.shared.testColors()
             }
