@@ -9,7 +9,7 @@ class LintCommand: Command {
         self.lint()
     }
     
-    func run(with args: [String]) {
+    func run(with args: [String]) throws {
         let options = LintOptions()
         
 //        Lumberjack.shared.log("Properties: \(options.properties)")

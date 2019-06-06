@@ -3,8 +3,8 @@
 import Foundation
 import Yams
 
-class Farmer {
-    static let shared = Farmer()
+class YamlDeserializer {
+    static let shared = YamlDeserializer()
 
     func deserialize<T>(_ text: String) -> T? where T: Decodable {
         do {

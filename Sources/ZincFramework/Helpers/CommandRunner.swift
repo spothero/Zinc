@@ -2,8 +2,8 @@
 
 import Foundation
 
-class Commander {
-    static let shared = Commander()
+class CommandRunner {
+    static let shared = CommandRunner()
 
     @discardableResult
     func bash(_ command: String) -> String {
@@ -42,7 +42,7 @@ class Commander {
 
         Lumberjack.shared.debug("Executing `bash \(command)`")
 
-        return Commander.shared.bash(command)
+        return CommandRunner.shared.bash(command)
     }
 
     @discardableResult

@@ -7,7 +7,7 @@ class HelpCommand: Command {
         Lumberjack.shared.log("Running help.")
     }
     
-    func run(with args: [String]) {
+    func run(with args: [String]) throws {
         
     }
 }

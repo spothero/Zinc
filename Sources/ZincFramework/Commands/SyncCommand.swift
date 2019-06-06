@@ -7,7 +7,7 @@ class SyncCommand: Command {
         self.sync()
     }
     
-    func run(with args: [String]) {
+    func run(with args: [String]) throws {
         
     }
 
@@ -25,7 +25,7 @@ class SyncCommand: Command {
             //     // --branch can specify a branch or tag
             //     // --single-branch
             //     var branch = ""
-            //     Commander.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
+            //     CommandRunner.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
             // }
 
             // clone the default repo first
@@ -74,7 +74,7 @@ class SyncCommand: Command {
 
         Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
 
-        Commander.shared.gitClone(url,
+        CommandRunner.shared.gitClone(url,
                                   branch: zincfile.sourceBranch ?? zincfile.sourceTag,
                                   directory: directory)
     }
@@ -114,7 +114,7 @@ class SyncCommand: Command {
 
             Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
 
-            Commander.shared.gitClone(url,
+            CommandRunner.shared.gitClone(url,
                                       branch: file.sourceBranch ?? file.sourceTag,
                                       directory: directory)
         }
