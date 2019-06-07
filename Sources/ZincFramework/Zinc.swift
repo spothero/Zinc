@@ -1,6 +1,7 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
+import Utility
 import Yams
 
 public class Zinc {
@@ -32,44 +33,54 @@ public class Zinc {
         }
 
         // Remove the first element from the array, which is our executable name -- zinc
-        var args = args
-        args.removeFirst()
+        var args = Array(args.dropFirst())
+
+        let parser = ArgumentParser(usage: "<options>", overview: "This is what this tool is for")
+        parser.add(subparser: "lint", overview: "Lints the file")
+        
+        do {
+            let parsedArguments = try parser.parse(args)
+            
+//            debugPrint(parsedArguments)
+        } catch {
+            Lumberjack.shared.report(error)
+        }
 
         // Get the first element from the array, which is our command
         // If no command is passed in, use the default command (specified in the Command enum)
 
         // Get the first argument if one was provided, otherwise run the default command
-        guard let firstArg = args.first else {
-            self.run(.default)
-            return
-        }
-
-        // Attempt to parse arg into a valid command
-        // If it cannot be parsed, run the help command
-        guard let command = Command(rawValue: firstArg) else {
-            Lumberjack.shared.report(ZincError.invalidCommand(firstArg))
-            self.run(.help)
-            return
-        }
-
-        // Remove the first argument again, which is the command we're going to call
-        args.removeFirst()
-
-        // Run the command!
-        self.run(command, withArgs: args)
+//        guard let firstArg = args.first else {
+//            self.run(.default, parser: parser)
+//            return
+//        }
+//
+//        // Attempt to parse arg into a valid command
+//        // If it cannot be parsed, run the help command
+//        guard let command = Command(rawValue: firstArg) else {
+//            Lumberjack.shared.report(ZincError.invalidCommand(firstArg))
+//            self.run(.help, parser: parser)
+//            return
+//        }
+//
+//        // Remove the first argument again, which is the command we're going to call
+//        args.removeFirst()
+//
+//        // Run the command!
+//        self.run(command, withArgs: args, parser: parser)
     }
 
-    public func run(_ command: Command, withArgs args: [String] = []) {
+    public func run(_ command: Command, withArgs args: [String] = [], parser: ArgumentParser) {
         Lumberjack.shared.debug("Running command '\(command.rawValue)' with args: \(args)")
 
         do {
             switch command {
             case .help:
-                try HelpCommand().run(with: args)
+                try HelpCommand().run(with: args, parser: parser)
             case .lint:
-                try LintCommand().run(with: args)
+                try LintCommand().run(with: args, parser: parser)
             case .sync:
-                try SyncCommand().run(with: args)
+                try SyncCommand().run(with: args, parser: parser)
             case .testColors:
                 Lumberjack.shared.testColors()
             }

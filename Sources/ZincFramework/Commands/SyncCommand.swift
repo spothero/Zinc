@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
+import Utility
+
 class SyncCommand: Command {
     typealias Options = CommandOptions
     
@@ -7,7 +9,7 @@ class SyncCommand: Command {
         self.sync()
     }
     
-    func run(with args: [String]) throws {
+    func run(with args: [String], parser: ArgumentParser) throws {
         
     }
 

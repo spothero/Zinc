@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
+import Utility
+
 class HelpCommand: Command {
     typealias Options = CommandOptions
     
@@ -7,7 +9,7 @@ class HelpCommand: Command {
         Lumberjack.shared.log("Running help.")
     }
     
-    func run(with args: [String]) throws {
+    func run(with args: [String], parser: ArgumentParser) throws {
         
     }
 }
