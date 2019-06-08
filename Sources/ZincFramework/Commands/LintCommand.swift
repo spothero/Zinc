@@ -4,7 +4,11 @@ import Foundation
 import Utility
 
 class LintCommand: Command {
-    typealias Options = CommandOptions
+    // typealias Options = CommandOptions
+    
+    static var usageDescription: String {
+        return "This command is the lint command."
+    }
     
     func run(with options: Options) throws {
         self.lint()

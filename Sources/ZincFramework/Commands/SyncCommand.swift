@@ -3,7 +3,11 @@
 import Utility
 
 class SyncCommand: Command {
-    typealias Options = CommandOptions
+    // typealias Options = CommandOptions
+    
+    static var usageDescription: String {
+        return "This command is the sync command."
+    }
     
     func run(with options: Options) throws {
         self.sync()

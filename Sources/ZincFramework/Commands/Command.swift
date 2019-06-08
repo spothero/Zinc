@@ -3,7 +3,10 @@
 import Utility
 
 protocol Command {
-    associatedtype Options = CommandOptions
+    // associatedtype Options = CommandOptions
+
+    static var usageDescription: String { get }
+
 //    var description: String
 //    func describe()
     func run(with options: Options) throws
