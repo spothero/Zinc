@@ -5,15 +5,18 @@ import Utility
 protocol Command {
     // associatedtype Options = CommandOptions
 
+    static var name: String { get }
     static var usageDescription: String { get }
 
 //    var description: String
 //    func describe()
-    func run(with options: Options) throws
-    func run(with args: [String], parser: ArgumentParser) throws
+//    func run(with options: Options) throws
+    
+    init()
+    func run(with args: [String]) throws
 }
 
-//extension Command {
+// extension Command {
 //    private func options(from args: [String]) -> Options  {
 //
 //    }
@@ -21,5 +24,4 @@ protocol Command {
 //    func run(with args: [String]) {
 //
 //    }
-//}
-
+// }

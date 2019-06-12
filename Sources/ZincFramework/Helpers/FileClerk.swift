@@ -4,7 +4,7 @@ import Foundation
 
 class FileClerk {
     // MARK: - Properties
-    
+
     static let tempDirectory = "tmp"
 
     static var currentDirectory: String {

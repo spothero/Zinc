@@ -15,22 +15,25 @@ public class Zinc {
 
     // MARK: Enums
 
-    public enum CommandKey: String {
-        case help
-        case lint
-        case sync
-        case testColors = "test-colors"
+//    public enum CommandKey: String {
+//        case help
+//        case lint
+//        case sync
+//        case test
+//        case testColors = "test-colors"
+//
+//        static let `default`: CommandKey = .lint
+//    }
+    
+    // MARK: Properties
 
-        static let `default`: CommandKey = .sync
-    }
-
-    private var registeredCommands = [CommandKey: (Command, ArgumentParser)]()
+    private var defaultCommand = TestCommand.self
+    private var registeredCommands = [String: Command.Type]()
 
     // MARK: Lifecycle
 
     public func process(args: [String]) {
         Lumberjack.shared.debug("Processing args: \(args)")
-
 
         // The first argument should be "zinc", the package executable
         // If the args list is empty, that means we've encountered something very wrong
@@ -42,65 +45,70 @@ public class Zinc {
         // Remove the first element from the array, which is our executable name -- zinc
         var args = Array(args.dropFirst())
 
-        let parser = ArgumentParser(usage: "<options>", overview: Zinc.usageDescription)
-
-        self.register(.help, toCommand: HelpCommand(), withParser: parser)
-        self.register(.lint, toCommand: LintCommand(), withParser: parser)
-        self.register(.sync, toCommand: SyncCommand(), withParser: parser)
+//        let parser = ArgumentParser(usage: "<options>", overview: Zinc.usageDescription)
+//
+        self.register(TestCommand.self)
+        self.register(HelpCommand.self)
         
-        do {
-            let parsedArguments = try parser.parse(args)
-            
-        //    debugPrint(parsedArguments)
-        } catch {
-            Lumberjack.shared.report(error)
-        }
+//        try? parser.parse(args)
+//        self.register(.lint, toCommand: LintCommand(), withParser: parser)
+//        self.register(.sync, toCommand: SyncCommand(), withParser: parser)
 
         // Get the first element from the array, which is our command
-        // If no command is passed in, use the default command (specified in the Command enum)
+        // If no command is passed in, use the default command
 
-        // Get the first argument if one was provided, otherwise run the default command
-       guard let firstArg = args.first else {
-           self.run(.default)
-           return
-       }
-
-       // Attempt to parse arg into a valid command
-       // If it cannot be parsed, run the help command
-       guard let command = Command(rawValue: firstArg) else {
-           Lumberjack.shared.report(ZincError.invalidCommand(firstArg))
-           self.run(.help)
-           return
-       }
-
-       // Remove the first argument again, which is the command we're going to call
-       args.removeFirst()
-
-       // Run the command!
-       self.run(command, withArgs: args)
-    }
-
-    private func register<T>(_ key: CommandKey, toCommand command: T, withParser parser: ArgumentParser) 
-        -> ArgumentParser where T : Command {
-        registeredCommands[key] = (command, parser)
+        // If no arguments were provided, run the default command without args
+        guard let commandKey = args.first else {
+            self.run(self.defaultCommand)
+            return
+        }
         
-        return parser.add(subparser: key.rawValue, overview: T.usageDescription)
-    }
-
-    public func run(_ key: CommandKey, withArgs args: [String] = []) {
-        Lumberjack.shared.debug("Running command '\(key.rawValue)' with args: \(args)")
-
-        guard let (command, parser) = self.registeredCommands[key] else {
-            Lumberjack.shared.report("Command \(key.rawValue) failed!")
+        // If an argument was provided but it is an option, run the default command and pass it as an arg
+        guard !commandKey.starts(with: "-") else {
+            self.run(self.defaultCommand, withArgs: args)
             return
         }
 
-        do {
-            try command.run(with: args, parser: parser)
+        // Attempt to parse arg into a valid command
+        // If it cannot be parsed, run the help command
+        guard registeredCommands.keys.contains(commandKey) else {
+            Lumberjack.shared.report(ZincError.invalidCommand(commandKey))
+            self.run(HelpCommand.self)
+            return
+        }
 
-            Lumberjack.shared.debug("Command \(key.rawValue) finished successfully!")
+        // Remove the first argument again, which is the command we're going to call
+        args.removeFirst()
+
+        // Run the command!
+        self.run(commandKey, withArgs: args)
+    }
+
+    private func register<T>(_ command: T.Type) where T: Command {
+//        let subparser = parser.add(subparser: T.name, overview: T.usageDescription)
+        self.registeredCommands[T.name] = command
+//        return parser.add(subparser: key.rawValue, overview: T.usageDescription)
+    }
+    
+    private func run<T>(_ command: T.Type, withArgs args: [String] = []) where T : Command {
+        self.run(T.name, withArgs: args)
+    }
+
+    private func run(_ key: String, withArgs args: [String] = []) {
+        Lumberjack.shared.debug("Running command '\(key)' with args: \(args)")
+
+        guard let commandType = self.registeredCommands[key] else {
+            Lumberjack.shared.report("Command \(key) failed! Command is not registered.")
+            return
+        }
+        
+        do {
+            let command = commandType.init()
+            try command.run(with: args)
+
+            Lumberjack.shared.debug("Command \(key) finished successfully!")
         } catch {
-            Lumberjack.shared.report(error, message: "Command \(key.rawValue) failed!")
+            Lumberjack.shared.report(error, message: "Command \(key) failed!")
         }
     }
 }
