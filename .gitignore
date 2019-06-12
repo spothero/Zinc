@@ -42,6 +42,7 @@ Packages/
 # Package.pins
 # Package.resolved
 .build/
+.swiftpm/
 
 # The package .xcodeproj can be regenerated at any time using `swift package generate-xcodeproj`
 /*.xcodeproj
