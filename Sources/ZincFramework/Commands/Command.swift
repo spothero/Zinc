@@ -11,7 +11,7 @@ protocol Command {
 //    var description: String
 //    func describe()
 //    func run(with options: Options) throws
-    
+
     init()
     func run(with args: [String]) throws
 }

@@ -24,7 +24,7 @@ public class Zinc {
 //
 //        static let `default`: CommandKey = .lint
 //    }
-    
+
     // MARK: Properties
 
     private var defaultCommand = TestCommand.self
@@ -49,7 +49,7 @@ public class Zinc {
 //
         self.register(TestCommand.self)
         self.register(HelpCommand.self)
-        
+
 //        try? parser.parse(args)
 //        self.register(.lint, toCommand: LintCommand(), withParser: parser)
 //        self.register(.sync, toCommand: SyncCommand(), withParser: parser)
@@ -62,7 +62,7 @@ public class Zinc {
             self.run(self.defaultCommand)
             return
         }
-        
+
         // If an argument was provided but it is an option, run the default command and pass it as an arg
         guard !commandKey.starts(with: "-") else {
             self.run(self.defaultCommand, withArgs: args)
@@ -71,7 +71,7 @@ public class Zinc {
 
         // Attempt to parse arg into a valid command
         // If it cannot be parsed, run the help command
-        guard registeredCommands.keys.contains(commandKey) else {
+        guard self.registeredCommands.keys.contains(commandKey) else {
             Lumberjack.shared.report(ZincError.invalidCommand(commandKey))
             self.run(HelpCommand.self)
             return
@@ -89,8 +89,8 @@ public class Zinc {
         self.registeredCommands[T.name] = command
 //        return parser.add(subparser: key.rawValue, overview: T.usageDescription)
     }
-    
-    private func run<T>(_ command: T.Type, withArgs args: [String] = []) where T : Command {
+
+    private func run<T>(_ command: T.Type, withArgs args: [String] = []) where T: Command {
         self.run(T.name, withArgs: args)
     }
 
@@ -101,7 +101,7 @@ public class Zinc {
             Lumberjack.shared.report("Command \(key) failed! Command is not registered.")
             return
         }
-        
+
         do {
             let command = commandType.init()
             try command.run(with: args)

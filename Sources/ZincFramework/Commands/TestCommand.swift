@@ -5,27 +5,27 @@ import Utility
 
 class TestCommand: Command {
 //     typealias Options = TestOptions
-    
+
     static var name = "test"
     static var usageDescription = "This command is the test command."
-    
+
 //    func run(with options: Options) throws {
-////        self.lint()
+    ////        self.lint()
 //    }
-    
-    required init() { }
-    
+
+    required init() {}
+
     func run(with args: [String]) throws {
         let parser = ArgumentParser(args)
-        
+
         let file: String = try parser.get("--file", "-f", type: String.self)
         let version: Int = try parser.get("--version", "-v", type: Int.self)
         let isDope: Bool = try parser.get("--dope", "-d", type: Bool.self)
 //        let path: String? = try parser.get("--path", "-p", type: String.self)
-        
+
         Lumberjack.shared.log([file, version, isDope])
 //
-////        let parser = parser
+        ////        let parser = parser
 //        let file = parser.add(option: "--file", shortName: "-f", kind: String.self, usage: nil, completion: nil)
 //        let version = parser.add(option: "--version", shortName: "-v", kind: Int.self, usage: nil, completion: nil)
 //
@@ -41,9 +41,9 @@ class TestCommand: Command {
 
 protocol ValidArgument {
     static var hasExplicitValue: Bool { get }
-    
+
     static var implicitValue: ValidArgument { get }
-    
+
 //    init(argument: String) throws
 }
 
@@ -51,7 +51,7 @@ extension ValidArgument {
     static var hasExplicitValue: Bool {
         return true
     }
-    
+
     static var implicitValue: ValidArgument {
         return ""
     }
@@ -69,7 +69,7 @@ extension Int: ValidArgument {
             throw ArgumentParser.Error.typeMismatch
 //            throw ArgumentConversionError.typeMismatch(value: argument, expectedType: Int.self)
         }
-        
+
         self = int
     }
 }
@@ -78,11 +78,11 @@ extension Bool: ValidArgument {
     static var hasExplicitValue: Bool {
         return false
     }
-    
+
     static var implicitValue: ValidArgument {
         return true
     }
-    
+
     public init(argument: String) throws {
         switch argument {
         case "":
@@ -106,20 +106,20 @@ class ArgumentParser {
         case invalidValue
         case missingValue
     }
-    
+
     private let args: [String]
-    
+
     init(_ args: [String]) {
         self.args = args
     }
-    
-    func get<T>(_ option: Option<T>) throws -> T where T : ValidArgument {
+
+    func get<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
         return try self.get(option.name, option.shortName, type: T.self)
     }
-    
-    func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T : ValidArgument {
+
+    func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T: ValidArgument {
         // TODO: Error on duplicate names, shortNames, or any combination
-        
+
         guard let index = self.args.firstIndex(of: name) ?? self.args.firstIndex(of: shortName) else {
             throw Error.argumentNotFound
         }
@@ -133,9 +133,9 @@ class ArgumentParser {
                 throw Error.missingValue
             }
         }
-        
+
         let nextArgument = self.args[index + 1]
-        
+
         // If the next argument is another option, the current argument has to be a Bool
         // If it's not a Bool, throw an error
         guard !nextArgument.starts(with: "-") else {
@@ -145,9 +145,9 @@ class ArgumentParser {
                 throw Error.invalidValue
             }
         }
-        
+
         let returnValue: T?
-        
+
         switch type {
         case is Bool.Type:
             returnValue = try Bool(argument: nextArgument) as? T
@@ -158,14 +158,13 @@ class ArgumentParser {
         default:
             throw Error.typeMismatch
         }
-        
+
         guard let value = returnValue else {
             throw Error.invalidValue
         }
-        
+
         return value
-        
-        
+
 //        guard T.hasExplicitValue else {
 //            guard let value = T.implicitValue as? T else {
 //                throw Error.typeMismatch
@@ -181,16 +180,16 @@ class ArgumentParser {
 struct Option<T> {
     let name: String
     let shortName: String
-    
+
     var value: T?
-    
+
     init(_ name: String, _ shortName: String) {
         self.name = name
         self.shortName = shortName
     }
 }
 
-//struct TestOptions {
+// struct TestOptions {
 //    let file: String
 //    let version: Int
 //
@@ -203,9 +202,9 @@ struct Option<T> {
 ////
 ////        let file =
 //    }
-//}
+// }
 //
-//class ArgsParser {
+// class ArgsParser {
 ////    private var options = [OptionProtocol]()
 //
 //    init(_ args: [String]) {
@@ -219,27 +218,26 @@ struct Option<T> {
 //    func get<T>(_ name: String, shortName: String, usage: String? = nil) -> T {
 //
 //    }
-//}
+// }
 //
-//protocol CommandArgument {
+// protocol CommandArgument {
 //    init(argument: String) throws
 //
 //    static var completion: ShellCompletion { get }
-//}
+// }
 //
-//extension String: CommandArgument {
+// extension String: CommandArgument {
 //
-//}
+// }
 //
 
-
-//protocol OptionProtocol {
+// protocol OptionProtocol {
 //    associatedtype Value
 //
 //    var name: String { get }
 //    var shortName: String { get }
 //    var value: Value? { get set }
-//}
+// }
 
 // struct Option<T> {
 //     let key: String

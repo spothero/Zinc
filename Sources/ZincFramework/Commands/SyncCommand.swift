@@ -1,8 +1,8 @@
 //// Copyright © 2019 SpotHero. All rights reserved.
 //
-//import Utility
+// import Utility
 //
-//class SyncCommand: Command {
+// class SyncCommand: Command {
 //    // typealias Options = CommandOptions
 //
 //    static var usageDescription: String {
@@ -145,4 +145,4 @@
 //            FileClerk.copyItem(from: fullSourcePath, to: fullDestinationPath)
 //        }
 //    }
-//}
+// }

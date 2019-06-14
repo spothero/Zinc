@@ -1,9 +1,9 @@
 //// Copyright © 2019 SpotHero. All rights reserved.
 //
-//import Foundation
-//import Utility
+// import Foundation
+// import Utility
 //
-//class LintCommand: Command {
+// class LintCommand: Command {
 //    // typealias Options = CommandOptions
 //
 //    static var usageDescription: String {
@@ -42,7 +42,7 @@
 //            Lumberjack.shared.report(error, message: "Unable to lint Zincfile.")
 //        }
 //    }
-//}
+// }
 //
 //// struct LintOptions: CommandOptions {
 ////     let file: String?
@@ -68,9 +68,9 @@
 ////     }
 //// }
 //
-//protocol CommandOptions {
+// protocol CommandOptions {
 //    // func parse(_ arguments: [String])
-//}
+// }
 //
 //// //protocol CommandOption {
 //// //    var key: String { get }
