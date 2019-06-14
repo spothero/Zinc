@@ -4,7 +4,7 @@ import Foundation
 import Utility
 import Yams
 
-public class Zinc {
+public {
     // MARK: Shared Instance
 
     public static let shared = Zinc()
