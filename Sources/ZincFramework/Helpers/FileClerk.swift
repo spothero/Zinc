@@ -3,27 +3,17 @@
 import Foundation
 
 class FileClerk {
+    // MARK: - Properties
+
     static let tempDirectory = "tmp"
 
     static var currentDirectory: String {
         return FileManager.default.currentDirectoryPath
     }
 
-    static func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
-        Lumberjack.shared.log("Copying from \(source) to \(destination)...")
+    // MARK: - Methods
 
-        do {
-            if shouldReplace {
-                _ = try FileManager.default.replaceItemAt(URL(fileURLWithPath: destination),
-                                                          withItemAt: URL(fileURLWithPath: source),
-                                                          options: .usingNewMetadataOnly)
-            } else {
-                try FileManager.default.copyItem(atPath: source, toPath: destination)
-            }
-        } catch {
-            Lumberjack.shared.log(error)
-        }
-    }
+    // MARK: Create
 
     static func createDirectory(_ path: String, deleteExisting: Bool = false) {
         do {
@@ -43,13 +33,25 @@ class FileClerk {
         self.createDirectory(self.tempDirectory, deleteExisting: deleteExisting)
     }
 
-    static func fileExists(file filePath: String) -> Bool {
-        return FileManager.default.fileExists(atPath: filePath)
+    // MARK: Copy
+
+    static func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
+        Lumberjack.shared.log("Copying from \(source) to \(destination)...")
+
+        do {
+            if shouldReplace {
+                _ = try FileManager.default.replaceItemAt(URL(fileURLWithPath: destination),
+                                                          withItemAt: URL(fileURLWithPath: source),
+                                                          options: .usingNewMetadataOnly)
+            } else {
+                try FileManager.default.copyItem(atPath: source, toPath: destination)
+            }
+        } catch {
+            Lumberjack.shared.log(error)
+        }
     }
 
-    static func filename(for path: String) -> String {
-        return (path as NSString).lastPathComponent
-    }
+    // MARK: Read
 
     static func read(file filePath: String) -> String? {
         let fileURL = URL(fileURLWithPath: filePath)
@@ -69,6 +71,8 @@ class FileClerk {
         }
     }
 
+    // MARK: Remove
+
     static func remove(_ path: String) {
         do {
             try FileManager.default.removeItem(atPath: path)
@@ -79,5 +83,15 @@ class FileClerk {
 
     static func removeTempDirectory() {
         self.remove(self.tempDirectory)
+    }
+
+    // MARK: Utility
+
+    static func fileExists(file filePath: String) -> Bool {
+        return FileManager.default.fileExists(atPath: filePath)
+    }
+
+    static func filename(for path: String) -> String {
+        return (path as NSString).lastPathComponent
     }
 }

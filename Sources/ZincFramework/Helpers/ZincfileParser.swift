@@ -46,7 +46,7 @@ class ZincfileParser {
         }
 
         // Third, attempt to deserialize into a Zincfile
-        guard let zincfile: Zincfile = Farmer.shared.deserialize(text) else {
+        guard let zincfile: Zincfile = YamlDeserializer.shared.deserialize(text) else {
             throw ZincfileParsingError.fileCouldNotBeDeserialized(filename)
         }
 
