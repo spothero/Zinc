@@ -177,6 +177,25 @@ class ArgumentParser {
     }
 }
 
+extension ArgumentParser.Error: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .argumentNotFound:
+            return "Argument not found."
+        case .noImplicitValue:
+            return "No implicit value."
+        case .typeMismatch:
+            return "Type mismatch."
+        case .unknown(let value):
+            return "Unknown value: \(value)"
+        case .invalidValue:
+            return "Invalud value."
+        case .missingValue:
+            return "Missing value."
+        }
+    }
+}
+
 struct Option<T> {
     let name: String
     let shortName: String
