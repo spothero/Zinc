@@ -1,7 +1,7 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import Utility
+import SPMUtility
 import Yams
 
 public class Zinc {

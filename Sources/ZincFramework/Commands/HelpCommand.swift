@@ -1,6 +1,6 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-import Utility
+import SPMUtility
 
 class HelpCommand: Command {
     // typealias Options = CommandOptions

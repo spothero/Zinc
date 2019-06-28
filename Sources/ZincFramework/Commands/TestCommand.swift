@@ -1,7 +1,7 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
-import Utility
+import SPMUtility
 
 class TestCommand: Command {
 //     typealias Options = TestOptions
