@@ -16,4 +16,5 @@ files:
   # SwiftLint
   - source_path: SwiftLint/.swiftlint.yml
   # SwiftFormat
-  - source_path: SwiftFormat/.swiftformat
+  # Removed until we have clearer header rules that would work across all projects
+  # - source_path: SwiftFormat/.swiftformat
