@@ -15,7 +15,11 @@ class HelpCommand: Command {
     func run(with args: [String]) throws {
         let parser = ArgumentParser(args)
 
-        // let subcommand: String = try parser.get(String.self)
+        let subcommand: String = try parser.get(0, type: String.self)
+        let yikes: String = try parser.get("--yikes", "-y", type: String.self)
+
+        Lumberjack.shared.debug("Subcommand is \(subcommand)")
+        Lumberjack.shared.debug("Yikes is \(yikes)")
 //        let parser = ArgumentParser(usage: "<options>", overview: "This is how you use the command.")
 //        //        let parser = parser
 //        let file = parser.add(option: "--file", shortName: "-f", kind: String.self, usage: nil, completion: nil)

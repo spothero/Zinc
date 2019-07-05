@@ -4,6 +4,7 @@ import Foundation
 class ArgumentParser {
     enum Error: Swift.Error {
         case argumentNotFound
+        case argumentOutOfBounds
         case noImplicitValue
         case typeMismatch // TODO: Add Type to this
         case unknown(value: String)
@@ -19,6 +20,20 @@ class ArgumentParser {
 
     func get<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
         return try self.get(option.name, option.shortName, type: T.self)
+    }
+
+    func get<T>(_ index: Int, type: T.Type) throws -> T where T: ValidArgument {
+        guard self.args.indices.contains(index) else {
+            throw Error.argumentOutOfBounds
+        }
+
+        let argument = self.args[index]
+
+        guard let value: T = try self.getValue(for: argument, type: type) else {
+            throw Error.invalidValue
+        }
+
+        return value
     }
 
     func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T: ValidArgument {
@@ -38,11 +53,11 @@ class ArgumentParser {
             }
         }
 
-        let nextArgument = self.args[index + 1]
+        let valueArgument = self.args[index + 1]
 
         // If the next argument is another option, the current argument has to be a Bool
         // If it's not a Bool, throw an error
-        guard !nextArgument.starts(with: "-") else {
+        guard !valueArgument.starts(with: "-") else {
             if type is Bool.Type, let returnValue = true as? T {
                 return returnValue
             } else {
@@ -50,22 +65,7 @@ class ArgumentParser {
             }
         }
 
-        let returnValue: T?
-
-        switch type {
-        case is Double.Type:
-            returnValue = try Double(argument: nextArgument) as? T
-        case is Bool.Type:
-            returnValue = try Bool(argument: nextArgument) as? T
-        case is Int.Type:
-            returnValue = try Int(argument: nextArgument) as? T
-        case is String.Type:
-            returnValue = try String(argument: nextArgument) as? T
-        default:
-            throw Error.typeMismatch
-        }
-
-        guard let value = returnValue else {
+        guard let value = try getValue(for: valueArgument, type: type) else {
             throw Error.invalidValue
         }
 
@@ -81,6 +81,25 @@ class ArgumentParser {
 //
 //        return
     }
+
+    private func getValue<T>(for argument: String, type: T.Type) throws -> T? {
+        let value: T?
+
+        switch type {
+        case is Double.Type:
+            value = try Double(argument: argument) as? T
+        case is Bool.Type:
+            value = try Bool(argument: argument) as? T
+        case is Int.Type:
+            value = try Int(argument: argument) as? T
+        case is String.Type:
+            value = try String(argument: argument) as? T
+        default:
+            throw Error.typeMismatch
+        }
+
+        return value
+    }
 }
 
 extension ArgumentParser.Error: LocalizedError {
@@ -88,6 +107,8 @@ extension ArgumentParser.Error: LocalizedError {
         switch self {
         case .argumentNotFound:
             return "Argument not found."
+        case .argumentOutOfBounds:
+            return "Argument out of bounds."
         case .noImplicitValue:
             return "No implicit value."
         case .typeMismatch:

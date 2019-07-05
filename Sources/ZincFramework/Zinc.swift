@@ -3,13 +3,6 @@
 import Foundation
 import Yams
 
-public struct CommandContext {
-    let command: String?
-    let subcommand: String?
-    let arguments: [String]?
-    let options: [String: String]?
-}
-
 public class Zinc {
     // MARK: Shared Instance
 
