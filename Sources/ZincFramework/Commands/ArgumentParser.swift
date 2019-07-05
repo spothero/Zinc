@@ -29,7 +29,7 @@ class ArgumentParser {
 
         let argument = self.args[index]
 
-        guard let value: T = try self.getValue(for: argument, type: type) else {
+        guard let value = try self.getValue(for: argument, type: type) else {
             throw Error.invalidValue
         }
 
