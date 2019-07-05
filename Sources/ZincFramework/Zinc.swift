@@ -1,7 +1,6 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import SPMUtility
 import Yams
 
 public class Zinc {
@@ -55,8 +54,6 @@ public class Zinc {
 //        self.register(.sync, toCommand: SyncCommand(), withParser: parser)
 
         // Get the first element from the array, which is our command
-        // If no command is passed in, use the default command
-
         // If no arguments were provided, run the default command without args
         guard let commandKey = args.first else {
             self.run(self.defaultCommand)
@@ -87,6 +84,7 @@ public class Zinc {
     private func register<T>(_ command: T.Type) where T: Command {
 //        let subparser = parser.add(subparser: T.name, overview: T.usageDescription)
         self.registeredCommands[T.name] = command
+        Lumberjack.shared.debug("Registered \(command) with name \(T.name).")
 //        return parser.add(subparser: key.rawValue, overview: T.usageDescription)
     }
 

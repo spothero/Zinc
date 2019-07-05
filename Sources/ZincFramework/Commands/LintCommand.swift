@@ -1,7 +1,6 @@
 //// Copyright © 2019 SpotHero. All rights reserved.
 //
 // import Foundation
-// import SPMUtility
 //
 // class LintCommand: Command {
 //    // typealias Options = CommandOptions

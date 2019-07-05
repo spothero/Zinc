@@ -1,7 +1,5 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
-import SPMUtility
-
 protocol Command {
     // associatedtype Options = CommandOptions
 

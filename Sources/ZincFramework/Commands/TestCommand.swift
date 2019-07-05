@@ -1,7 +1,6 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
 import Foundation
-import SPMUtility
 
 class TestCommand: Command {
 //     typealias Options = TestOptions
@@ -19,11 +18,12 @@ class TestCommand: Command {
         let parser = ArgumentParser(args)
 
         let file: String = try parser.get("--file", "-f", type: String.self)
-        let version: Int = try parser.get("--version", "-v", type: Int.self)
+        let version: Double = try parser.get("--version", "-v", type: Double.self)
+        let build: Int = try parser.get("--build", "-v", type: Int.self)
         let isDope: Bool = try parser.get("--dope", "-d", type: Bool.self)
 //        let path: String? = try parser.get("--path", "-p", type: String.self)
 
-        Lumberjack.shared.log([file, version, isDope])
+        Lumberjack.shared.log([file, version, build, isDope])
 //
         ////        let parser = parser
 //        let file = parser.add(option: "--file", shortName: "-f", kind: String.self, usage: nil, completion: nil)
@@ -71,6 +71,17 @@ extension Int: ValidArgument {
         }
 
         self = int
+    }
+}
+
+extension Double: ValidArgument {
+    public init(argument: String) throws {
+        guard let double = Double(argument) else {
+            throw ArgumentParser.Error.typeMismatch
+//            throw ArgumentConversionError.typeMismatch(value: argument, expectedType: Int.self)
+        }
+
+        self = double
     }
 }
 
@@ -149,12 +160,14 @@ class ArgumentParser {
         let returnValue: T?
 
         switch type {
+        case is Double.Type:
+            returnValue = try Double(argument: nextArgument) as? T
         case is Bool.Type:
             returnValue = try Bool(argument: nextArgument) as? T
-        case is String.Type:
-            returnValue = try String(argument: nextArgument) as? T
         case is Int.Type:
             returnValue = try Int(argument: nextArgument) as? T
+        case is String.Type:
+            returnValue = try String(argument: nextArgument) as? T
         default:
             throw Error.typeMismatch
         }

@@ -1,7 +1,5 @@
 //// Copyright © 2019 SpotHero. All rights reserved.
 //
-// import SPMUtility
-//
 // class SyncCommand: Command {
 //    // typealias Options = CommandOptions
 //
