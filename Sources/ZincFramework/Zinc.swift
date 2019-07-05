@@ -3,6 +3,13 @@
 import Foundation
 import Yams
 
+public struct CommandContext {
+    let command: String?
+    let subcommand: String?
+    let arguments: [String]?
+    let options: [String: String]?
+}
+
 public class Zinc {
     // MARK: Shared Instance
 
@@ -26,7 +33,7 @@ public class Zinc {
 
     // MARK: Properties
 
-    private var defaultCommand = TestCommand.self
+    private var defaultCommand = SyncCommand.self
     private var registeredCommands = [String: Command.Type]()
 
     // MARK: Lifecycle
@@ -46,8 +53,9 @@ public class Zinc {
 
 //        let parser = ArgumentParser(usage: "<options>", overview: Zinc.usageDescription)
 //
-        self.register(TestCommand.self)
         self.register(HelpCommand.self)
+        self.register(TestCommand.self)
+        self.register(SyncCommand.self)
 
 //        try? parser.parse(args)
 //        self.register(.lint, toCommand: LintCommand(), withParser: parser)

@@ -13,7 +13,10 @@ class HelpCommand: Command {
     required init() {}
 
     func run(with args: [String]) throws {
-//        let parser = ArgumentParser(usage: "<options>", overview: "Thsi is how you use the command.")
+        let parser = ArgumentParser(args)
+
+        // let subcommand: String = try parser.get(String.self)
+//        let parser = ArgumentParser(usage: "<options>", overview: "This is how you use the command.")
 //        //        let parser = parser
 //        let file = parser.add(option: "--file", shortName: "-f", kind: String.self, usage: nil, completion: nil)
 //        let version = parser.add(option: "--version", shortName: "-v", kind: Int.self, usage: nil, completion: nil)
