@@ -62,6 +62,9 @@ let package = Package(
         ),
         .target(
             name: "ShellRunner",
+            dependencies: [
+                "Lumberjack",
+            ],
             path: "Sources/ShellRunner"
         ),
         .target(
