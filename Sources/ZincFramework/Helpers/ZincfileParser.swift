@@ -1,5 +1,6 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
+import FileHero
 import Foundation
 
 class ZincfileParser {
@@ -36,12 +37,12 @@ class ZincfileParser {
     /// - Throws: A parsing error, if one occurs.
     private func parse(_ filename: String) throws -> Zincfile? {
         // First, check if the file exists
-        guard FileClerk.fileExists(file: filename) else {
+        guard FileClerk.shared.fileExists(file: filename) else {
             throw ZincfileParsingError.fileNotFound(filename)
         }
 
         // Second, read text from the file
-        guard let text = FileClerk.read(file: filename) else {
+        guard let text = FileClerk.shared.read(file: filename) else {
             throw ZincfileParsingError.textCouldNotBeRead(filename)
         }
 

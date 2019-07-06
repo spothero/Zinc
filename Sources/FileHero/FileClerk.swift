@@ -3,20 +3,28 @@
 import Foundation
 import Lumberjack
 
-class FileClerk {
+public class FileClerk {
+    // MARK: - Shared Instance
+
+    public static let shared = FileClerk()
+
     // MARK: - Properties
 
-    static let tempDirectory = "tmp"
+    private static let tempDirectory = "tmp"
 
-    static var currentDirectory: String {
+    public static var currentDirectory: String {
         return FileManager.default.currentDirectoryPath
     }
 
     // MARK: - Methods
 
+    // MARK: Lifecycle
+
+    private init() { }
+
     // MARK: Create
 
-    static func createDirectory(_ path: String, deleteExisting: Bool = false) {
+    public func createDirectory(_ path: String, deleteExisting: Bool = false) {
         do {
             if deleteExisting {
                 self.removeTempDirectory()
@@ -30,13 +38,13 @@ class FileClerk {
         }
     }
 
-    static func createTempDirectory(deleteExisting: Bool = false) {
-        self.createDirectory(self.tempDirectory, deleteExisting: deleteExisting)
+    public func createTempDirectory(deleteExisting: Bool = false) {
+        self.createDirectory(FileClerk.tempDirectory, deleteExisting: deleteExisting)
     }
 
     // MARK: Copy
 
-    static func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
+    public func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
         Lumberjack.shared.log("Copying from \(source) to \(destination)...")
 
         do {
@@ -54,12 +62,12 @@ class FileClerk {
 
     // MARK: Read
 
-    static func read(file filePath: String) -> String? {
+    public func read(file filePath: String) -> String? {
         let fileURL = URL(fileURLWithPath: filePath)
         return self.read(fileURL: fileURL)
     }
 
-    static func read(fileURL: URL?) -> String? {
+    public func read(fileURL: URL?) -> String? {
         guard let fileURL = fileURL else {
             return nil
         }
@@ -74,7 +82,7 @@ class FileClerk {
 
     // MARK: Remove
 
-    static func remove(_ path: String) {
+    public func remove(_ path: String) {
         do {
             try FileManager.default.removeItem(atPath: path)
         } catch {
@@ -82,17 +90,17 @@ class FileClerk {
         }
     }
 
-    static func removeTempDirectory() {
-        self.remove(self.tempDirectory)
+    public func removeTempDirectory() {
+        self.remove(FileClerk.tempDirectory)
     }
 
     // MARK: Utility
 
-    static func fileExists(file filePath: String) -> Bool {
+    public func fileExists(file filePath: String) -> Bool {
         return FileManager.default.fileExists(atPath: filePath)
     }
 
-    static func filename(for path: String) -> String {
+    public func filename(for path: String) -> String {
         return (path as NSString).lastPathComponent
     }
 }
