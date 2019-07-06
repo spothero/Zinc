@@ -1,4 +1,4 @@
-
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 public protocol ValidArgument {
     static var hasExplicitValue: Bool { get }

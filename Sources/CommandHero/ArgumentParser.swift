@@ -1,3 +1,4 @@
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
 
@@ -113,7 +114,7 @@ extension ArgumentParser.Error: LocalizedError {
             return "No implicit value."
         case .typeMismatch:
             return "Type mismatch."
-        case .unknown(let value):
+        case let .unknown(value):
             return "Unknown value: \(value)"
         case .invalidValue:
             return "Invalud value."

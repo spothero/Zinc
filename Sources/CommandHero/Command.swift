@@ -1,4 +1,4 @@
-// Copyright © 2019 SpotHero. All rights reserved.
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 public protocol Command {
     // associatedtype Options = CommandOptions

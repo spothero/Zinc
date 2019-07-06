@@ -1,9 +1,9 @@
-// Copyright © 2019 SpotHero. All rights reserved.
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import CommandHero
 
 class SyncCommand: Command {
-   // typealias Options = CommandOptions
+    // typealias Options = CommandOptions
 
     static var name = "sync"
     static var usageDescription: String {

@@ -1,3 +1,5 @@
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
+
 public struct Option<T> {
     let name: String
     let shortName: String
