@@ -10,7 +10,7 @@ public class FileClerk {
 
     // MARK: - Properties
 
-    private static let tempDirectory = "tmp"
+    public static let tempDirectory = "tmp"
 
     public static var currentDirectory: String {
         return FileManager.default.currentDirectoryPath

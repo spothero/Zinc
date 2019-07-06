@@ -3,11 +3,11 @@
 import Foundation
 import Lumberjack
 
-class ShellRunner {
-    static let shared = ShellRunner()
+public class ShellRunner {
+    public static let shared = ShellRunner()
 
     @discardableResult
-    func bash(_ command: String) -> String {
+    public func bash(_ command: String) -> String {
         let task = Process()
         task.launchPath = "/bin/bash"
         task.arguments = ["-c", command]
@@ -26,7 +26,7 @@ class ShellRunner {
     }
 
     @discardableResult
-    func gitClone(_ url: String, branch: String? = nil, directory: String? = nil) -> String {
+    public func gitClone(_ url: String, branch: String? = nil, directory: String? = nil) -> String {
         var command = "git clone"
 
         if let branch = branch, branch.isEmpty == false {
@@ -47,7 +47,7 @@ class ShellRunner {
     }
 
     @discardableResult
-    func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
+    public func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
         return self.gitClone(url, branch: tag, directory: directory)
     }
 

@@ -33,7 +33,7 @@ public extension Command {
             } else {
                 self.printUsageDescription()
             }
-            
+
             return
         }
 
@@ -64,7 +64,7 @@ public extension Command {
             } else {
                 self.printUsageDescription()
             }
-            
+
             return
         }
 
