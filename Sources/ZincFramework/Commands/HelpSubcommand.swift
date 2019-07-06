@@ -15,7 +15,7 @@ class HelpSubcommand: Subcommand {
 
     public required init() {}
 
-    public func run(with parser: ArgumentParser) throws {
+    public func run(withParser parser: ArgumentParser) throws {
         let subcommand: String = try parser.get(0, type: String.self)
         let yikes: String = try parser.get("--yikes", "-y", type: String.self)
 

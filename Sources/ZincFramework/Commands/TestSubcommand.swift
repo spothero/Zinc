@@ -16,7 +16,7 @@ class TestSubcommand: Subcommand {
 
     public required init() {}
 
-    public func run(with parser: ArgumentParser) throws {
+    public func run(withParser parser: ArgumentParser) throws {
         let file: String = try parser.get("--file", "-f", type: String.self)
         let version: Double = try parser.get("--version", "-v", type: Double.self)
         let build: Int = try parser.get("--build", "-v", type: Int.self)

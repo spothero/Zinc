@@ -2,20 +2,20 @@
 
 import Lumberjack
 
-public protocol MasterCommand {
+public protocol Command {
     var defaultSubcommand: String { get }
     var registeredSubcommands: [Subcommand.Type] { get set }
     var usageDescription: String { get }
 
-    func process(args: [String]) throws
+    func run(withArgs args: [String]) throws
     func run(_ key: String, withArgs args: [String]) throws
     func run(_ commandType: Subcommand.Type, withArgs args: [String]) throws
 }
 
-public extension MasterCommand {
+public extension Command {
     // MARK: Lifecycle
 
-    func process(args: [String]) throws {
+    func run(withArgs args: [String]) throws {
         Lumberjack.shared.debug("Processing args: \(args)")
 
         // The first argument should be "zinc", the package executable
@@ -69,7 +69,7 @@ public extension MasterCommand {
         // try self.run(T.name, withArgs: args)
 
         let subcommand = subcommandType.init()
-        try subcommand.run(with: args)
+        try subcommand.run(withArgs: args)
 
         Lumberjack.shared.debug("Subcommand '\(subcommandType.name)' finished successfully!")
     }

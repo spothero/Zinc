@@ -15,7 +15,7 @@ class SyncSubcommand: Subcommand {
 
     public required init() {}
 
-    public func run(with parser: ArgumentParser) throws {
+    public func run(withParser parser: ArgumentParser) throws {
         Lumberjack.shared.debug("Sync command ran.")
     }
 }

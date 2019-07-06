@@ -5,14 +5,14 @@ public protocol Subcommand {
     static var usageDescription: String { get }
 
     init()
-    func run(with parser: ArgumentParser) throws
+    func run(withParser parser: ArgumentParser) throws
 }
 
 public extension Subcommand {
-    func run(with args: [String]) throws {
+    func run(withArgs args: [String]) throws {
         let parser = ArgumentParser(args)
         let help: Bool = try parser.get("--help")
 
-        try self.run(with: parser)
+        try self.run(withParser: parser)
     }
 }

@@ -5,4 +5,4 @@ import ZincFramework
 
 // We have a single entry point to process arguments
 // The Zinc framework will handle all the work!
-try? Zinc.shared.process(args: CommandLine.arguments)
+try? Zinc.shared.run(withArgs: CommandLine.arguments)

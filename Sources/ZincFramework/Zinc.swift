@@ -5,7 +5,7 @@ import Foundation
 import Lumberjack
 import Yams
 
-public class Zinc: MasterCommand {
+public class Zinc: Command {
     // MARK: Shared Instance
 
     public static let shared = Zinc()
