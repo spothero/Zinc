@@ -1,12 +1,13 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
+import Lumberjack
 
-class Commander {
-    static let shared = Commander()
+public class ShellRunner {
+    public static let shared = ShellRunner()
 
     @discardableResult
-    func bash(_ command: String) -> String {
+    public func bash(_ command: String) -> String {
         let task = Process()
         task.launchPath = "/bin/bash"
         task.arguments = ["-c", command]
@@ -25,7 +26,7 @@ class Commander {
     }
 
     @discardableResult
-    func gitClone(_ url: String, branch: String? = nil, directory: String? = nil) -> String {
+    public func gitClone(_ url: String, branch: String? = nil, directory: String? = nil) -> String {
         var command = "git clone"
 
         if let branch = branch, branch.isEmpty == false {
@@ -42,11 +43,11 @@ class Commander {
 
         Lumberjack.shared.debug("Executing `bash \(command)`")
 
-        return Commander.shared.bash(command)
+        return self.bash(command)
     }
 
     @discardableResult
-    func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
+    public func gitClone(_ url: String, tag: String, directory: String? = nil) -> String {
         return self.gitClone(url, branch: tag, directory: directory)
     }
 
