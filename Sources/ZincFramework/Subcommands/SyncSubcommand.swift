@@ -4,14 +4,8 @@ import CommandHero
 import Lumberjack
 
 class SyncSubcommand: Subcommand {
-    // typealias Options = CommandOptions
-
     public static var name = "sync"
     public static var usageDescription = "This command is the sync command."
-
-//    func run(with options: Options) throws {
-//        self.sync()
-//    }
 
     public required init() {}
 
