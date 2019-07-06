@@ -5,21 +5,22 @@ import Lumberjack
 public protocol Subcommand: UsageDescribing {
     static var name: String { get }
 
-    init()
-    func run(withParser parser: ArgumentParser) throws
+    init(from parser: ArgumentParser) throws
+
+    func run() throws
 }
 
-public extension Subcommand {
-    func run(withArgs args: [String]) throws {
-        let parser = ArgumentParser(args)
+// public extension Subcommand {
+//     func run(withArgs args: [String]) throws {
+//         let parser = ArgumentParser(args)
 
-        let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
+//         let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
 
-        guard !shouldDescribeUsage else {
-            self.printUsageDescription()
-            return
-        }
+//         guard !shouldDescribeUsage else {
+//             self.printUsageDescription()
+//             return
+//         }
 
-        try self.run(withParser: parser)
-    }
-}
+//         try self.run(withParser: parser)
+//     }
+// }

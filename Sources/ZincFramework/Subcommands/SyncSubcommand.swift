@@ -6,14 +6,32 @@ import Lumberjack
 import ShellRunner
 
 class SyncSubcommand: Subcommand {
+    // MARK: - Properties
+
+    // MARK: Command Metadata
+
     public static var name = "sync"
-    public static var usageDescription = "This is the suage description for the sync subcommand."
+    public static var usageDescription = "This is the usage description for the sync subcommand."
 
-    public required init() {}
+    // MARK: Options
 
-    public func run(withParser parser: ArgumentParser) throws {
-        self.sync()
+    private let file: String?
+
+    // MARK: - Methods
+
+    // MARK: Initializers
+
+    public required init(from parser: ArgumentParser) throws {
+        self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
     }
+
+    // MARK: Subcommand
+
+    public func run() throws {
+        self.sync(self.file)
+    }
+
+    // MARK: Utilities
 
     private func sync(_ filename: String? = nil) {
         do {

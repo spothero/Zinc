@@ -12,7 +12,7 @@ public protocol Command: UsageDescribing {
 }
 
 public extension Command {
-    func run(withArgs args: [String]) throws {
+    func run(withArgs args: [String] = CommandLine.arguments) throws {
         Lumberjack.shared.debug("Processing args: \(args)")
 
         // The first argument should be "zinc", the package executable
@@ -94,10 +94,16 @@ public extension Command {
     func run(_ subcommandType: Subcommand.Type, withArgs args: [String] = []) throws {
         Lumberjack.shared.debug("Running subcommand '\(subcommandType.name)' with args: \(args)")
 
-        // try self.run(T.name, withArgs: args)
+        let parser = ArgumentParser(args)
+        let subcommand = try subcommandType.init(from: parser)
+        let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
 
-        let subcommand = subcommandType.init()
-        try subcommand.run(withArgs: args)
+        guard !shouldDescribeUsage else {
+            subcommand.printUsageDescription()
+            return
+        }
+
+        try subcommand.run()
 
         Lumberjack.shared.debug("Subcommand '\(subcommandType.name)' finished successfully!")
     }
