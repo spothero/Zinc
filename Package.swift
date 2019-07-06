@@ -16,6 +16,7 @@ let package = Package(
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "CommandHero", targets: ["CommandHero"]),
         .library(name: "Lumberjack", targets: ["Lumberjack"]),
+        .library(name: "ShellRunner", targets: ["ShellRunner"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
@@ -42,12 +43,17 @@ let package = Package(
             name: "CommandHero",
             dependencies: [
                 "Lumberjack",
+                "ShellRunner",
             ],
             path: "Sources/CommandHero"
         ),
         .target(
             name: "Lumberjack",
             path: "Sources/Lumberjack"
+        ),
+        .target(
+            name: "ShellRunner",
+            path: "Sources/ShellRunner"
         ),
         .target(
             name: "ZincFramework",
