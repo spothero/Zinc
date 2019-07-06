@@ -14,10 +14,16 @@ public class Zinc: Command {
 
     public static var defaultSubcommand: String? = SyncSubcommand.name
 
-    public static var registeredSubcommands: [Subcommand.Type] = [
-        TestSubcommand.self,
-        SyncSubcommand.self,
-    ]
+    #if DEBUG
+        public static var registeredSubcommands: [Subcommand.Type] = [
+            TestSubcommand.self,
+            SyncSubcommand.self,
+        ]
+    #else
+        public static var registeredSubcommands: [Subcommand.Type] = [
+            SyncSubcommand.self,
+        ]
+    #endif
 
     public static var usageDescription = "This is the usage description for the zinc command."
 }
