@@ -12,7 +12,7 @@ public class Zinc: Command {
 
     // MARK: Properties
 
-    public static var defaultSubcommand = SyncSubcommand.name
+    public static var defaultSubcommand: String? = SyncSubcommand.name
 
     public static var registeredSubcommands: [Subcommand.Type] = [
         TestSubcommand.self,

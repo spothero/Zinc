@@ -13,7 +13,7 @@ public extension Subcommand {
     func run(withArgs args: [String]) throws {
         let parser = ArgumentParser(args)
 
-        let shouldDescribeUsage = try parser.exists(["--help", "-help", "-h"])
+        let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
 
         guard !shouldDescribeUsage else {
             self.printUsageDescription()
