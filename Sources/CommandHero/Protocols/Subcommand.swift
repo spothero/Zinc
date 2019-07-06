@@ -2,9 +2,8 @@
 
 import Lumberjack
 
-public protocol Subcommand {
+public protocol Subcommand: UsageDescribing {
     static var name: String { get }
-    static var usageDescription: String { get }
 
     init()
     func run(withParser parser: ArgumentParser) throws
@@ -14,10 +13,10 @@ public extension Subcommand {
     func run(withArgs args: [String]) throws {
         let parser = ArgumentParser(args)
 
-        let shouldPrintUsage = try parser.exists("--help")
+        let shouldDescribeUsage = try parser.exists(["--help", "-help", "-h"])
 
-        guard !shouldPrintUsage else {
-            Lumberjack.shared.debug("wow")
+        guard !shouldDescribeUsage else {
+            self.printUsageDescription()
             return
         }
 

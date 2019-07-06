@@ -12,13 +12,12 @@ public class Zinc: Command {
 
     // MARK: Properties
 
-    public var defaultSubcommand = SyncSubcommand.name
+    public static var defaultSubcommand = SyncSubcommand.name
 
-    public var registeredSubcommands: [Subcommand.Type] = [
-        HelpSubcommand.self,
+    public static var registeredSubcommands: [Subcommand.Type] = [
         TestSubcommand.self,
         SyncSubcommand.self,
     ]
 
-    public var usageDescription = "This is what that tool is for."
+    public static var usageDescription = "This is the usage description for the zinc command."
 }

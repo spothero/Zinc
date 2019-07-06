@@ -42,7 +42,11 @@ public class ArgumentParser {
     }
 
     public func exists(_ name: String, _ shortName: String) throws -> Bool {
-        return self.args.contains(name) || self.args.contains(shortName)
+        return try self.exists([name, shortName])
+    }
+
+    public func exists(_ names: [String]) throws -> Bool {
+        return !Set(self.args).intersection(names).isEmpty
     }
 
     public func get<T>(_ name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {

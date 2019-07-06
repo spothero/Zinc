@@ -5,7 +5,7 @@ import Lumberjack
 
 class SyncSubcommand: Subcommand {
     public static var name = "sync"
-    public static var usageDescription = "This command is the sync command."
+    public static var usageDescription = "This is the suage description for the sync subcommand."
 
     public required init() {}
 
