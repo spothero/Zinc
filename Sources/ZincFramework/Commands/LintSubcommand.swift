@@ -4,7 +4,7 @@
 //
 // import Foundation
 //
-// class LintCommand: Command {
+// class LintSubcommand: Subcommand {
 //    // typealias Options = CommandOptions
 //
 //    static var usageDescription: String {

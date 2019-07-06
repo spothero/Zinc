@@ -3,7 +3,7 @@
 import CommandHero
 import Lumberjack
 
-class SyncCommand: Command {
+class SyncSubcommand: Subcommand {
     // typealias Options = CommandOptions
 
     public static var name = "sync"

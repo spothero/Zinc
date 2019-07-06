@@ -4,7 +4,7 @@ import CommandHero
 import Foundation
 import Lumberjack
 
-class TestCommand: Command {
+class TestSubcommand: Subcommand {
 //     typealias Options = TestOptions
 
     public static var name = "test"

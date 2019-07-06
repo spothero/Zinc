@@ -3,7 +3,7 @@
 import CommandHero
 import Lumberjack
 
-class HelpCommand: Command {
+class HelpSubcommand: Subcommand {
     // typealias Options = CommandOptions
 
     public static var name = "help"
