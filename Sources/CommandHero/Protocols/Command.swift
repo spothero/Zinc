@@ -13,7 +13,6 @@ public protocol Command: UsageDescribing {
 
 public extension Command {
     func run(withArgs args: [String] = CommandLine.arguments) throws {
-        print(CommandLine.argc)
         Lumberjack.shared.debug("Processing args: \(args)")
 
         // The first argument should be "zinc", the package executable
