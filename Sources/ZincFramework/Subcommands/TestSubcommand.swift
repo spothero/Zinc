@@ -16,9 +16,20 @@
 
         // MARK: Arguments
 
+        public struct Arguments {
+            static let name = Argument<String>(index: 0, description: "Accepts a file to try to parse.")
+        }
+
         private let name: String?
 
         // MARK: Options
+
+        public struct Options {
+            static let file = Option<String>("file", shortName: "-f", description: "Accepts a file to try to parse.")
+            static let version = Option<Double>("version", shortName: "v", description: "The major.minor version number for the test.")
+            static let build = Option<Int>("build", shortName: "b", description: "The build number for the test.")
+            static let dope = Option<Bool>("dope", shortName: "d", defaultValue: false, description: "Determines whether or not the test subcommand is dope.")
+        }
 
         private let file: String?
         private let version: Double?
@@ -30,12 +41,12 @@
         // MARK: Initializers
 
         public required init(from parser: ArgumentParser) throws {
-            self.name = try parser.value(forArgumentAtIndex: 0)
+            self.name = try parser.value(for: Arguments.name)
 
-            self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
-            self.version = try parser.valueIfPresent(forOption: "version", shortName: "v")
-            self.build = try parser.valueIfPresent(forOption: "build", shortName: "b")
-            self.isDope = try parser.value(forOption: "dope", shortName: "d", defaultValue: false)
+            self.file = try parser.valueIfPresent(for: Options.file)
+            self.version = try parser.valueIfPresent(for: Options.version)
+            self.build = try parser.valueIfPresent(for: Options.build)
+            self.isDope = try parser.value(for: Options.dope)
         }
 
         // MARK: Subcommand

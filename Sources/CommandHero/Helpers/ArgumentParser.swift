@@ -48,6 +48,18 @@ public class ArgumentParser {
 
     // MARK: Value for Argument
 
+    public func value<T>(for argument: Argument<T>) throws -> T where T: ValidArgument {
+        return try self.value(forArgumentAtIndex: argument.index, type: T.self)
+    }
+
+    public func valueIfPresent<T>(for argument: Argument<T>) throws -> T? where T: ValidArgument {
+        do {
+            return try self.value(for: argument)
+        } catch {
+            return nil
+        }
+    }
+
     public func value<T>(forArgumentAtIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
         guard self.args.indices.contains(index) else {
             throw Error.argumentNotFound(index: index)
@@ -92,9 +104,17 @@ public class ArgumentParser {
 
     // MARK: Value for Option
 
-    // public func value<T>(forOption option: Option<T>) throws -> T where T: ValidArgument {
-    //     return try self.value(forOption: option.name, shortName: option.shortName, type: T.self)
-    // }
+    public func value<T>(for option: Option<T>) throws -> T where T: ValidArgument {
+        return try self.value(forOption: option.name, shortName: option.shortName, defaultValue: option.defaultValue, type: T.self)
+    }
+
+    public func valueIfPresent<T>(for option: Option<T>) throws -> T? where T: ValidArgument {
+        do {
+            return try self.value(for: option)
+        } catch {
+            return nil
+        }
+    }
 
     public func value<T>(forOption name: String, shortName: String? = nil, defaultValue: T? = nil, type: T.Type = T.self) throws -> T where T: ValidArgument {
         if let index = self.args.firstIndex(of: "--\(name)") {
