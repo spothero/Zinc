@@ -7,7 +7,7 @@ import ShellRunner
 
 class SyncSubcommand: Subcommand {
     public static var name = "sync"
-    public static var usageDescription = "This is the suage description for the sync subcommand."
+    public static var usageDescription = "This is the usage description for the sync subcommand."
 
     public required init() {}
 

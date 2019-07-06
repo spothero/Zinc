@@ -6,7 +6,7 @@ import Lumberjack
 
 class TestSubcommand: Subcommand {
     public static var name = "test"
-    public static var usageDescription = "This is the suage description for the test subcommand."
+    public static var usageDescription = "This is the usage description for the test subcommand."
 
     public required init() {}
 
