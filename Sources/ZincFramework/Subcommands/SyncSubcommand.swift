@@ -15,14 +15,14 @@ class SyncSubcommand: Subcommand {
 
     // MARK: Options
 
-    private let file: String
+    private let file: String?
 
     // MARK: - Methods
 
     // MARK: Initializers
 
     public required init(from parser: ArgumentParser) throws {
-        self.file = try parser.value(forOption: "file", shortName: "f")
+        self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
     }
 
     // MARK: Subcommand
