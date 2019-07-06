@@ -14,7 +14,8 @@ let package = Package(
     name: "Zinc",
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
-        .library(name: "ZincFramework", targets: ["ZincFramework"])
+        .library(name: "CommandHero", targets: ["CommandHero"]),
+        .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -37,8 +38,13 @@ let package = Package(
             path: "Sources/zinc"
         ),
         .target(
+            name: "CommandHero",
+            path: "Sources/CommandHero"
+        ),
+        .target(
             name: "ZincFramework",
             dependencies: [
+                "CommandHero",
                 "Yams", 
                 // "SPMUtility",
             ],

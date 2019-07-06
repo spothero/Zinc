@@ -1,7 +1,7 @@
 
 import Foundation
 
-class ArgumentParser {
+public class ArgumentParser {
     enum Error: Swift.Error {
         case argumentNotFound
         case argumentOutOfBounds
@@ -14,15 +14,15 @@ class ArgumentParser {
 
     private let args: [String]
 
-    init(_ args: [String]) {
+    public init(_ args: [String]) {
         self.args = args
     }
 
-    func get<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
+    public func get<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
         return try self.get(option.name, option.shortName, type: T.self)
     }
 
-    func get<T>(_ index: Int, type: T.Type) throws -> T where T: ValidArgument {
+    public func get<T>(_ index: Int, type: T.Type) throws -> T where T: ValidArgument {
         guard self.args.indices.contains(index) else {
             throw Error.argumentOutOfBounds
         }
@@ -36,7 +36,7 @@ class ArgumentParser {
         return value
     }
 
-    func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T: ValidArgument {
+    public func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T: ValidArgument {
         // TODO: Error on duplicate names, shortNames, or any combination
 
         guard let index = self.args.firstIndex(of: name) ?? self.args.firstIndex(of: shortName) else {

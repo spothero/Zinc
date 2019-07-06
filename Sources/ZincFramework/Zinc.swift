@@ -1,5 +1,6 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
+import CommandHero
 import Foundation
 import Yams
 
@@ -11,18 +12,6 @@ public class Zinc {
     // MARK: Constants
 
     private static let usageDescription = "This is what that tool is for."
-
-    // MARK: Enums
-
-//    public enum CommandKey: String {
-//        case help
-//        case lint
-//        case sync
-//        case test
-//        case testColors = "test-colors"
-//
-//        static let `default`: CommandKey = .lint
-//    }
 
     // MARK: Properties
 
@@ -44,15 +33,10 @@ public class Zinc {
         // Remove the first element from the array, which is our executable name -- zinc
         var args = Array(args.dropFirst())
 
-//        let parser = ArgumentParser(usage: "<options>", overview: Zinc.usageDescription)
-//
+        // Register Commands
         self.register(HelpCommand.self)
         self.register(TestCommand.self)
         self.register(SyncCommand.self)
-
-//        try? parser.parse(args)
-//        self.register(.lint, toCommand: LintCommand(), withParser: parser)
-//        self.register(.sync, toCommand: SyncCommand(), withParser: parser)
 
         // Get the first element from the array, which is our command
         // If no arguments were provided, run the default command without args
@@ -83,10 +67,9 @@ public class Zinc {
     }
 
     private func register<T>(_ command: T.Type) where T: Command {
-//        let subparser = parser.add(subparser: T.name, overview: T.usageDescription)
         self.registeredCommands[T.name] = command
+
         Lumberjack.shared.debug("Registered \(command) with name \(T.name).")
-//        return parser.add(subparser: key.rawValue, overview: T.usageDescription)
     }
 
     private func run<T>(_ command: T.Type, withArgs args: [String] = []) where T: Command {

@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
+import CommandHero
+
 class HelpCommand: Command {
     // typealias Options = CommandOptions
 

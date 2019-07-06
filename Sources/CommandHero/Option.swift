@@ -1,4 +1,4 @@
-struct Option<T> {
+public struct Option<T> {
     let name: String
     let shortName: String
 

@@ -1,6 +1,6 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
-protocol Command {
+public protocol Command {
     // associatedtype Options = CommandOptions
 
     static var name: String { get }

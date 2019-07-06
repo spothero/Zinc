@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero. All rights reserved.
 
+import CommandHero
+
 class SyncCommand: Command {
    // typealias Options = CommandOptions
 
