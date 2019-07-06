@@ -25,6 +25,8 @@ public class FileClerk {
     // MARK: Create
 
     public func createDirectory(_ path: String, deleteExisting: Bool = false) {
+        Lumberjack.shared.debug("Creating directory \(path)...")
+        
         do {
             if deleteExisting {
                 self.removeTempDirectory()
@@ -47,9 +49,20 @@ public class FileClerk {
     public func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
         Lumberjack.shared.log("Copying from \(source) to \(destination)...")
 
+        // Convert destination into a URL
+        let destinationURL = URL(fileURLWithPath: destination)
+
+        // Remove the file from the destination path to get the destination directory
+        let destinationDirectory = destinationURL.deletingLastPathComponent().relativePath
+
+        // If the directory isn't empty and doesn't already exist, create it
+        if !destinationDirectory.isEmpty && !self.directoryExists(destinationDirectory) {
+            self.createDirectory(destinationDirectory)
+        }
+
         do {
-            if shouldReplace {
-                _ = try FileManager.default.replaceItemAt(URL(fileURLWithPath: destination),
+            if shouldReplace && self.fileExists(destination) {
+                _ = try FileManager.default.replaceItemAt(destinationURL,
                                                           withItemAt: URL(fileURLWithPath: source),
                                                           options: .usingNewMetadataOnly)
             } else {
@@ -96,8 +109,14 @@ public class FileClerk {
 
     // MARK: Utility
 
-    public func fileExists(file filePath: String) -> Bool {
-        return FileManager.default.fileExists(atPath: filePath)
+    public func directoryExists(_ path: String) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
+
+    public func fileExists(_ path: String) -> Bool {
+        return FileManager.default.fileExists(atPath: path)
     }
 
     public func filename(for path: String) -> String {

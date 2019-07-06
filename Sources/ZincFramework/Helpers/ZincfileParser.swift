@@ -37,7 +37,7 @@ class ZincfileParser {
     /// - Throws: A parsing error, if one occurs.
     private func parse(_ filename: String) throws -> Zincfile? {
         // First, check if the file exists
-        guard FileClerk.shared.fileExists(file: filename) else {
+        guard FileClerk.shared.fileExists(filename) else {
             throw ZincfileParsingError.fileNotFound(filename)
         }
 
