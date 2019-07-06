@@ -6,7 +6,7 @@ public class ArgumentParser {
     // MARK: - Enums
 
     enum Error: Swift.Error {
-        case argumentNotFound
+        case argumentNotFound(index: Int)
         case argumentOutOfBounds
         case noImplicitValue
         case optionNotFound(name: String, shortName: String?)
@@ -48,15 +48,43 @@ public class ArgumentParser {
 
     // MARK: Value for Argument
 
-    public func valueForArgument<T>(atIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
+    public func value<T>(forArgumentAtIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
         guard self.args.indices.contains(index) else {
-            throw Error.argumentOutOfBounds
+            throw Error.argumentNotFound(index: index)
         }
 
         let argument = self.args[index]
 
-        guard let value = try self.getValue(for: argument, type: type) else {
+        guard let value = try self.value(forArgument: argument, type: type) else {
             throw Error.invalidValue
+        }
+
+        return value
+    }
+
+    // FIXME: Temporarily broken until solution is in place for capturing or not capturing arguments that have hyphen prefixes
+    public func valueIfPresent<T>(forArgumentAtIndex index: Int, type: T.Type = T.self) throws -> T? where T: ValidArgument {
+        do {
+            return try self.value(forArgumentAtIndex: index, type: type)
+        } catch {
+            return nil
+        }
+    }
+
+    private func value<T>(forArgument argument: String, type: T.Type = T.self) throws -> T? {
+        let value: T?
+
+        switch type {
+        case is Double.Type:
+            value = try Double(argument: argument) as? T
+        case is Bool.Type:
+            value = try Bool(argument: argument) as? T
+        case is Int.Type:
+            value = try Int(argument: argument) as? T
+        case is String.Type:
+            value = try String(argument: argument) as? T
+        default:
+            throw Error.typeMismatch
         }
 
         return value
@@ -64,24 +92,28 @@ public class ArgumentParser {
 
     // MARK: Value for Option
 
-    public func valueForOption<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
-        return try self.valueForOption(withName: option.name, shortName: option.shortName, type: T.self)
-    }
+    // public func value<T>(forOption option: Option<T>) throws -> T where T: ValidArgument {
+    //     return try self.value(forOption: option.name, shortName: option.shortName, type: T.self)
+    // }
 
-    public func valueForOption<T>(withName name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
-        guard let index = self.args.firstIndex(of: "--\(name)") else {
-            throw Error.optionNotFound(name: name)
-        }
-
-        return try self.valueForOption(atIndex: index, type: type)
-    }
-
-    public func valueForOption<T>(withName name: String, shortName: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
-        guard let index = self.args.firstIndex(of: "--\(name)") ?? self.args.firstIndex(of: "-\(shortName)") else {
+    public func value<T>(forOption name: String, shortName: String? = nil, defaultValue: T? = nil, type: T.Type = T.self) throws -> T where T: ValidArgument {
+        if let index = self.args.firstIndex(of: "--\(name)") {
+            return try self.valueForOption(atIndex: index, type: type)
+        } else if let shortName = shortName, let index = self.args.firstIndex(of: "-\(shortName)") {
+            return try self.valueForOption(atIndex: index, type: type)
+        } else if let defaultValue = defaultValue {
+            return defaultValue
+        } else {
             throw Error.optionNotFound(name: name, shortName: shortName)
         }
+    }
 
-        return try self.valueForOption(atIndex: index, type: type)
+    public func valueIfPresent<T>(forOption name: String, shortName: String, type: T.Type = T.self) throws -> T? where T: ValidArgument {
+        do {
+            return try self.value(forOption: name, shortName: shortName, type: type)
+        } catch {
+            return nil
+        }
     }
 
     private func valueForOption<T>(atIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
@@ -107,7 +139,7 @@ public class ArgumentParser {
             }
         }
 
-        guard let value = try getValue(for: valueArgument, type: type) else {
+        guard let value = try self.value(forArgument: valueArgument, type: type) else {
             throw Error.invalidValue
         }
 
@@ -123,27 +155,6 @@ public class ArgumentParser {
 //
 //        return
     }
-
-    // MARK: Utilities
-
-    private func getValue<T>(for argument: String, type: T.Type = T.self) throws -> T? {
-        let value: T?
-
-        switch type {
-        case is Double.Type:
-            value = try Double(argument: argument) as? T
-        case is Bool.Type:
-            value = try Bool(argument: argument) as? T
-        case is Int.Type:
-            value = try Int(argument: argument) as? T
-        case is String.Type:
-            value = try String(argument: argument) as? T
-        default:
-            throw Error.typeMismatch
-        }
-
-        return value
-    }
 }
 
 // MARK: - Extensions
@@ -153,15 +164,15 @@ public class ArgumentParser {
 extension ArgumentParser.Error: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .argumentNotFound:
-            return "Argument not found."
+        case let .argumentNotFound(index):
+            return "Argument not found at index \(index)."
         case .argumentOutOfBounds:
             return "Argument out of bounds."
         case .noImplicitValue:
             return "No implicit value."
         case .optionNotFound(let name, nil):
             return "Option --\(name) not found."
-        case .optionNotFound(let name, let .some(shortName)):
+        case let .optionNotFound(name, .some(shortName)):
             return "Option --\(name)|-\(shortName) not found."
         case .typeMismatch:
             return "Type mismatch."

@@ -14,13 +14,13 @@ class TestSubcommand: Subcommand {
 
     // MARK: Arguments
 
-    private let name: String
+    private let name: String?
 
     // MARK: Options
 
-    private let file: String
-    private let version: Double
-    private let build: Int
+    private let file: String?
+    private let version: Double?
+    private let build: Int?
     private let isDope: Bool
 
     // MARK: - Methods
@@ -28,17 +28,23 @@ class TestSubcommand: Subcommand {
     // MARK: Initializers
 
     public required init(from parser: ArgumentParser) throws {
-        self.name = try parser.valueForArgument(atIndex: 0)
+        self.name = try parser.value(forArgumentAtIndex: 0)
 
-        self.file = try parser.valueForOption(withName: "file", shortName: "f")
-        self.version = try parser.valueForOption(withName: "version", shortName: "v")
-        self.build = try parser.valueForOption(withName: "build", shortName: "b")
-        self.isDope = try parser.valueForOption(withName: "dope", shortName: "d")
+        self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
+        self.version = try parser.valueIfPresent(forOption: "version", shortName: "v")
+        self.build = try parser.valueIfPresent(forOption: "build", shortName: "b")
+        self.isDope = try parser.value(forOption: "dope", shortName: "d", defaultValue: false)
     }
 
     // MARK: Subcommand
 
     public func run() throws {
-        Lumberjack.shared.log([self.file, self.version, self.build, self.isDope])
+        Lumberjack.shared.log([
+            String(describing: self.name),
+            String(describing: self.file),
+            String(describing: self.version),
+            String(describing: self.build),
+            self.isDope,
+        ])
     }
 }

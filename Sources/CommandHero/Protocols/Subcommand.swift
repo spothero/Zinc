@@ -6,7 +6,7 @@ public protocol Subcommand: UsageDescribing {
     static var name: String { get }
 
     init(from parser: ArgumentParser) throws
-    
+
     func run() throws
 }
 

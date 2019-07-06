@@ -22,13 +22,13 @@ class SyncSubcommand: Subcommand {
     // MARK: Initializers
 
     public required init(from parser: ArgumentParser) throws {
-        self.file = try parser.valueForOption(withName: "file", shortName: "f")
+        self.file = try parser.value(forOption: "file", shortName: "f")
     }
 
     // MARK: Subcommand
 
-    public func run( ) throws {
-        self.sync(file)
+    public func run() throws {
+        self.sync(self.file)
     }
 
     // MARK: Utilities
