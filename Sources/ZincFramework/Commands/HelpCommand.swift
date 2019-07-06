@@ -1,21 +1,21 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import CommandHero
+import Lumberjack
 
 class HelpCommand: Command {
     // typealias Options = CommandOptions
 
-    static var name = "help"
-    static var usageDescription = "This command is the help command."
+    public static var name = "help"
+    public static var usageDescription = "This command is the help command."
 
 //    func run(with options: Options) throws {
 //        Lumberjack.shared.log("Running help.")
 //    }
 
-    required init() {}
+    public required init() {}
 
-    func run(with args: [String]) throws {
-        let parser = ArgumentParser(args)
+    public func run(with parser: ArgumentParser) throws {
 
         let subcommand: String = try parser.get(0, type: String.self)
         let yikes: String = try parser.get("--yikes", "-y", type: String.self)

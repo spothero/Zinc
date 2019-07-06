@@ -1,6 +1,7 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
+import Lumberjack
 
 class FileClerk {
     // MARK: - Properties

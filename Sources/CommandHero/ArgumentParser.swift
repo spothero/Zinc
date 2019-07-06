@@ -37,13 +37,23 @@ public class ArgumentParser {
         return value
     }
 
-    public func get<T>(_ name: String, _ shortName: String, type: T.Type) throws -> T where T: ValidArgument {
-        // TODO: Error on duplicate names, shortNames, or any combination
+    public func get<T>(_ name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
+        guard let index = self.args.firstIndex(of: name) else {
+            throw Error.argumentNotFound
+        }
 
+        return try self.getValueForOption(at: index, type: type)
+    }
+
+    public func get<T>(_ name: String, _ shortName: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
         guard let index = self.args.firstIndex(of: name) ?? self.args.firstIndex(of: shortName) else {
             throw Error.argumentNotFound
         }
 
+        return try self.getValueForOption(at: index, type: type)
+    }
+
+    private func getValueForOption<T>(at index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
         // If there is no next argument and this type is a Bool, return true
         // otherwise, throw a missing value error
         guard self.args.indices.contains(index + 1) else {
@@ -83,7 +93,7 @@ public class ArgumentParser {
 //        return
     }
 
-    private func getValue<T>(for argument: String, type: T.Type) throws -> T? {
+    private func getValue<T>(for argument: String, type: T.Type = T.self) throws -> T? {
         let value: T?
 
         switch type {

@@ -1,23 +1,22 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import CommandHero
-
 import Foundation
+import Lumberjack
 
 class TestCommand: Command {
 //     typealias Options = TestOptions
 
-    static var name = "test"
-    static var usageDescription = "This command is the test command."
+    public static var name = "test"
+    public static var usageDescription = "This command is the test command."
 
 //    func run(with options: Options) throws {
     ////        self.lint()
 //    }
 
-    required init() {}
+    public required init() {}
 
-    func run(with args: [String]) throws {
-        let parser = ArgumentParser(args)
+    public func run(with parser: ArgumentParser) throws {
 
         let file: String = try parser.get("--file", "-f", type: String.self)
         let version: Double = try parser.get("--version", "-v", type: Double.self)

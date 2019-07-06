@@ -1,22 +1,22 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import CommandHero
+import Lumberjack
 
 class SyncCommand: Command {
     // typealias Options = CommandOptions
 
-    static var name = "sync"
-    static var usageDescription: String {
-        return "This command is the sync command."
-    }
+    public static var name = "sync"
+    public static var usageDescription = "This command is the sync command."
 
 //    func run(with options: Options) throws {
 //        self.sync()
 //    }
 
-    required init() {}
+    public required init() {}
 
-    func run(with args: [String]) throws {
+    public func run(with parser: ArgumentParser) throws {
+        
         Lumberjack.shared.debug("Sync command ran.")
     }
 }
