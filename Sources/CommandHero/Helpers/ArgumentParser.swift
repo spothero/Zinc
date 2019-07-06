@@ -3,39 +3,36 @@
 import Foundation
 
 public class ArgumentParser {
+    // MARK: - Enums
+
     enum Error: Swift.Error {
         case argumentNotFound
         case argumentOutOfBounds
         case noImplicitValue
+        case optionNotFound(name: String, shortName: String?)
         case typeMismatch // TODO: Add Type to this
         case unknown(value: String)
         case invalidValue
         case missingValue
+
+        static func optionNotFound(name: String) -> Error {
+            return .optionNotFound(name: name, shortName: nil)
+        }
     }
 
+    // MARK: - Properties
+
     private let args: [String]
+
+    // MARK: - Methods
+
+    // MARK: Lifecycle
 
     public init(_ args: [String]) {
         self.args = args
     }
 
-    public func get<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
-        return try self.get(option.name, option.shortName, type: T.self)
-    }
-
-    public func get<T>(_ index: Int, type: T.Type) throws -> T where T: ValidArgument {
-        guard self.args.indices.contains(index) else {
-            throw Error.argumentOutOfBounds
-        }
-
-        let argument = self.args[index]
-
-        guard let value = try self.getValue(for: argument, type: type) else {
-            throw Error.invalidValue
-        }
-
-        return value
-    }
+    // MARK: Exists
 
     public func exists(_ name: String) throws -> Bool {
         return self.args.contains(name)
@@ -49,23 +46,45 @@ public class ArgumentParser {
         return !Set(self.args).intersection(names).isEmpty
     }
 
-    public func get<T>(_ name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
-        guard let index = self.args.firstIndex(of: name) else {
-            throw Error.argumentNotFound
+    // MARK: Value for Argument
+
+    public func valueForArgument<T>(atIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
+        guard self.args.indices.contains(index) else {
+            throw Error.argumentOutOfBounds
         }
 
-        return try self.getValueForOption(at: index, type: type)
-    }
+        let argument = self.args[index]
 
-    public func get<T>(_ name: String, _ shortName: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
-        guard let index = self.args.firstIndex(of: name) ?? self.args.firstIndex(of: shortName) else {
-            throw Error.argumentNotFound
+        guard let value = try self.getValue(for: argument, type: type) else {
+            throw Error.invalidValue
         }
 
-        return try self.getValueForOption(at: index, type: type)
+        return value
     }
 
-    private func getValueForOption<T>(at index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
+    // MARK: Value for Option
+
+    public func valueForOption<T>(_ option: Option<T>) throws -> T where T: ValidArgument {
+        return try self.valueForOption(withName: option.name, shortName: option.shortName, type: T.self)
+    }
+
+    public func valueForOption<T>(withName name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
+        guard let index = self.args.firstIndex(of: "--\(name)") else {
+            throw Error.optionNotFound(name: name)
+        }
+
+        return try self.valueForOption(atIndex: index, type: type)
+    }
+
+    public func valueForOption<T>(withName name: String, shortName: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
+        guard let index = self.args.firstIndex(of: "--\(name)") ?? self.args.firstIndex(of: "-\(shortName)") else {
+            throw Error.optionNotFound(name: name, shortName: shortName)
+        }
+
+        return try self.valueForOption(atIndex: index, type: type)
+    }
+
+    private func valueForOption<T>(atIndex index: Int, type: T.Type = T.self) throws -> T where T: ValidArgument {
         // If there is no next argument and this type is a Bool, return true
         // otherwise, throw a missing value error
         guard self.args.indices.contains(index + 1) else {
@@ -105,6 +124,8 @@ public class ArgumentParser {
 //        return
     }
 
+    // MARK: Utilities
+
     private func getValue<T>(for argument: String, type: T.Type = T.self) throws -> T? {
         let value: T?
 
@@ -125,6 +146,10 @@ public class ArgumentParser {
     }
 }
 
+// MARK: - Extensions
+
+// MARK: LocalizedError
+
 extension ArgumentParser.Error: LocalizedError {
     var errorDescription: String? {
         switch self {
@@ -134,6 +159,10 @@ extension ArgumentParser.Error: LocalizedError {
             return "Argument out of bounds."
         case .noImplicitValue:
             return "No implicit value."
+        case .optionNotFound(let name, nil):
+            return "Option --\(name) not found."
+        case .optionNotFound(let name, let .some(shortName)):
+            return "Option --\(name)|-\(shortName) not found."
         case .typeMismatch:
             return "Type mismatch."
         case let .unknown(value):

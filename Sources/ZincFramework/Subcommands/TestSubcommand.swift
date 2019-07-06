@@ -5,17 +5,40 @@ import Foundation
 import Lumberjack
 
 class TestSubcommand: Subcommand {
+    // MARK: - Properties
+
+    // MARK: Command Metadata
+
     public static var name = "test"
     public static var usageDescription = "This is the usage description for the test subcommand."
 
-    public required init() {}
+    // MARK: Arguments
 
-    public func run(withParser parser: ArgumentParser) throws {
-        let file: String = try parser.get("--file", "-f", type: String.self)
-        let version: Double = try parser.get("--version", "-v", type: Double.self)
-        let build: Int = try parser.get("--build", "-v", type: Int.self)
-        let isDope: Bool = try parser.get("--dope", "-d", type: Bool.self)
+    private let name: String
 
-        Lumberjack.shared.log([file, version, build, isDope])
+    // MARK: Options
+
+    private let file: String
+    private let version: Double
+    private let build: Int
+    private let isDope: Bool
+
+    // MARK: - Methods
+
+    // MARK: Initializers
+
+    public required init(from parser: ArgumentParser) throws {
+        self.name = try parser.valueForArgument(atIndex: 0)
+
+        self.file = try parser.valueForOption(withName: "file", shortName: "f")
+        self.version = try parser.valueForOption(withName: "version", shortName: "v")
+        self.build = try parser.valueForOption(withName: "build", shortName: "b")
+        self.isDope = try parser.valueForOption(withName: "dope", shortName: "d")
+    }
+
+    // MARK: Subcommand
+
+    public func run() throws {
+        Lumberjack.shared.log([self.file, self.version, self.build, self.isDope])
     }
 }

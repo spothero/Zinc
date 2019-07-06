@@ -1,0 +1,6 @@
+---
+source: https://github.com/spothero/Shared-iOS.git
+files:
+  # Danger
+  - source_path: Danger/Dangerfile
+    destination_path: .zonk
