@@ -1,10 +1,11 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Foundation
+import Lumberjack
 import Yams
 
-class Farmer {
-    static let shared = Farmer()
+class YamlDeserializer {
+    static let shared = YamlDeserializer()
 
     func deserialize<T>(_ text: String) -> T? where T: Decodable {
         do {

@@ -1,7 +1,17 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-class SyncCommand: Command {
-    func run() throws {
+import CommandHero
+import FileHero
+import Lumberjack
+import ShellRunner
+
+class SyncSubcommand: Subcommand {
+    public static var name = "sync"
+    public static var usageDescription = "This is the suage description for the sync subcommand."
+
+    public required init() {}
+
+    public func run(withParser parser: ArgumentParser) throws {
         self.sync()
     }
 
@@ -12,14 +22,14 @@ class SyncCommand: Command {
             }
 
             // create the temporary directory
-            FileClerk.createTempDirectory(deleteExisting: true)
+            FileClerk.shared.createTempDirectory(deleteExisting: true)
 
             // // clone the sources
             // for (key, repoURL) in Zincfile.allSources {
             //     // --branch can specify a branch or tag
             //     // --single-branch
             //     var branch = ""
-            //     Commander.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
+            //     CommandRunner.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
             // }
 
             // clone the default repo first
@@ -32,7 +42,7 @@ class SyncCommand: Command {
             self.syncFiles(zincfile)
 
             // delete the temporary directory
-            FileClerk.removeTempDirectory()
+            FileClerk.shared.removeTempDirectory()
         } catch {
             Lumberjack.shared.report(error, message: "Unable to sync Zincfile.")
         }
@@ -68,9 +78,9 @@ class SyncCommand: Command {
 
         Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
 
-        Commander.shared.gitClone(url,
-                                  branch: zincfile.sourceBranch ?? zincfile.sourceTag,
-                                  directory: directory)
+        ShellRunner.shared.gitClone(url,
+                                    branch: zincfile.sourceBranch ?? zincfile.sourceTag,
+                                    directory: directory)
     }
 
     private func cloneFileRepositories(_ zincfile: Zincfile) {
@@ -108,9 +118,9 @@ class SyncCommand: Command {
 
             Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
 
-            Commander.shared.gitClone(url,
-                                      branch: file.sourceBranch ?? file.sourceTag,
-                                      directory: directory)
+            ShellRunner.shared.gitClone(url,
+                                        branch: file.sourceBranch ?? file.sourceTag,
+                                        directory: directory)
         }
     }
 
@@ -127,12 +137,12 @@ class SyncCommand: Command {
 
             // if there's no file name property, use the filename from the source path
             if file.name.isEmpty {
-                let filename = FileClerk.filename(for: fullSourcePath)
+                let filename = FileClerk.shared.filename(for: fullSourcePath)
                 fullDestinationPath += "\(filename)"
             }
 
             // copy file into destination location
-            FileClerk.copyItem(from: fullSourcePath, to: fullDestinationPath)
+            FileClerk.shared.copyItem(from: fullSourcePath, to: fullDestinationPath)
         }
     }
 }

@@ -3,14 +3,14 @@
 import Foundation
 // import os.log
 
-typealias LumberjackCompletion = () throws -> Void
+public typealias LumberjackCompletion = () throws -> Void
 
-class Lumberjack {
-    static let shared = Lumberjack()
+public class Lumberjack {
+    public static let shared = Lumberjack()
 
     private static let debugPrefix = "⚙"
 
-    var isDebugEnabled = true
+    public var isDebugEnabled = true
 
 //    Black: \u001b[30m
 //    Red: \u001b[31m
@@ -26,7 +26,7 @@ class Lumberjack {
     ///
     /// References:
     ///   - http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
-    enum Color: Int, CaseIterable {
+    public enum Color: Int, CaseIterable {
         case black = 30
         case red = 31
         case green = 32
@@ -55,7 +55,7 @@ class Lumberjack {
         }
     }
 
-    enum LogLevel {
+    public enum LogLevel {
         case message
         case warning
         case error
@@ -64,7 +64,7 @@ class Lumberjack {
 
     // MARK: Logging
 
-    func log(_ item: Any, level: LogLevel = .message) {
+    public func log(_ item: Any, level: LogLevel = .message) {
         guard level != .debug || self.isDebugEnabled else {
             return
         }
@@ -89,19 +89,19 @@ class Lumberjack {
 
     // MARK: Convenience
 
-    func debug(_ item: Any) {
+    public func debug(_ item: Any) {
         self.log(item, level: .debug)
     }
 
-    func warn(_ item: Any) {
+    public func warn(_ item: Any) {
         self.log(item, level: .warning)
     }
 
-    func report(_ error: Error, message: String? = nil) {
+    public func report(_ error: Error, message: String? = nil) {
         self.log(error, message: message)
     }
 
-    func report(_ messages: String...) {
+    public func report(_ messages: String...) {
         self.log(messages, level: .error)
     }
 
