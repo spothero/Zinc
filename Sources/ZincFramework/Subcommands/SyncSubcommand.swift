@@ -11,7 +11,7 @@ class SyncSubcommand: Subcommand {
     // MARK: Command Metadata
 
     public static var name = "sync"
-    public static var usageDescription = "This is the usage description for the sync subcommand."
+    public static var usageDescription = "(default) Syncs local files with remote files as defined by a Zincfile."
 
     // MARK: Options
 
@@ -28,42 +28,38 @@ class SyncSubcommand: Subcommand {
     // MARK: Subcommand
 
     public func run() throws {
-        self.sync(self.file)
+        try self.sync(self.file)
     }
 
     // MARK: Utilities
 
-    private func sync(_ filename: String? = nil) {
-        do {
-            guard let zincfile = try ZincfileParser.shared.fetch(filename) else {
-                return
-            }
-
-            // create the temporary directory
-            FileClerk.shared.createTempDirectory(deleteExisting: true)
-
-            // // clone the sources
-            // for (key, repoURL) in Zincfile.allSources {
-            //     // --branch can specify a branch or tag
-            //     // --single-branch
-            //     var branch = ""
-            //     CommandRunner.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
-            // }
-
-            // clone the default repo first
-            self.cloneDefaultRepository(zincfile)
-
-            // aggregate the sources into a master dictionary
-            self.cloneFileRepositories(zincfile)
-
-            // sync all the files
-            self.syncFiles(zincfile)
-
-            // delete the temporary directory
-            FileClerk.shared.removeTempDirectory()
-        } catch {
-            Lumberjack.shared.report(error, message: "Unable to sync Zincfile.")
+    private func sync(_ filename: String? = nil) throws {
+        guard let zincfile = try ZincfileParser.shared.fetch(filename) else {
+            return
         }
+
+        // create the temporary directory
+        FileClerk.shared.createTempDirectory(deleteExisting: true)
+
+        // // clone the sources
+        // for (key, repoURL) in Zincfile.allSources {
+        //     // --branch can specify a branch or tag
+        //     // --single-branch
+        //     var branch = ""
+        //     CommandRunner.shared.shell("git clone --branch \(branch) --single-branch \(repoURL) \(FileClerk.tempDirectory)/\(key)")
+        // }
+
+        // clone the default repo first
+        self.cloneDefaultRepository(zincfile)
+
+        // aggregate the sources into a master dictionary
+        self.cloneFileRepositories(zincfile)
+
+        // sync all the files
+        self.syncFiles(zincfile)
+
+        // delete the temporary directory
+        FileClerk.shared.removeTempDirectory()
     }
 
     // MARK: Utilities
