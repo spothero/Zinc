@@ -37,6 +37,14 @@ public class ArgumentParser {
         return value
     }
 
+    public func exists(_ name: String) throws -> Bool {
+        return self.args.contains(name)
+    }
+
+    public func exists(_ name: String, _ shortName: String) throws -> Bool {
+        return self.args.contains(name) || self.args.contains(shortName)
+    }
+
     public func get<T>(_ name: String, type: T.Type = T.self) throws -> T where T: ValidArgument {
         guard let index = self.args.firstIndex(of: name) else {
             throw Error.argumentNotFound

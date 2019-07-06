@@ -20,7 +20,7 @@ public class FileClerk {
 
     // MARK: Lifecycle
 
-    private init() { }
+    private init() {}
 
     // MARK: Create
 

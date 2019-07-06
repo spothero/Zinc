@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
+import Lumberjack
+
 public protocol Subcommand {
     static var name: String { get }
     static var usageDescription: String { get }
@@ -11,7 +13,13 @@ public protocol Subcommand {
 public extension Subcommand {
     func run(withArgs args: [String]) throws {
         let parser = ArgumentParser(args)
-        let help: Bool = try parser.get("--help")
+
+        let shouldPrintUsage = try parser.exists("--help")
+
+        guard !shouldPrintUsage else {
+            Lumberjack.shared.debug("wow")
+            return
+        }
 
         try self.run(withParser: parser)
     }
