@@ -16,7 +16,6 @@ class SyncCommand: Command {
     public required init() {}
 
     public func run(with parser: ArgumentParser) throws {
-        
         Lumberjack.shared.debug("Sync command ran.")
     }
 }

@@ -4,8 +4,6 @@ public protocol ValidArgument {
     static var hasExplicitValue: Bool { get }
 
     static var implicitValue: ValidArgument { get }
-
-//    init(argument: String) throws
 }
 
 // MARK: Extensions

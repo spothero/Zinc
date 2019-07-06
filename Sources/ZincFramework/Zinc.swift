@@ -12,7 +12,6 @@ public class Zinc: MasterCommand {
 
     // MARK: Constants
 
-
     // MARK: Properties
 
     public var defaultCommand = SyncCommand.name

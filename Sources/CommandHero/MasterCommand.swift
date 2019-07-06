@@ -1,3 +1,4 @@
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 import Lumberjack
 
@@ -7,18 +8,11 @@ public protocol MasterCommand {
     var usageDescription: String { get }
 
     func process(args: [String]) throws
-    // mutating func register<T>(_ command: T.Type) where T: Command
     func run(_ key: String, withArgs args: [String]) throws
     func run(_ commandType: Command.Type, withArgs args: [String]) throws
 }
 
 public extension MasterCommand {
-    // MARK: Properties
-
-    // public var defaultCommand: Command
-    // private var registeredCommands = [String: Command.Type]()
-    // private let usageDescription: String
-
     // MARK: Lifecycle
 
     func process(args: [String]) throws {
@@ -32,9 +26,6 @@ public extension MasterCommand {
 
         // Remove the first element from the array, which is our executable name -- zinc
         var args = Array(args.dropFirst())
-
-        // // Register Commands
-        // self.registerCommands()
 
         // Get the first element from the array, which is our command
         // If no arguments were provided, run the default command without args
@@ -78,7 +69,7 @@ public extension MasterCommand {
         try self.run(commandType, withArgs: args)
     }
 
-    func run(_ commandType: Command.Type, withArgs args: [String] = []) throws  {
+    func run(_ commandType: Command.Type, withArgs args: [String] = []) throws {
         Lumberjack.shared.debug("Running command '\(commandType.name)' with args: \(args)")
 
         // try self.run(T.name, withArgs: args)
