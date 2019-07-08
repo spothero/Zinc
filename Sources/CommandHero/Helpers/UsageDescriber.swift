@@ -16,21 +16,21 @@ public class UsageDescriber {
 
     // MARK: - Methods
 
-    public func printUsageDescription<T>(for command: T) where T: UsageDescribing {
-        self.printUsageDescription(T.usageDescription, mode: .snippet)
-    }
+    // public func printUsageDescription<T>(for item: T) where T: UsageDescribing {
+    //     self.printUsageDescription(T.usageDescription, mode: .snippet)
+    // }
 
-    public func printUsageDescription<T>(for command: T.Type) where T: UsageDescribing {
-        self.printUsageDescription(T.usageDescription, mode: .snippet)
+    public func printUsageDescription<T>(for item: T.Type) where T: UsageDescribing {
+        self.printUsageDescription(T.formattedUsageDescription, mode: .snippet)
     }
 
     private func printUsageDescription(_ usageDescription: String, mode: PrintMode) {
-        switch mode {
-        case .snippet:
-            self.printSnippetUsageDescription(usageDescription)
-        case .manual:
-            self.printManualUsageDescription(usageDescription)
-        }
+        Lumberjack.shared.log(usageDescription)
+        // switch mode {
+        // case .snippet:
+        // case .manual:
+        //     self.printManualUsageDescription(usageDescription)
+        // }
     }
 
     private func printSnippetUsageDescription(_ usageDescription: String) {
