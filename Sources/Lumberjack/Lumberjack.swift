@@ -156,20 +156,12 @@ public class Lumberjack {
             message = message.replacingOccurrences(of: "{\(name)}{bold}", with: color.brightCode)
             message = message.replacingOccurrences(of: "{bold}{\(name)}", with: color.brightCode)
 
-            // // Closing tags for bold and color, in any order
-            // message = message.replacingOccurrences(of: "{/\(name)}{/bold}", with: Color.reset.code)
-            // message = message.replacingOccurrences(of: "{/bold}{/\(name)}", with: Color.reset.code)
-
             // Opening tag for ONLY color
             message = message.replacingOccurrences(of: "{\(name)}", with: color.code)
-
-            // Closing tag for ONLY color
-            // message = message.replacingOccurrences(of: "{/\(name)}", with: Color.reset.code)
         }
 
         // If any standalone bold tags are left, use white bold
         message = message.replacingOccurrences(of: "{bold}", with: Color.white.brightCode)
-        // message = message.replacingOccurrences(of: "{/bold}", with: Color.reset.code)
 
         // Reset tag
         message = message.replacingOccurrences(of: "{reset}", with: Color.reset.code)
