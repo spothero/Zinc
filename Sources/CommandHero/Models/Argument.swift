@@ -1,13 +1,21 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-public struct Argument<T> {
+public protocol ArgumentDescribing {
+    var name: String { get }
+    var description: String? { get }
+    var index: Int { get }
+}
+
+public class Argument<T>: ArgumentDescribing {
     public typealias ValueType = T.Type
 
-    public let description: String?
-    public let index: Int
+    public var name: String
+    public var description: String?
+    public var index: Int
 
-    public init(index: Int, description: String? = nil) {
+    public init(index: Int, name: String, description: String? = nil) {
         self.description = description
         self.index = index
+        self.name = name
     }
 }

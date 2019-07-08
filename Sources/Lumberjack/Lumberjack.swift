@@ -26,7 +26,9 @@ public class Lumberjack {
     ///
     /// References:
     ///   - http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+    ///   - https://misc.flogisoft.com/bash/tip_colors_and_formatting
     public enum Color: Int, CaseIterable {
+        case `default` = 39
         case black = 30
         case red = 31
         case green = 32
@@ -161,7 +163,7 @@ public class Lumberjack {
         }
 
         // If any standalone bold tags are left, use white bold
-        message = message.replacingOccurrences(of: "{bold}", with: Color.white.brightCode)
+        message = message.replacingOccurrences(of: "{bold}", with: Color.default.brightCode)
 
         // Reset tag
         message = message.replacingOccurrences(of: "{reset}", with: Color.reset.code)

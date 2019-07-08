@@ -12,6 +12,8 @@ class SyncSubcommand: Subcommand {
 
     public static var name = "sync"
     public static var usageDescription = "(default) Syncs local files with remote files as defined by a Zincfile."
+    public static var arguments: [ArgumentDescribing] = []
+    public static var options: [OptionDescribing] = []
 
     // MARK: Options
 
