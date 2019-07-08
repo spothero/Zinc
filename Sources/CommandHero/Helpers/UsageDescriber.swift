@@ -25,7 +25,7 @@ public class UsageDescriber {
     }
 
     private func printUsageDescription(_ usageDescription: String, mode: PrintMode) {
-        Lumberjack.shared.log(usageDescription)
+        Lumberjack.shared.printFormatted(usageDescription)
         // switch mode {
         // case .snippet:
         // case .manual:

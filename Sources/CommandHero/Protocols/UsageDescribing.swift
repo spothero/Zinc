@@ -50,10 +50,10 @@ public extension UsageDescribing where Self: Command {
             """
             usage: zinc <subcommand> <arguments> <options>
 
-            DESCRIPTION
+            {bold}DESCRIPTION{reset}
             \(leadingPadding)\(Self.usageDescription)
 
-            SUBCOMMANDS
+            {bold}SUBCOMMANDS{reset}
             \(subcommandText)
                
             """
