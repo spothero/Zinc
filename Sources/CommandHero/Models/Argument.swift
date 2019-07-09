@@ -1,11 +1,15 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-public struct Argument<T> {
-    public typealias ValueType = T
+public class Argument<T>: ArgumentDescribing {
+    public typealias ValueType = T.Type
 
-    public let index: Int
+    public var name: String
+    public var description: String?
+    public var index: Int
 
-    public init(index: Int) {
+    public init(index: Int, name: String, description: String? = nil) {
+        self.description = description
         self.index = index
+        self.name = name
     }
 }

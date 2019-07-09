@@ -26,7 +26,9 @@ public class Lumberjack {
     ///
     /// References:
     ///   - http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+    ///   - https://misc.flogisoft.com/bash/tip_colors_and_formatting
     public enum Color: Int, CaseIterable {
+        case `default` = 39
         case black = 30
         case red = 31
         case green = 32
@@ -51,7 +53,17 @@ public class Lumberjack {
         }
 
         var brightCode: String {
+            // TODO: Throw error if brightCode is used with .reset?
+
             return "\(Color.prefix)\(self.rawValue)\(Color.boldModifier)\(Color.suffix)"
+        }
+
+        init?(_ name: String) {
+            guard let color = Color.allCases.first(where: { String(describing: $0) == name }) else {
+                return nil
+            }
+
+            self = color
         }
     }
 
@@ -136,8 +148,32 @@ public class Lumberjack {
 
     // MARK: Utilities
 
+    public func printFormatted(_ message: String) {
+        var message = message
+
+        for color in Color.allCases {
+            let name = String(describing: color)
+
+            // Opening tags for bold and color, in any order
+            message = message.replacingOccurrences(of: "{\(name)}{bold}", with: color.brightCode)
+            message = message.replacingOccurrences(of: "{bold}{\(name)}", with: color.brightCode)
+
+            // Opening tag for ONLY color
+            message = message.replacingOccurrences(of: "{\(name)}", with: color.code)
+        }
+
+        // If any standalone bold tags are left, use white bold
+        message = message.replacingOccurrences(of: "{bold}", with: Color.default.brightCode)
+
+        // Reset tag
+        message = message.replacingOccurrences(of: "{reset}", with: Color.reset.code)
+
+        Swift.print(message)
+    }
+
     private func print(_ message: String, inColor color: Color?, bright: Bool = false) {
-        guard let color = color else {
+        // If color and brightness aren't set, just print the message normally
+        guard let color = color, bright == false else {
             Swift.print(message)
             return
         }

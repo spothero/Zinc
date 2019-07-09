@@ -1,12 +1,18 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-public struct Option<T> {
-    public let name: String
-    public let shortName: String
+public class Option<T>: OptionDescribing {
+    public var defaultValue: T?
+    public var description: String?
+    public var name: String
+    public var shortName: String?
 
-    // public var value: T
+    public var defaultValueDescription: String {
+        return String(describing: self.defaultValue)
+    }
 
-    public init(_ name: String, _ shortName: String) {
+    public init(_ name: String, shortName: String? = nil, defaultValue: T? = nil, description: String? = nil) {
+        self.defaultValue = defaultValue
+        self.description = description
         self.name = name
         self.shortName = shortName
     }

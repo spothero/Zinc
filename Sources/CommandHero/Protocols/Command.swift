@@ -31,7 +31,7 @@ public extension Command {
             if let defaultSubcommand = Self.defaultSubcommand {
                 try self.run(defaultSubcommand)
             } else {
-                self.printUsageDescription()
+                Self.printUsageDescription()
             }
 
             return
@@ -43,7 +43,7 @@ public extension Command {
             if args.indices.contains(1) {
                 try self.run(args[1], withArgs: ["--help"])
             } else {
-                self.printUsageDescription()
+                Self.printUsageDescription()
             }
 
             return
@@ -51,7 +51,7 @@ public extension Command {
 
         // If the first argument is --help, -help, or -h, print usage description for this command
         guard !Constants.helpFlags.contains(firstArgument) else {
-            self.printUsageDescription()
+            Self.printUsageDescription()
 
             return
         }
@@ -62,7 +62,7 @@ public extension Command {
             if let defaultSubcommand = Self.defaultSubcommand {
                 try self.run(defaultSubcommand, withArgs: args)
             } else {
-                self.printUsageDescription()
+                Self.printUsageDescription()
             }
 
             return
@@ -95,13 +95,14 @@ public extension Command {
         Lumberjack.shared.debug("Running subcommand '\(subcommandType.name)' with args: \(args)")
 
         let parser = ArgumentParser(args)
-        let subcommand = try subcommandType.init(from: parser)
         let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
 
         guard !shouldDescribeUsage else {
-            subcommand.printUsageDescription()
+            subcommandType.printUsageDescription()
             return
         }
+
+        let subcommand = try subcommandType.init(from: parser)
 
         try subcommand.run()
 

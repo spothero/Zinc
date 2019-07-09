@@ -12,6 +12,8 @@ class LintSubcommand: Subcommand {
 
     public static var name = "lint"
     public static var usageDescription = "Performs basic linting against a Zincfile to identify issues and errors."
+    public static var arguments: [ArgumentDescribing] = []
+    public static var options: [OptionDescribing] = []
 
     // MARK: Options
 

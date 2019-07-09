@@ -12,6 +12,9 @@ public class Zinc: Command {
 
     // MARK: Properties
 
+    public static var name = "zinc"
+    public static var usageDescription = "Zinc is a command-line tool for keeping local files in sync with files hosted outside of your folder or repository."
+
     public static var defaultSubcommand: String? = SyncSubcommand.name
 
     #if DEBUG
@@ -24,6 +27,4 @@ public class Zinc: Command {
             SyncSubcommand.self,
         ]
     #endif
-
-    public static var usageDescription = "This is the usage description for the zinc command."
 }
