@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "CommandHero",
+        "repositoryURL": "https://github.com/spothero/CommandHero-iOS",
+        "state": {
+          "branch": null,
+          "revision": "bcdeefee82d6b7bfc262159f857d15eafcebbb63",
+          "version": "0.1.0"
+        }
+      },
+      {
         "package": "Nimble",
         "repositoryURL": "https://github.com/Quick/Nimble.git",
         "state": {
