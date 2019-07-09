@@ -183,7 +183,6 @@ public extension UsageDescribing where Self: Subcommand {
         return argumentsText
     }
 
-
     private static func optionsText(withPadding padding: Int) -> String {
         // Easier reference for the options
         let options = Self.options
