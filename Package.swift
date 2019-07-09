@@ -6,10 +6,10 @@ let package = Package(
     name: "Zinc",
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
-        .library(name: "CommandHero", targets: ["CommandHero"]),
+        // .library(name: "CommandHero", targets: ["CommandHero"]),
         .library(name: "FileHero", targets: ["FileHero"]),
-        .library(name: "Lumberjack", targets: ["Lumberjack"]),
-        .library(name: "ShellRunner", targets: ["ShellRunner"]),
+        // .library(name: "Lumberjack", targets: ["Lumberjack"]),
+        // .library(name: "ShellRunner", targets: ["ShellRunner"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
