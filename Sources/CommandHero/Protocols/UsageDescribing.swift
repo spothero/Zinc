@@ -1,5 +1,7 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
+import Lumberjack
+
 public protocol UsageDescribing {
     static var name: String { get }
     static var usageDescription: String { get }
@@ -14,6 +16,6 @@ public extension UsageDescribing {
     }
 
     static func printUsageDescription() {
-        UsageDescriber.shared.printUsageDescription(for: self)
+        Lumberjack.shared.printFormatted(self.formattedUsageDescription)
     }
 }
