@@ -1,7 +1,5 @@
 // Copyright © 2019 SpotHero, Inc. All rights reserved.
 
-import Foundation
-
 public protocol UsageDescribing {
     static var name: String { get }
     static var usageDescription: String { get }
