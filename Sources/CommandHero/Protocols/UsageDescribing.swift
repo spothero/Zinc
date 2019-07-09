@@ -43,7 +43,7 @@ public extension UsageDescribing where Self: Command {
 
         let subcommandsText = self.subcommandsText(withPadding: padding)
 
-        var output = 
+        var output =
             """
             usage: \(Self.name) <subcommand> <arguments> <options>
 
@@ -71,7 +71,7 @@ public extension UsageDescribing where Self: Command {
         var subcommandsText = ""
 
         // Get the maximum name length, then add 4 spaces to get the padded name length
-        let maxNameLength = subcommandTypes.map({ $0.name.count }).max() ?? 0
+        let maxNameLength = subcommandTypes.map { $0.name.count }.max() ?? 0
         let paddedNameLength = maxNameLength + padding
 
         for subcommand in subcommandTypes {
@@ -137,7 +137,7 @@ public extension UsageDescribing where Self: Subcommand {
         let argumentsText = self.argumentsText(withPadding: padding)
         let optionsText = self.optionsText(withPadding: padding)
 
-        var output = 
+        var output =
             """
             usage: \(Self.name) <arguments> <options>
 
@@ -166,7 +166,7 @@ public extension UsageDescribing where Self: Subcommand {
         var argumentsText = ""
 
         // Get the maximum name length, then add 4 spaces to get the padded name length
-        let maxNameLength = arguments.map({ $0.name.count }).max() ?? 0
+        let maxNameLength = arguments.map { $0.name.count }.max() ?? 0
         let paddedNameLength = maxNameLength + padding
 
         for argument in arguments {
@@ -194,7 +194,7 @@ public extension UsageDescribing where Self: Subcommand {
         var optionsText = ""
 
         // Get the maximum name length, then add 4 spaces to get the padded name length
-        let maxNameLength = options.map({ $0.usageDisplayName.count }).max() ?? 0
+        let maxNameLength = options.map { $0.usageDisplayName.count }.max() ?? 0
         let paddedNameLength = maxNameLength + padding
 
         for option in options {
@@ -212,7 +212,7 @@ public extension UsageDescribing where Self: Subcommand {
     }
 }
 
-fileprivate extension String {
+private extension String {
     func padded(by length: Int) -> String {
         return (self as NSString).padding(toLength: length, withPad: " ", startingAt: 0)
     }

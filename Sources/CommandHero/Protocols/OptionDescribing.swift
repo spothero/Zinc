@@ -1,3 +1,4 @@
+// Copyright © 2019 SpotHero, Inc. All rights reserved.
 
 public protocol OptionDescribing {
     var defaultValueDescription: String { get }
