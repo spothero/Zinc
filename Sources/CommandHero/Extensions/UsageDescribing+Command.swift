@@ -10,7 +10,7 @@ public extension UsageDescribing where Self: Command {
 
         let subcommandsText = self.subcommandsText(withPadding: padding)
 
-        var output =
+        let output =
             """
             usage: \(Self.name) <subcommand> <arguments> <options>
 

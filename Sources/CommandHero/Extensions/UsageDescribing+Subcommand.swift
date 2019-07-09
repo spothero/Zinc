@@ -11,14 +11,17 @@ public extension UsageDescribing where Self: Subcommand {
         let argumentsText = self.argumentsText(withPadding: padding)
         let optionsText = self.optionsText(withPadding: padding)
 
-        var output =
+        let output =
             """
-            usage: \(Self.name) <arguments> <options>
+            {bold}USAGE{reset}
+            \(indentText)\(Self.name) <arguments> <options>
 
             {bold}DESCRIPTION{reset}
             \(indentText)\(Self.usageDescription)
 
             {bold}ARGUMENTS{reset}
+            \(indentText)All listed arguments are required and must be sent in the order listed.
+
             \(argumentsText)
 
             {bold}OPTIONS{reset}
@@ -43,7 +46,7 @@ public extension UsageDescribing where Self: Subcommand {
         let maxNameLength = arguments.map { $0.name.count }.max() ?? 0
         let paddedNameLength = maxNameLength + padding
 
-        for argument in arguments {
+        for argument in arguments.sorted(by: { $0.index < $1.index }) {
             // Get the padded version of the subcommand name
             let name = argument.name.padded(by: paddedNameLength)
 

@@ -13,7 +13,6 @@
 
         public static var name = "test"
         public static var usageDescription = "This command is used for testing Zinc in the debug build configuration."
-        // FIXME: If I remove [ArgumentDescribing], zinc compiles but doesn't pick up these arguments
         public static var arguments: [ArgumentDescribing] = [Arguments.name]
         public static var options: [OptionDescribing] = [Options.build, Options.dope, Options.file, Options.version]
 
