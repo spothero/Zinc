@@ -1,21 +1,8 @@
-// Copyright © 2019 SpotHero, Inc. All rights reserved.
-
 import XCTest
+
 import ZincTests
 
-extension ZincTestCase {
-    static var allTests: [(String, (ZincTestCase) -> () throws -> Void)] = [
-        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
-    ]
-}
+var tests = [XCTestCaseEntry]()
+tests += ZincTests.__allTests()
 
-extension ZincTests {
-    static var allTests: [(String, (ZincTests) -> () throws -> Void)] = [
-        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
-        ("testRunning", testRunning),
-    ]
-}
-
-XCTMain([
-    testCase(ZincTests.allTests),
-])
+XCTMain(tests)
