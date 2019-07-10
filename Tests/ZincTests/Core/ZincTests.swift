@@ -4,11 +4,6 @@ import class Foundation.Bundle
 import XCTest
 
 final class ZincTests: XCTestCase {
-    static var allTests: [(String, (ZincTests) -> () throws -> Void)] = [
-        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
-        ("testRunning", testRunning),
-    ]
-
     func testRunning() {
         XCTAssertTrue(true)
     }
@@ -51,14 +46,4 @@ final class ZincTests: XCTestCase {
     //         return Bundle.main.bundleURL
     //     #endif
     // }
-}
-
-// MARK: - Extensions
-
-// MARK: LinuxTestable
-
-extension ZincTests: LinuxTestable {
-    func testLinuxTestSuiteIncludesAllTests() {
-        self.base_testLinuxTestSuiteIncludesAllTests()
-    }
 }
