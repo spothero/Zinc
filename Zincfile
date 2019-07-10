@@ -10,9 +10,6 @@ files:
   - source_path: GitHub/pull_request_template.md
     destination_path: .github
   - source_path: GitHub/.gitignore
-  # Rubocop
-  - source_path: Rubocop/rubocop.yml
-    destination_path: .zinc
   # SwiftLint
   - source_path: SwiftLint/.swiftlint.yml
   # SwiftFormat
