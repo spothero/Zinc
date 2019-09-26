@@ -9,8 +9,6 @@ let package = Package(
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.40.10"),
-        .package(url: "https://github.com/Realm/SwiftLint", from: "0.33.1"),
         .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.1.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
     ],
@@ -41,6 +39,13 @@ let package = Package(
                 "Yams", 
             ],
             path: "Sources/ZincFramework"
+        ),
+        .testTarget(
+            name: "MoreTests",
+            dependencies: [
+                "ZincFramework",
+            ],
+            path: "Tests/MoreTests"
         ),
         .testTarget(
             name: "ZincTests",

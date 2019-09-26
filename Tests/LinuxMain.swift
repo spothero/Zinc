@@ -1,8 +1,8 @@
 import XCTest
 
-import ZincTests
+import MoreTests
 
 var tests = [XCTestCaseEntry]()
-tests += ZincTests.__allTests()
+tests += MoreTests.__allTests()
 
 XCTMain(tests)
