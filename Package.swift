@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.1.0"),
+        .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.2.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
     ],
     targets: [
