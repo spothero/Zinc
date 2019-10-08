@@ -4,6 +4,12 @@ import PackageDescription
 
 let package = Package(
     name: "Zinc",
+    platforms: [
+        .iOS(.v8),          // minimum supported version via SPM
+        .macOS(.v10_10),    // minimum supported version via SPM
+        .tvOS(.v9),         // minimum supported version via SPM
+        .watchOS(.v2),      // minimum supported version via SPM
+    ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
@@ -54,5 +60,8 @@ let package = Package(
             ],
             path: "Tests/ZincTests"
         ),
+    ],
+    swiftLanguageVersions: [
+        .v5,
     ]
 )
