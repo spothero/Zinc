@@ -22,19 +22,17 @@ let package = Package(
         .target(
             name: "zinc",
             dependencies: [
-                "ZincFramework",
-            ],
-            path: "Sources/zinc"
+                .target(name: "ZincFramework"),
+            ]
         ),
-        // This target is not an explicit product since no other packages should reference Zinc in order to get FileHero
+        // FileHero is not an explicit product since no other packages should reference Zinc in order to get FileHero
         // If this is ever required by another Package, break it out into its own repo
         .target(
             name: "FileHero",
             dependencies: [
                 "Lumberjack",
                 "ShellRunner",
-            ],
-            path: "Sources/FileHero"
+            ]
         ),
         .target(
             name: "ZincFramework",
@@ -43,22 +41,13 @@ let package = Package(
                 "FileHero",
                 "Lumberjack",
                 "Yams", 
-            ],
-            path: "Sources/ZincFramework"
-        ),
-        .testTarget(
-            name: "MoreTests",
-            dependencies: [
-                "ZincFramework",
-            ],
-            path: "Tests/MoreTests"
+            ]
         ),
         .testTarget(
             name: "ZincTests",
             dependencies: [
-                "ZincFramework",
-            ],
-            path: "Tests/ZincTests"
+                .target(name: "ZincFramework"),
+            ]
         ),
     ],
     swiftLanguageVersions: [
