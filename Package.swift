@@ -4,31 +4,35 @@ import PackageDescription
 
 let package = Package(
     name: "Zinc",
+    platforms: [
+        .iOS(.v8),          // minimum supported version via SPM
+        .macOS(.v10_10),    // minimum supported version via SPM
+        .tvOS(.v9),         // minimum supported version via SPM
+        .watchOS(.v2),      // minimum supported version via SPM
+    ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.1.0"),
+        .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.2.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
     ],
     targets: [
         .target(
             name: "zinc",
             dependencies: [
-                "ZincFramework",
-            ],
-            path: "Sources/zinc"
+                .target(name: "ZincFramework"),
+            ]
         ),
-        // This target is not an explicit product since no other packages should reference Zinc in order to get FileHero
+        // FileHero is not an explicit product since no other packages should reference Zinc in order to get FileHero
         // If this is ever required by another Package, break it out into its own repo
         .target(
             name: "FileHero",
             dependencies: [
                 "Lumberjack",
                 "ShellRunner",
-            ],
-            path: "Sources/FileHero"
+            ]
         ),
         .target(
             name: "ZincFramework",
@@ -37,22 +41,16 @@ let package = Package(
                 "FileHero",
                 "Lumberjack",
                 "Yams", 
-            ],
-            path: "Sources/ZincFramework"
-        ),
-        .testTarget(
-            name: "MoreTests",
-            dependencies: [
-                "ZincFramework",
-            ],
-            path: "Tests/MoreTests"
+            ]
         ),
         .testTarget(
             name: "ZincTests",
             dependencies: [
-                "ZincFramework",
-            ],
-            path: "Tests/ZincTests"
+                .target(name: "ZincFramework"),
+            ]
         ),
+    ],
+    swiftLanguageVersions: [
+        .v5,
     ]
 )
