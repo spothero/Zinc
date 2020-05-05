@@ -18,3 +18,5 @@ files:
   # SwiftFormat
   - source_path: Tools/SwiftFormat/.swiftformat
     name: .swiftformat
+  - source_path: Tools/GitHub/pull_request_template.md
+    destination_path: .github

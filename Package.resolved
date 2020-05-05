@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "CommandHero",
-        "repositoryURL": "https://github.com/spothero/CommandHero-iOS",
-        "state": {
-          "branch": null,
-          "revision": "e0942cb6bd49cd23646c2e4f2b14d63cbebcfb7a",
-          "version": "0.2.0"
-        }
-      },
-      {
         "package": "Yams",
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {

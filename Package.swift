@@ -13,35 +13,69 @@ let package = Package(
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
+        .library(name: "CommandHero", targets: ["CommandHero"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/spothero/CommandHero-iOS", from: "0.2.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
     ],
     targets: [
+        // Executable Product Targets
         .target(
             name: "zinc",
             dependencies: [
                 .target(name: "ZincFramework"),
             ]
         ),
-        // FileHero is not an explicit product since no other packages should reference Zinc in order to get FileHero
-        // If this is ever required by another Package, break it out into its own repo
+        // Library Product Targets
         .target(
-            name: "FileHero",
+            name: "CommandHero",
             dependencies: [
-                "Lumberjack",
-                "ShellRunner",
+                .target(name: "Lumberjack"),
+                .target(name: "ShellRunner"),
             ]
         ),
         .target(
             name: "ZincFramework",
             dependencies: [
-                "CommandHero",
-                "FileHero",
-                "Lumberjack",
+                .target(name: "CommandHero"),
+                .target(name: "FileHero"),
+                .target(name: "Lumberjack"),
                 "Yams", 
             ]
+        ),
+        // Internal Targets
+        .target(
+            name: "CommandHeroDemo",
+            dependencies: [
+                .target(name: "CommandHero"),
+                .target(name: "Lumberjack"),
+            ],
+            path: "Sources/CommandHeroDemo"
+        ),
+        .target(
+            name: "FileHero",
+            dependencies: [
+                .target(name: "Lumberjack"),
+                .target(name: "ShellRunner"),
+            ]
+        ),
+        .target(
+            name: "ShellRunner",
+            dependencies: [
+                .target(name: "Lumberjack"),
+            ]
+        ),
+        .target(
+            name: "Lumberjack",
+            dependencies: []
+        ),
+        // Test Targets
+        .testTarget(
+            name: "CommandHeroTests",
+            dependencies: [
+                "CommandHero"
+            ],
+            path: "Tests/CommandHeroTests"
         ),
         .testTarget(
             name: "ZincTests",
