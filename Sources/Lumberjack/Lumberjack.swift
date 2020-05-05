@@ -11,6 +11,7 @@ public class Lumberjack {
     private static let debugPrefix = "⚙"
     
     public var isDebugEnabled = false
+    public var shouldLogFileAndLineNumber = true
     
 //    Black: \u001b[30m
 //    Red: \u001b[31m
@@ -76,7 +77,7 @@ public class Lumberjack {
     
     // MARK: Logging
     
-    public func log(_ item: Any, level: LogLevel = .message) {
+    public func log(_ item: Any, level: LogLevel = .message, file: String = #file, line: UInt = #line) {
         guard level != .debug || self.isDebugEnabled else {
             return
         }
@@ -84,10 +85,10 @@ public class Lumberjack {
         let message = String(describing: item)
         let color = self.color(for: level)
         
-        self.print(message, inColor: color)
+        self.print(message, inColor: color, file: file, line: line)
     }
     
-    private func log(_ error: Error, message: String? = nil, level: LogLevel = .error) {
+    private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, file: String = #file, line: UInt = #line) {
         let logMessage: String
         
         if let message = message {
@@ -96,25 +97,25 @@ public class Lumberjack {
             logMessage = error.localizedDescription
         }
         
-        self.log(logMessage, level: level)
+        self.log(logMessage, level: level, file: file, line: line)
     }
     
     // MARK: Convenience
     
-    public func debug(_ item: Any) {
-        self.log(item, level: .debug)
+    public func debug(_ item: Any, file: String = #file, line: UInt = #line) {
+        self.log(item, level: .debug, file: file, line: line)
     }
     
-    public func warn(_ item: Any) {
-        self.log(item, level: .warning)
+    public func warn(_ item: Any, file: String = #file, line: UInt = #line) {
+        self.log(item, level: .warning, file: file, line: line)
     }
     
-    public func report(_ error: Error, message: String? = nil) {
-        self.log(error, message: message)
+    public func report(_ error: Error, message: String? = nil, file: String = #file, line: UInt = #line) {
+        self.log(error, message: message, file: file, line: line)
     }
     
-    public func report(_ messages: String...) {
-        self.log(messages, level: .error)
+    public func report(_ messages: String..., file: String = #file, line: UInt = #line) {
+        self.log(messages, level: .error, file: file, line: line)
     }
     
     // MARK: Measuring
@@ -171,7 +172,21 @@ public class Lumberjack {
         Swift.print(message)
     }
     
-    private func print(_ message: String, inColor color: Color?, bright: Bool = false) {
+    private func print(_ message: String, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
+        // Make message mutable
+        var message = message
+        
+        // Check if the log should include file and line number
+        if self.isDebugEnabled, self.shouldLogFileAndLineNumber {
+            // Try to strip the path and only get the filename
+            let filename = file.split(separator: "/").last ?? ""
+            
+            // If the filename isn't empty, prepend the file and line number information
+            if !filename.isEmpty {
+                message = "[\(filename):\(line)] \(message)"
+            }
+        }
+        
         // If color and brightness aren't set, just print the message normally
         guard let color = color, bright == false else {
             Swift.print(message)
@@ -183,9 +198,9 @@ public class Lumberjack {
         Swift.print("\(colorCode)\(message)\(Color.reset.code)")
     }
     
-    private func print(_ messages: [String], inColor color: Color?) {
+    private func print(_ messages: [String], inColor color: Color?, file: String = #file, line: UInt = #line) {
         for message in messages {
-            self.print(message, inColor: color)
+            self.print(message, inColor: color, file: file, line: line)
         }
     }
     
@@ -204,6 +219,7 @@ public class Lumberjack {
     
     // MARK: Testing
     
+    // TODO: Hide behind testing macro
     public func testColors() {
         for color in Color.allCases {
             self.print("Wow!", inColor: color)
@@ -215,12 +231,4 @@ public class Lumberjack {
             self.print("Wow!", inColor: color, bright: true)
         }
     }
-    
-//    static func handle(_ completion: LumberjackCompletion) {
-//        do {
-//            try completion()
-//        } catch {
-//            print(error)
-//        }
-//    }
 }
