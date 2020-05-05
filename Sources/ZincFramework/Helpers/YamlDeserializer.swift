@@ -4,8 +4,8 @@ import Foundation
 import Lumberjack
 import Yams
 
-class YamlDeserializer {
-    static let shared = YamlDeserializer()
+class YAMLDeserializer {
+    static let shared = YAMLDeserializer()
     
     func deserialize<T>(_ text: String) -> T? where T: Decodable {
         do {
