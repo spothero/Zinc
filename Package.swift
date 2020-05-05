@@ -13,6 +13,7 @@ let package = Package(
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
+        .library(name: "CommandHero", targets: ["CommandHero"]),
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
