@@ -1,11 +1,11 @@
-// Copyright © 2019 SpotHero, Inc. All rights reserved.
+// Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import FileHero
 import Foundation
 
 class ZincfileParser {
     static let shared = ZincfileParser()
-
+    
     /// Attempts to fetch a Zincfile with the given filename/
     ///
     /// - Parameter filename: The filename of the Zincfile to fetch.
@@ -24,12 +24,12 @@ class ZincfileParser {
                     return zincfile
                 }
             }
-
+            
             // At this point, no Zincfile has been found, so throw an error
             throw ZincfileParsingError.fileNotFound(filename)
         }
     }
-
+    
     /// Parses a Zincfile with the given filename.
     ///
     /// - Parameter filename: The filename of the Zincfile to parse.
@@ -40,17 +40,17 @@ class ZincfileParser {
         guard FileClerk.shared.fileExists(filename) else {
             throw ZincfileParsingError.fileNotFound(filename)
         }
-
+        
         // Second, read text from the file
         guard let text = FileClerk.shared.read(file: filename) else {
             throw ZincfileParsingError.textCouldNotBeRead(filename)
         }
-
+        
         // Third, attempt to deserialize into a Zincfile
         guard let zincfile: Zincfile = YamlDeserializer.shared.deserialize(text) else {
             throw ZincfileParsingError.fileCouldNotBeDeserialized(filename)
         }
-
+        
         // Finally, return the zincfile if we made it this far!
         return zincfile
     }

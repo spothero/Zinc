@@ -1,4 +1,4 @@
-// Copyright © 2019 SpotHero, Inc. All rights reserved.
+// Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
 
@@ -8,7 +8,7 @@ public class Zincfile: Codable {
     public enum Error: Swift.Error {
         case sourceConflict
     }
-
+    
     enum CodingKeys: String, CodingKey {
         case files
         case source
@@ -16,27 +16,27 @@ public class Zincfile: Codable {
         case sourceTag = "source_tag"
         case variables
     }
-
+    
     // MARK: Parsed Properties
-
+    
     public let files: [File]
     public let source: String
     public let sourceBranch: String?
     public let sourceTag: String?
     public let variables: YamlDictionary
-
+    
     // MARK: Post-Parse Properties
-
+    
     public var filename: String?
-
+    
     // public var allSources: YamlDictionary {
     //     guard !self.source.isEmpty else {
     //         return self.sources
     //     }
-
+    
     //     return ["default" : source].merging(self.sources, uniquingKeysWith: { (first, _) in first })
     // }
-
+    
 //    public var description: String {
 //        do {
 //            return try YAMLEncoder().encode(self)
@@ -44,12 +44,12 @@ public class Zincfile: Codable {
 //            return String(describing: self)
 //        }
 //    }
-
+    
     // MARK: Methods
-
+    
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
+        
         self.files = try container.decodeIfPresent([File].self, forKey: .files) ?? []
         self.source = try container.decodeIfPresent(String.self, forKey: .source) ?? ""
         self.sourceBranch = try container.decodeIfPresent(String.self, forKey: .sourceBranch) ?? ""
