@@ -10,7 +10,7 @@ public class Lumberjack {
     
     private static let debugPrefix = "⚙"
     
-    public var isDebugEnabled = true
+    public var isDebugEnabled = false
     
 //    Black: \u001b[30m
 //    Red: \u001b[31m

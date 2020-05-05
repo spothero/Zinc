@@ -13,10 +13,15 @@ class SyncSubcommand: Subcommand {
     public static var name = "sync"
     public static var usageDescription = "(default) Syncs local files with remote files as defined by a Zincfile."
     public static var arguments: [ArgumentDescribing] = []
-    public static var options: [OptionDescribing] = []
+    public static var options: [OptionDescribing] = [Options.isVerbose]
     
     // MARK: Options
     
+    public struct Options {
+        static let isVerbose = Option<Bool>("verbose", defaultValue: false, description: "Logs additional debug messages if enabled.")
+    }
+    
+    private let isVerbose: Bool
     private let file: String?
     
     // MARK: - Methods
@@ -25,11 +30,15 @@ class SyncSubcommand: Subcommand {
     
     public required init(from parser: ArgumentParser) throws {
         self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
+        
+        self.isVerbose = try parser.value(for: Options.isVerbose)
     }
     
     // MARK: Subcommand
     
     public func run() throws {
+        Lumberjack.shared.isDebugEnabled = self.isVerbose
+        
         try self.sync(self.file)
     }
     
