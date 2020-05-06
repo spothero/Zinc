@@ -20,9 +20,10 @@ class ToolAuditor {
     static func audit(_ tool: Tool) throws {
         // TODO: Check for output of "command not found: \(tool.command)"
         
-        if let command = tool.verifiedCommand {
-            try self.audit(command, forVersion: tool.version)
+        if let supportedTool = tool.supportedTool {
+            try self.audit(supportedTool, forVersion: tool.version)
         } else {
+            // TODO: It should be possible to execute this using the method below as well. Is that better than .contains?
             let output = ShellRunner.shared.bash("\(tool.command) \(tool.subcommand)")
             output.contains(tool.version)
         }
@@ -34,37 +35,32 @@ class ToolAuditor {
 //        }
     }
     
+    // TODO: Should this even bother returning a Bool?
     @discardableResult
-    static func audit(_ command: Tool.VerifiedCommand, forVersion version: String) throws -> Bool {
-        // TODO: Make this cleaner for all commands, don't duplicate logic
+    static func audit(_ tool: Tool.SupportedTool, forVersion version: String) throws -> Bool {
+        // Get the shell command to run
+        let command = "\(tool.defaultCommand) \(tool.defaultSubcommand)"
         
-        switch command {
-        case .brew:
-            let output = ShellRunner.shared.bash("brew --version")
-            
-            // The output format of brew --version is:
-            //
-            // Homebrew <VERSION>
-            // Homebrew/homebrew-core (git revision <REVISION>; last commit <DATE>)
-            
-            guard let installedVersion = output.firstMatch(for: #"(?<=^Homebrew )[0-9]+\.[0-9]+\.[0-9]+"#) else {
-                throw AuditError.invalidRegexPattern
-            }
-            
-            guard installedVersion == version else {
-                throw AuditError.invalidVersion(expectedVersion: version, installedVersion: installedVersion)
-            }
-            
-            return true
-        case .mint:
-            return false
-        case .ruby:
-            return false
-        case .rvm:
-            return false
-        case .swift:
-            return false
+        Lumberjack.shared.debug("Running command '\(command)'...")
+        
+        // Get the output from running the command in bash
+        let output = ShellRunner.shared.bash(command)
+        
+        Lumberjack.shared.debug(output)
+        
+        // Validate that a version matching the tool's regex pattern was returned
+        // If it wasn't, throw an error
+        guard let installedVersion = output.firstMatch(for: tool.regexPattern) else {
+            throw AuditError.invalidRegexPattern
         }
+        
+        // Validate the installed version versus the version that Zinc expected
+        // If they don't match, throw an error
+        guard installedVersion == version else {
+            throw AuditError.invalidVersion(expectedVersion: version, installedVersion: installedVersion)
+        }
+        
+        return true
     }
 }
 
