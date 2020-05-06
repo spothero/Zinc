@@ -17,14 +17,8 @@ public class Zinc: Command {
     
     public static var defaultSubcommand: String? = SyncSubcommand.name
     
-    #if DEBUG
-        public static var registeredSubcommands: [Subcommand.Type] = [
-            TestSubcommand.self,
-            SyncSubcommand.self,
-        ]
-    #else
-        public static var registeredSubcommands: [Subcommand.Type] = [
-            SyncSubcommand.self,
-        ]
-    #endif
+    public static var registeredSubcommands: [Subcommand.Type] = [
+        SyncSubcommand.self,
+        AuditSubcommand.self,
+    ]
 }

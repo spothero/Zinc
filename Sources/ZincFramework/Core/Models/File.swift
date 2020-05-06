@@ -2,8 +2,8 @@
 
 import Foundation
 
-public class File: Codable {
-    static let defaultSource = "default"
+public struct File: Codable {
+    private static let defaultSource = "default"
     
     enum CodingKeys: String, CodingKey {
         case destinationPath = "destination_path"
@@ -41,7 +41,7 @@ public class File: Codable {
         return destinationPath
     }
     
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.destinationPath = try container.decodeIfPresent(String.self, forKey: .destinationPath) ?? ""

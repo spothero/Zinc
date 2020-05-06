@@ -1,5 +1,21 @@
 ---
 source: https://github.com/spothero/Shared-iOS.git
+tools:
+  - command: brew
+    subcommand: --version
+    version: 2.2.30
+  - command: mint
+    subcommand: --version
+    version: 0.14.2
+  - command: ruby
+    subcommand: --version
+    version: 2.6.3
+  - command: rvm
+    subcommand: --version
+    version: 1.29.9
+  - command: swift
+    subcommand: --version
+    version: 5.2.2
 files:
   # Danger
   - source_path: Tools/Danger/Dangerfile
