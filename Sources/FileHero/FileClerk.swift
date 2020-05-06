@@ -99,6 +99,18 @@ public class FileClerk {
         do {
             try FileManager.default.removeItem(atPath: path)
         } catch {
+            let error = error as NSError
+            let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError
+            
+            // The following error codes indicate there is no such file or directory,
+            // so we can safely ignore the error and treat it as successful (nothing to remove)
+            // NSCocoaErrorDomain 4: File couldn't be removed
+            // NSPOSIXErrorDomain 2: No such file or directory
+            if error.code == 4, underlyingError?.code == 2 {
+                // Don't log the error
+                return
+            }
+            
             Lumberjack.shared.log(error)
         }
     }
