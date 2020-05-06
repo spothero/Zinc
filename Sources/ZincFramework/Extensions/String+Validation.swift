@@ -54,7 +54,7 @@ extension String {
             return .repository
         } else if self.isValidURL {
             return .url
-        } else if self.isEmpty {
+        } else if self.isEmpty || self == "default" {
             return .default
         } else {
             return .invalid

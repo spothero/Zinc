@@ -95,7 +95,7 @@ class SyncSubcommand: Subcommand {
         case .url:
             url = zincfile.source
         case .invalid:
-            // TODO: throw error
+            Lumberjack.shared.report("Invalid source: \(zincfile.source)")
             return
         }
         
