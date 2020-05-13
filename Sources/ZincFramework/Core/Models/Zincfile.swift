@@ -5,9 +5,7 @@ import Foundation
 public typealias YamlDictionary = [String: String]
 
 public struct Zincfile: Codable {
-    public enum Error: Swift.Error {
-        case sourceConflict
-    }
+    // MARK: Enums
     
     enum CodingKeys: String, CodingKey {
         case files
@@ -39,14 +37,5 @@ public struct Zincfile: Codable {
         self.sourceBranch = try container.decodeIfPresent(String.self, forKey: .sourceBranch) ?? ""
         self.sourceTag = try container.decodeIfPresent(String.self, forKey: .sourceTag) ?? ""
         self.variables = try container.decodeIfPresent(YamlDictionary.self, forKey: .variables) ?? [:]
-    }
-}
-
-extension Zincfile.Error: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .sourceConflict:
-            return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
-        }
     }
 }
