@@ -43,7 +43,7 @@ public class ArgumentParser {
     }
     
     public func exists(_ names: [String]) throws -> Bool {
-        return !Set(self.args).intersection(names).isEmpty
+        return !Set(self.args).isDisjoint(with: names)
     }
     
     // MARK: Value for Argument
