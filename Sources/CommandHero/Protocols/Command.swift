@@ -1,7 +1,5 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-import Lumberjack
-
 public protocol Command: UsageDescribing {
     static var defaultSubcommand: String? { get }
     static var registeredSubcommands: [Subcommand.Type] { get set }
@@ -13,12 +11,12 @@ public protocol Command: UsageDescribing {
 
 public extension Command {
     func run(withArgs args: [String] = CommandLine.arguments) throws {
-        Lumberjack.shared.debug("Processing args: \(args)")
+        CommandHero.logger.debug("Processing args: \(args)")
         
         // The first argument should be the name of the package excutable
         // If the args list is empty, that means we've encountered something very wrong
         guard !args.isEmpty else {
-            throw CommandHeroError.unexpectedError
+            throw CommandHeroError.exception("Command not found!")
         }
         
         // Remove the first element from the array, which is our executable name
@@ -71,7 +69,7 @@ public extension Command {
         // Attempt to parse arg into a valid subcommand
         // If it cannot be parsed, run the help subcommand
         guard Self.registeredSubcommands.contains(where: { $0.name == firstArgument }) else {
-            throw CommandHeroError.unexpectedError
+            throw CommandHeroError.exception("Unable to parse arguments into valid subcommand!")
         }
         
         // Remove the first argument again, which is the subcommand we're going to call
@@ -82,7 +80,7 @@ public extension Command {
     }
     
     func run(_ key: String, withArgs args: [String] = []) throws {
-        Lumberjack.shared.debug("Running subcommand by key '\(key)' with args: \(args)")
+        CommandHero.logger.debug("Running subcommand by key '\(key)' with args: \(args)")
         
         guard let subcommandType = Self.registeredSubcommands.first(where: { $0.name == key }) else {
             throw CommandHeroError.exception("Subcommand \(key) failed! Subcommand is not registered.")
@@ -92,7 +90,7 @@ public extension Command {
     }
     
     func run(_ subcommandType: Subcommand.Type, withArgs args: [String] = []) throws {
-        Lumberjack.shared.debug("Running subcommand '\(subcommandType.name)' with args: \(args)")
+        CommandHero.logger.debug("Running subcommand '\(subcommandType.name)' with args: \(args)")
         
         let parser = ArgumentParser(args)
         let shouldDescribeUsage = try parser.exists(Constants.helpFlags)
@@ -106,6 +104,6 @@ public extension Command {
         
         try subcommand.run()
         
-        Lumberjack.shared.debug("Subcommand '\(subcommandType.name)' finished successfully!")
+        CommandHero.logger.debug("Subcommand '\(subcommandType.name)' finished successfully!")
     }
 }

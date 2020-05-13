@@ -1,7 +1,7 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import Lumberjack
+import Logging
 
 public class FileClerk {
     // MARK: - Shared Instance
@@ -16,6 +16,8 @@ public class FileClerk {
         return FileManager.default.currentDirectoryPath
     }
     
+    private static let logger = Logger(label: "com.spothero.zinc.fileclerk")
+    
     // MARK: - Methods
     
     // MARK: Lifecycle
@@ -25,7 +27,7 @@ public class FileClerk {
     // MARK: Create
     
     public func createDirectory(_ path: String, deleteExisting: Bool = false) {
-        Lumberjack.shared.debug("Creating directory \(path)...")
+        Self.logger.debug("Creating directory \(path)...")
         
         do {
             if deleteExisting {
@@ -36,7 +38,7 @@ public class FileClerk {
                                                     withIntermediateDirectories: true,
                                                     attributes: nil)
         } catch {
-            Lumberjack.shared.log(error)
+            Self.logger.error("\(error.localizedDescription)")
         }
     }
     
@@ -47,7 +49,7 @@ public class FileClerk {
     // MARK: Copy
     
     public func copyItem(from source: String, to destination: String, shouldReplace: Bool = true) {
-        Lumberjack.shared.log("Copying from \(source) to \(destination)...")
+        Self.logger.debug("Copying from \(source) to \(destination)...")
         
         // Convert destination into a URL
         let destinationURL = URL(fileURLWithPath: destination)
@@ -69,7 +71,7 @@ public class FileClerk {
                 try FileManager.default.copyItem(atPath: source, toPath: destination)
             }
         } catch {
-            Lumberjack.shared.log(error)
+            Self.logger.error("\(error.localizedDescription)")
         }
     }
     
@@ -88,7 +90,7 @@ public class FileClerk {
         do {
             return try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            Lumberjack.shared.log(error)
+            Self.logger.error("\(error.localizedDescription)")
             return nil
         }
     }
@@ -111,7 +113,7 @@ public class FileClerk {
                 return
             }
             
-            Lumberjack.shared.log(error)
+            Self.logger.error("\(error.localizedDescription)")
         }
     }
     

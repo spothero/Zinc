@@ -2,7 +2,6 @@
 
 import CommandHero
 import FileHero
-import Lumberjack
 import ShellRunner
 
 final class SyncSubcommand: Subcommand {
@@ -39,7 +38,9 @@ final class SyncSubcommand: Subcommand {
     // MARK: Subcommand
     
     func run() throws {
-        Lumberjack.shared.isDebugEnabled = self.isVerbose
+        if self.isVerbose {
+            Zinc.logger.logLevel = .debug
+        }
         
         try self.sync(self.file)
     }
@@ -77,31 +78,31 @@ final class SyncSubcommand: Subcommand {
     
     private func cloneDefaultRepository(_ zincfile: Zincfile) {
         guard !zincfile.source.isEmpty else {
-            Lumberjack.shared.debug("No default repository to sync.")
+            Zinc.logger.debug("No default repository to sync.")
             return
         }
         
-        Lumberjack.shared.debug("Syncing default source...")
+        Zinc.logger.debug("Syncing default source...")
         
         var url: String
         
         switch zincfile.source.sourceType {
         case .default:
             // it should be impossible to reach this point
-            Lumberjack.shared.report("Default source is empty.")
+            Zinc.logger.error("Default source is empty.")
             return
         case .repository:
             url = "https://github.com/\(zincfile.source).git"
         case .url:
             url = zincfile.source
         case .invalid:
-            Lumberjack.shared.report("Invalid source: \(zincfile.source)")
+            Zinc.logger.error("Invalid source: \(zincfile.source)")
             return
         }
         
         let directory = "\(FileClerk.tempDirectory)/default"
         
-        Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
+        Zinc.logger.debug("Cloning default (\(url)) into \(directory)...")
         
         ShellRunner.shared.gitClone(url,
                                     branch: zincfile.sourceBranch ?? zincfile.sourceTag,
@@ -110,11 +111,11 @@ final class SyncSubcommand: Subcommand {
     
     private func cloneFileRepositories(_ zincfile: Zincfile) {
         guard !zincfile.files.isEmpty else {
-            Lumberjack.shared.report("Error: Files not found.")
+            Zinc.logger.error("Files not found.")
             return
         }
         
-        Lumberjack.shared.debug("Cloning sources for \(zincfile.files.count) files...")
+        Zinc.logger.debug("Cloning sources for \(zincfile.files.count) files...")
         
         for file in zincfile.files {
             var name: String
@@ -131,7 +132,7 @@ final class SyncSubcommand: Subcommand {
                 name = file.source.repositoryName
                 url = file.source
             case .invalid:
-                Lumberjack.shared.report("Invalid source: \(file.source)")
+                Zinc.logger.error("Invalid source: \(file.source)")
                 continue
             }
             
@@ -141,7 +142,7 @@ final class SyncSubcommand: Subcommand {
                 directory += "/\(branch)"
             }
             
-            Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
+            Zinc.logger.debug("Cloning \(name) (\(url)) into \(directory)...")
             
             ShellRunner.shared.gitClone(url,
                                         branch: file.sourceBranch ?? file.sourceTag,
@@ -150,7 +151,7 @@ final class SyncSubcommand: Subcommand {
     }
     
     private func syncFiles(_ zincfile: Zincfile) {
-        Lumberjack.shared.debug("Syncing \(zincfile.files.count) files...")
+        Zinc.logger.debug("Syncing \(zincfile.files.count) files...")
         
         // update all files
         for file in zincfile.files {

@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "CommandHero", targets: ["CommandHero"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
     ],
     targets: [
@@ -31,8 +32,9 @@ let package = Package(
         .target(
             name: "CommandHero",
             dependencies: [
-                .target(name: "Lumberjack"),
                 .target(name: "ShellRunner"),
+                .target(name: "Lumberjack"),
+                "Logging",
             ]
         ),
         .target(
@@ -49,20 +51,18 @@ let package = Package(
             name: "CommandHeroDemo",
             dependencies: [
                 .target(name: "CommandHero"),
-                .target(name: "Lumberjack"),
             ]
         ),
         .target(
             name: "FileHero",
             dependencies: [
-                .target(name: "Lumberjack"),
                 .target(name: "ShellRunner"),
             ]
         ),
         .target(
             name: "ShellRunner",
             dependencies: [
-                .target(name: "Lumberjack"),
+                "Logging",
             ]
         ),
         .target(

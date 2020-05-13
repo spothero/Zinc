@@ -2,7 +2,7 @@
 
 import CommandHero
 import Foundation
-import Lumberjack
+import Logging
 
 final class TestSubcommand: Subcommand {
     // MARK: - Properties
@@ -55,12 +55,15 @@ final class TestSubcommand: Subcommand {
     // MARK: Subcommand
     
     func run() throws {
-        Lumberjack.shared.log([
+        let message = [
             String(describing: self.name),
             String(describing: self.file),
             String(describing: self.version),
             String(describing: self.build),
-            self.isDope,
-        ])
+            String(describing: self.isDope),
+        ].joined(separator: ", ")
+        
+        let logger = Logger(label: "com.spothero.zinc.CommandHeroDemo")
+        logger.info("\(message)")
     }
 }

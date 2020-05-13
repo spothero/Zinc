@@ -1,7 +1,7 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
-// import os.log
+import Logging
 
 public typealias LumberjackCompletion = () throws -> Void
 
@@ -10,7 +10,6 @@ public class Lumberjack {
     
     private static let debugPrefix = "⚙"
     
-    public var isDebugEnabled = false
     public var shouldLogFileAndLineNumber = true
     
     /// Represents ANSI color escape codes.
@@ -68,20 +67,46 @@ public class Lumberjack {
         }
     }
     
-    public enum LogLevel {
-        case message
-        case warning
-        case error
-        case debug
-        case success
+    /// The log level.
+    ///
+    /// Log levels are ordered by their severity, with `.trace` being the least severe and
+    /// `.critical` being the most severe.
+    ///
+    /// Sources:
+    /// - [RFC 5424](https://tools.ietf.org/html/rfc5424#page-11)
+    /// - [swift-log](https://github.com/apple/swift-log/blob/87c2553da204fc269be89aec39e38217d65c4980/Sources/Logging/Logging.swift#L325)
+    public enum LogLevel: Int {
+        /// Appropriate for critical error conditions that usually require immediate
+        /// attention.
+        ///
+        /// When a `critical` message is logged, the logging backend (`LogHandler`) is free to perform
+        /// more heavy-weight operations to capture system state (such as capturing stack traces) to facilitate
+        /// debugging.
+        case critical = 2
+        /// Appropriate for error conditions.
+        case error = 3
+        /// Appropriate for messages that are not error conditions, but more severe than
+        /// `.notice`.
+        case warning = 4
+        /// Appropriate for conditions that are not error conditions, but that may require
+        /// special handling.
+        case notice = 5
+        /// Appropriate for informational messages.
+        case info = 6
+        /// Appropriate for messages that contain information normally of use only when
+        /// debugging a program.
+        case debug = 7
+        /// Appropriate for messages that contain information normally of use only when
+        /// tracing the execution of a program.
+        case trace = 8
     }
     
     // MARK: Logging
     
-    public func log(_ item: Any, level: LogLevel = .message, file: String = #file, line: UInt = #line) {
-        guard level != .debug || self.isDebugEnabled else {
-            return
-        }
+    public func log(_ item: Any, level: LogLevel = .info, file: String = #file, line: UInt = #line) {
+//        guard level != .debug || self.isDebugEnabled else {
+//            return
+//        }
         
         let message = String(describing: item)
         let color = self.color(for: level)
@@ -119,8 +144,8 @@ public class Lumberjack {
         self.log(messages, level: .error, file: file, line: line)
     }
     
-    public func success(_ item: Any, file: String = #file, line: UInt = #line) {
-        self.log(item, level: .success, file: file, line: line)
+    public func report(_ item: Any, file: String = #file, line: UInt = #line) {
+        self.log(item, level: .error, file: file, line: line)
     }
     
     // MARK: Measuring
@@ -174,7 +199,7 @@ public class Lumberjack {
         // Reset tag
         message = message.replacingOccurrences(of: "{reset}", with: Color.reset.code)
         
-        Swift.print(message)
+        self.swiftPrint(message)
     }
     
     private func print(_ message: String, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
@@ -182,7 +207,7 @@ public class Lumberjack {
         var message = message
         
         // Check if the log should include file and line number
-        if self.isDebugEnabled, self.shouldLogFileAndLineNumber {
+        if self.shouldLogFileAndLineNumber {
             // Try to strip the path and only get the filename
             let filename = file.split(separator: "/").last ?? ""
             
@@ -192,15 +217,16 @@ public class Lumberjack {
             }
         }
         
+        // FIXME: This logic is incorrect
         // If color and brightness aren't set, just print the message normally
         guard let color = color, bright == false else {
-            Swift.print(message)
+            self.swiftPrint(message)
             return
         }
         
         let colorCode = bright ? color.brightCode : color.code
         
-        Swift.print("\(colorCode)\(message)\(Color.reset.code)")
+        self.swiftPrint("\(colorCode)\(message)\(Color.reset.code)")
     }
     
     private func print(_ messages: [String], inColor color: Color?, file: String = #file, line: UInt = #line) {
@@ -209,18 +235,23 @@ public class Lumberjack {
         }
     }
     
+    private func swiftPrint(_ message: String) {
+        Swift.print(message)
+    }
+    
     private func color(for level: LogLevel) -> Color? {
         switch level {
-        case .debug:
+        case .debug,
+             .trace:
             return .blue
-        case .message:
+        case .info:
             return nil
-        case .warning:
+        case .warning,
+             .notice:
             return .yellow
-        case .error:
+        case .error,
+             .critical:
             return .red
-        case .success:
-            return .green
         }
     }
     

@@ -2,7 +2,7 @@
 
 import CommandHero
 import Foundation
-import Lumberjack
+import Logging
 import Yams
 
 public final class Zinc: Command {
@@ -11,6 +11,8 @@ public final class Zinc: Command {
     public static let shared = Zinc()
     
     // MARK: Properties
+    
+    static var logger = Logger(label: "com.spothero.zinc")
     
     public static var name = "zinc"
     public static var usageDescription =

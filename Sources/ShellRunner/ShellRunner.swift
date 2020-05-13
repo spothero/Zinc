@@ -1,12 +1,14 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import Lumberjack
+import Logging
 
 #if os(macOS)
     
     public class ShellRunner {
         public static let shared = ShellRunner()
+        
+        private static let logger = Logger(label: "com.spothero.zinc.ShellRunner")
         
         @discardableResult
         public func bash(_ command: String) -> String {
@@ -45,7 +47,7 @@ import Lumberjack
                 command += " \(directory)"
             }
             
-            Lumberjack.shared.debug("Executing `bash \(command)`")
+            Self.logger.debug("Executing `bash \(command)`")
             
             return self.bash(command)
         }

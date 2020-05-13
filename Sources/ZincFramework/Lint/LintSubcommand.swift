@@ -2,7 +2,6 @@
 
 import CommandHero
 import FileHero
-import Lumberjack
 import ShellRunner
 
 final class LintSubcommand: Subcommand {
@@ -40,6 +39,6 @@ final class LintSubcommand: Subcommand {
             return
         }
         
-        Lumberjack.shared.log("\(String(describing: zincfile.filename)) linted successfully.")
+        Zinc.logger.info("\(String(describing: zincfile.filename)) linted successfully.")
     }
 }

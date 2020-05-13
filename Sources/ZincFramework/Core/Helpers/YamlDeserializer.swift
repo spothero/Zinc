@@ -1,7 +1,7 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import Lumberjack
+import Logging
 import Yams
 
 class YAMLDeserializer {
@@ -11,7 +11,7 @@ class YAMLDeserializer {
         do {
             return try YAMLDecoder().decode(T.self, from: text)
         } catch {
-            Lumberjack.shared.report(error)
+            Zinc.logger.error("\(error.localizedDescription)")
             return nil
         }
     }
