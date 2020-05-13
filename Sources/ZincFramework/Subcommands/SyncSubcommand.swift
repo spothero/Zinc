@@ -13,24 +13,24 @@ final class SyncSubcommand: Subcommand {
     static var name = "sync"
     static var usageDescription = "(default) Syncs local files with remote files as defined by a Zincfile."
     static var arguments: [ArgumentDescribing] = []
-    static var options: [OptionDescribing] = [Options.isVerbose]
+    static var options: [OptionDescribing] = [Options.file, Options.isVerbose]
     
     // MARK: Options
     
     struct Options {
+        static let file = Option<String>("file", shortName: "f", description: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
         static let isVerbose = Option<Bool>("verbose", defaultValue: false, description: "Logs additional debug messages if enabled.")
     }
     
-    private let isVerbose: Bool
     private let file: String?
+    private let isVerbose: Bool
     
     // MARK: - Methods
     
     // MARK: Initializers
     
     required init(from parser: ArgumentParser) throws {
-        self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
-        
+        self.file = try parser.valueIfPresent(for: Options.file)
         self.isVerbose = try parser.value(for: Options.isVerbose)
     }
     
