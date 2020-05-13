@@ -24,18 +24,18 @@ jobs:
           brew install swiftformat
       - name: Run Danger
         run: sh ./scripts/danger_lint.sh
-  # test_linux:
-  #   name: Test Linux ${{ matrix.os }}
-  #   runs-on: ${{ matrix.os }}
-  #   needs: [lint]
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #   steps:
-  #     - name: Run Tests
-  #       run: |
-  #         swift test --generate-linuxmain
-  #         sh ./scripts/swift_build.sh
+  test_linux:
+    name: Test Linux ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [lint]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Run Tests
+        run: |
+          swift test --generate-linuxmain
+          sh ./scripts/swift_build.sh
   test_macOS:
     name: Test ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
