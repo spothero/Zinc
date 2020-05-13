@@ -26,6 +26,7 @@ public struct Tool: Codable {
 
 extension Tool {
     public enum SupportedTool: String, CaseIterable {
+        case bundler
         case homebrew
         case mint
         case ruby
@@ -45,7 +46,8 @@ extension Tool {
         /// The default subcommand, argument, or options to run to return the version of the tool.
         public var defaultSubcommand: String {
             switch self {
-            case .homebrew,
+            case .bundler,
+                 .homebrew,
                  .mint,
                  .ruby,
                  .rvm,
@@ -59,6 +61,8 @@ extension Tool {
         /// Note: This type cannot be a `StaticString` due to the requirement of using `NSRegularExpression`.
         public var regexPattern: String {
             switch self {
+            case .bundler:
+                return #"(?<=^Bundler version )[0-9]+\.[0-9]+\.[0-9]+"#
             case .homebrew:
                 return #"(?<=^Homebrew )[0-9]+\.[0-9]+\.[0-9]+"#
             case .mint:
