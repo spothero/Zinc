@@ -6,7 +6,7 @@
     import Foundation
     import Lumberjack
     
-    class TestSubcommand: Subcommand {
+    final class TestSubcommand: Subcommand {
         // MARK: - Properties
         
         // MARK: Command Metadata

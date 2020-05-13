@@ -5,7 +5,7 @@ import FileHero
 import Lumberjack
 import ShellRunner
 
-class SyncSubcommand: Subcommand {
+final class SyncSubcommand: Subcommand {
     // MARK: - Properties
     
     // MARK: Command Metadata

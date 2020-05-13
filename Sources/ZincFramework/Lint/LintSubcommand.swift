@@ -5,7 +5,7 @@ import FileHero
 import Lumberjack
 import ShellRunner
 
-class LintSubcommand: Subcommand {
+final class LintSubcommand: Subcommand {
     // MARK: - Properties
     
     // MARK: Command Metadata

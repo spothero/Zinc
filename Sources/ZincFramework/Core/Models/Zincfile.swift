@@ -7,6 +7,10 @@ public typealias YamlDictionary = [String: String]
 public struct Zincfile: Codable {
     // MARK: Enums
     
+    public enum Error: Swift.Error {
+        case sourceConflict
+    }
+    
     enum CodingKeys: String, CodingKey {
         case files
         case source
