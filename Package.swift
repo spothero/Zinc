@@ -70,6 +70,12 @@ let package = Package(
             dependencies: []
         ),
         .testTarget(
+            name: "CommandHeroTests",
+            dependencies: [
+                .target(name: "CommandHero"),
+            ]
+        ),
+        .testTarget(
             name: "ZincTests",
             dependencies: [
                 .target(name: "ZincFramework"),

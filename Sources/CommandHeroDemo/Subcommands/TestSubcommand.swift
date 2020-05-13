@@ -26,7 +26,10 @@ final class TestSubcommand: Subcommand {
     
     struct Options {
         static let build = Option<Int>("build", shortName: "b", description: "The build number for the test.")
-        static let dope = Option<Bool>("dope", shortName: "d", defaultValue: false, description: "Determines whether or not the test subcommand is dope.")
+        static let dope = Option<Bool>("dope",
+                                       shortName: "d",
+                                       defaultValue: false,
+                                       description: "Determines whether or not the test subcommand is dope.")
         static let file = Option<String>("file", shortName: "f", description: "Accepts a file to try to parse.")
         static let version = Option<Double>("version", shortName: "v", description: "The major.minor version number for the test.")
     }

@@ -18,7 +18,9 @@ final class SyncSubcommand: Subcommand {
     // MARK: Options
     
     struct Options {
-        static let file = Option<String>("file", shortName: "f", description: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
+        static let file = Option<String>("file",
+                                         shortName: "f",
+                                         description: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
         static let isVerbose = Option<Bool>("verbose", defaultValue: false, description: "Logs additional debug messages if enabled.")
     }
     
