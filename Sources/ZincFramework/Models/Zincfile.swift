@@ -4,7 +4,7 @@ import Foundation
 
 public typealias YamlDictionary = [String: String]
 
-public class Zincfile: Codable {
+public struct Zincfile: Codable {
     public enum Error: Swift.Error {
         case sourceConflict
     }
@@ -29,25 +29,9 @@ public class Zincfile: Codable {
     
     public var filename: String?
     
-    // public var allSources: YamlDictionary {
-    //     guard !self.source.isEmpty else {
-    //         return self.sources
-    //     }
-    
-    //     return ["default" : source].merging(self.sources, uniquingKeysWith: { (first, _) in first })
-    // }
-    
-//    public var description: String {
-//        do {
-//            return try YAMLEncoder().encode(self)
-//        } catch {
-//            return String(describing: self)
-//        }
-//    }
-    
     // MARK: Methods
     
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.files = try container.decodeIfPresent([File].self, forKey: .files) ?? []
