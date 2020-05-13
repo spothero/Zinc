@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  DEPLOY_DIRECTORY: deploy
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: macos-latest
+    env:
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          bundle install
+          brew install swiftformat
+      - name: Run Danger
+        run: sh ./scripts/danger_lint.sh
+  test:
+    name: Test ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [lint]
+    strategy:
+      matrix:
+        os: [macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Tests
+        run: sh ./scripts/swift_build.sh
+      - name: Upload Test Output
+        uses: actions/upload-artifact@v1
+        with:
+          name: "${{ matrix.os }} Test Output"
+          path: ${{ env.DEPLOY_DIRECTORY }}

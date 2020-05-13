@@ -9,14 +9,19 @@ files:
   - source_path: Tools/Rubocop/rubocop.yml
     name: .rubocop.yml
   # Scripts
+  - source_path: Scripts/danger_lint.sh
+    destination_path: scripts
   - source_path: Scripts/onboard.sh
     destination_path: scripts
-  - source_path: Scripts/swiftlint_run_script.sh
+  - source_path: Scripts/swift_build.sh
+    destination_path: scripts
+  - source_path: Scripts/xcode_build.sh
     destination_path: scripts
   # SwiftLint
   - source_path: Tools/SwiftLint/.swiftlint.yml
   # SwiftFormat
   - source_path: Tools/SwiftFormat/.swiftformat
   # Git Hooks
-  - source_path: Scripts/git-hooks/pre-commit
+  - source_path: Scripts/git-hooks/pre-commit-spm
     destination_path: scripts/git-hooks
+    name: pre-commit
