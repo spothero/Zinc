@@ -5,7 +5,7 @@ import Foundation
 import Lumberjack
 import Yams
 
-public class Zinc: Command {
+public final class Zinc: Command {
     // MARK: Shared Instance
     
     public static let shared = Zinc()
@@ -17,14 +17,7 @@ public class Zinc: Command {
     
     public static var defaultSubcommand: String? = SyncSubcommand.name
     
-    #if DEBUG
-        public static var registeredSubcommands: [Subcommand.Type] = [
-            TestSubcommand.self,
-            SyncSubcommand.self,
-        ]
-    #else
-        public static var registeredSubcommands: [Subcommand.Type] = [
-            SyncSubcommand.self,
-        ]
-    #endif
+    public static var registeredSubcommands: [Subcommand.Type] = [
+        SyncSubcommand.self,
+    ]
 }
