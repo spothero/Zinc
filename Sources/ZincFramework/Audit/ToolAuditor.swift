@@ -6,15 +6,24 @@ import ShellRunner
 
 class ToolAuditor {
     static func audit(_ tools: [Tool]) {
-        Lumberjack.shared.debug("Auditing \(tools.count) tools...")
+        Lumberjack.shared.log("Auditing \(tools.count) tools...")
+        
+        var errorCount = 0
         
         for tool in tools {
             do {
                 try self.audit(tool)
             } catch {
+                errorCount += 1
                 Lumberjack.shared.report(error, message: "Error auditing command '\(tool.command)'.")
             }
         }
+        
+        guard errorCount == 0 else {
+            return
+        }
+        
+        Lumberjack.shared.success("Audit completed. No violations found!")
     }
     
     static func audit(_ tool: Tool) throws {
@@ -23,16 +32,18 @@ class ToolAuditor {
         if let supportedTool = tool.supportedTool {
             try self.audit(supportedTool, forVersion: tool.version)
         } else {
-            // TODO: It should be possible to execute this using the method below as well. Is that better than .contains?
-            let output = ShellRunner.shared.bash("\(tool.command) \(tool.subcommand)")
-            output.contains(tool.version)
+            if let subcommand = tool.subcommand {
+                // TODO: It should be possible to execute this using the method below as well. Is that better than .contains?
+                let output = ShellRunner.shared.bash("\(tool.command) \(subcommand)")
+                let hasVersion = output.contains(tool.version)
+                
+                if !hasVersion {
+                    throw AuditError.invalidVersion(expectedVersion: tool.version, installedVersion: "Unknown")
+                }
+            } else {
+                throw AuditError.missingSubcommand(command: tool.command)
+            }
         }
-        
-//        if auditResult {
-//            Lumberjack.shared.debug("\(tool.command): v\(tool.version)")
-//        } else {
-//            Lumberjack.shared.report("\(tool.command) at version \(tool.version) successfully.")
-//        }
     }
     
     // TODO: Should this even bother returning a Bool?
@@ -67,6 +78,7 @@ class ToolAuditor {
 public enum AuditError: Error {
     case invalidRegexPattern
     case invalidVersion(expectedVersion: String, installedVersion: String)
+    case missingSubcommand(command: String)
 }
 
 extension AuditError: LocalizedError {
@@ -76,6 +88,8 @@ extension AuditError: LocalizedError {
             return "Invalid regex pattern for validated command!"
         case let .invalidVersion(expectedVersion, installedVersion):
             return "Expected version \(expectedVersion) but found \(installedVersion)."
+        case let .missingSubcommand(command):
+            return "Missing subcommand for command '\(command)'."
         }
     }
 }

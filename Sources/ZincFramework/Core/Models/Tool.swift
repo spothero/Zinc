@@ -4,8 +4,8 @@ import Foundation
 import Lumberjack
 
 public struct Tool: Codable {
-    // A regex pattern matching a semantic version string
-    public static let semanticVersionPattern: String = #"[0-9]+\.[0-9]+\.[0-9]+"#
+    /// Regex pattern matching a semantic version string
+    private static let semanticVersionPattern: String = #"[0-9]+\.[0-9]+\.[0-9]+"#
     
     public let command: String
     public let subcommand: String?
