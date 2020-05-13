@@ -2,8 +2,8 @@
 
 [![CI Status](https://github.com/spothero/Zinc/workflows/CI/badge.svg)](https://github.com/spothero/Zinc/actions?query=workflow%3A%22CI%22)
 [![Latest Release](https://img.shields.io/github/v/tag/spothero/Zinc?color=blue&label=latest)](https://github.com/spothero/Zinc/releases)
-![Platform Support](https://img.shields.io/static/v1?label=platform&message=macOS&color=darkgray)
 [![Swift Version](https://img.shields.io/static/v1?label=swift&message=5.2&color=red&logo=swift&logoColor=white)](https://developer.apple.com/swift)
+[![Platform Support](https://img.shields.io/static/v1?label=platform&message=macOS&color=darkgray)](https://github.com/spothero/Zinc/blob/master/Package.swift)
 [![License](https://img.shields.io/github/license/spothero/Zinc)](https://github.com/spothero/Zinc/blob/master/LICENSE)
 
 Zinc is a command-line tool for keeping local files in sync with files hosted outside of your folder or repository.
