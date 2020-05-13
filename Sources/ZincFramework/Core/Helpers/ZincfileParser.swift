@@ -6,7 +6,7 @@ import Foundation
 class ZincfileParser {
     static let shared = ZincfileParser()
     
-    /// Attempts to fetch a Zincfile with the given filename/
+    /// Attempts to fetch a Zincfile with the given filename.
     ///
     /// - Parameter filename: The filename of the Zincfile to fetch.
     /// - Returns: The fetched Zincfile if successful or nil if not.

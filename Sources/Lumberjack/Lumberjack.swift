@@ -13,17 +13,7 @@ public class Lumberjack {
     public var isDebugEnabled = false
     public var shouldLogFileAndLineNumber = true
     
-//    Black: \u001b[30m
-//    Red: \u001b[31m
-//    Green: \u001b[32m
-//    Yellow: \u001b[33m
-//    Blue: \u001b[34m
-//    Magenta: \u001b[35m
-//    Cyan: \u001b[36m
-//    White: \u001b[37m
-//    Reset: \u001b[0m
-    
-    /// ANSI color escape codes
+    /// Represents ANSI color escape codes.
     ///
     /// References:
     ///   - http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -40,7 +30,17 @@ public class Lumberjack {
         case white = 37
         case reset = 0
         
-//        static var close = "\033[m"
+        // Black: \u001b[30m
+        // Red: \u001b[31m
+        // Green: \u001b[32m
+        // Yellow: \u001b[33m
+        // Blue: \u001b[34m
+        // Magenta: \u001b[35m
+        // Cyan: \u001b[36m
+        // White: \u001b[37m
+        // Reset: \u001b[0m
+        
+        // static var close = "\033[m"
         
         // TODO: Determine if this works in all terminals.
         //       Alternatives (via reference above): `\033["`, `\u001b[`
@@ -73,6 +73,7 @@ public class Lumberjack {
         case warning
         case error
         case debug
+        case success
     }
     
     // MARK: Logging
@@ -116,6 +117,10 @@ public class Lumberjack {
     
     public func report(_ messages: String..., file: String = #file, line: UInt = #line) {
         self.log(messages, level: .error, file: file, line: line)
+    }
+    
+    public func success(_ item: Any, file: String = #file, line: UInt = #line) {
+        self.log(item, level: .success, file: file, line: line)
     }
     
     // MARK: Measuring
@@ -214,6 +219,8 @@ public class Lumberjack {
             return .yellow
         case .error:
             return .red
+        case .success:
+            return .green
         }
     }
     

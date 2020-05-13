@@ -1,4 +1,5 @@
 // swift-tools-version:5.1
+// Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import PackageDescription
 
@@ -40,7 +41,7 @@ let package = Package(
                 .target(name: "CommandHero"),
                 .target(name: "FileHero"),
                 .target(name: "Lumberjack"),
-                "Yams", 
+                "Yams",
             ]
         ),
         // Internal Targets
@@ -49,8 +50,7 @@ let package = Package(
             dependencies: [
                 .target(name: "CommandHero"),
                 .target(name: "Lumberjack"),
-            ],
-            path: "Sources/CommandHeroDemo"
+            ]
         ),
         .target(
             name: "FileHero",
@@ -69,13 +69,11 @@ let package = Package(
             name: "Lumberjack",
             dependencies: []
         ),
-        // Test Targets
         .testTarget(
             name: "CommandHeroTests",
             dependencies: [
-                "CommandHero"
-            ],
-            path: "Tests/CommandHeroTests"
+                .target(name: "CommandHero"),
+            ]
         ),
         .testTarget(
             name: "ZincTests",

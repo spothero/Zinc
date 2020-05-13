@@ -1,8 +1,8 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-class Constants {
+struct Constants {
     /// Denotes the default filenames to check if none are provided, in prioritized order.
-    public static let defaultFilenames = [
+    static let defaultFilenames = [
         "Zincfile",
         ".zinc.yml",
         "zinc.yml",

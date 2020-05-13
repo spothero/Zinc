@@ -4,10 +4,8 @@ import Foundation
 
 public typealias YamlDictionary = [String: String]
 
-public class Zincfile: Codable {
-    public enum Error: Swift.Error {
-        case sourceConflict
-    }
+public struct Zincfile: Codable {
+    // MARK: Enums
     
     enum CodingKeys: String, CodingKey {
         case files
@@ -29,25 +27,9 @@ public class Zincfile: Codable {
     
     public var filename: String?
     
-    // public var allSources: YamlDictionary {
-    //     guard !self.source.isEmpty else {
-    //         return self.sources
-    //     }
-    
-    //     return ["default" : source].merging(self.sources, uniquingKeysWith: { (first, _) in first })
-    // }
-    
-//    public var description: String {
-//        do {
-//            return try YAMLEncoder().encode(self)
-//        } catch {
-//            return String(describing: self)
-//        }
-//    }
-    
     // MARK: Methods
     
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.files = try container.decodeIfPresent([File].self, forKey: .files) ?? []
@@ -55,14 +37,5 @@ public class Zincfile: Codable {
         self.sourceBranch = try container.decodeIfPresent(String.self, forKey: .sourceBranch) ?? ""
         self.sourceTag = try container.decodeIfPresent(String.self, forKey: .sourceTag) ?? ""
         self.variables = try container.decodeIfPresent(YamlDictionary.self, forKey: .variables) ?? [:]
-    }
-}
-
-extension Zincfile.Error: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .sourceConflict:
-            return "Unable to parse source(s). 'source' and 'sources' cannot both be specificed."
-        }
     }
 }
