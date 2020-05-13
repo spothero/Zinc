@@ -9,3 +9,7 @@
 Zinc is a command-line tool for keeping local files in sync with files hosted outside of your folder or repository.
 
 >:warning: The code in this library has been provided as-is. It may lack the documentation, stability, and functionality necessary to support external use. While we work on improving this codebase, **use this library at your own risk** and please [reach out](#communication) if you have any questions or feedback.
+
+## Communication
+
+For all bug reports, feature requests, and general communication, please open an issue to get in contact with us.
