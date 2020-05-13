@@ -52,8 +52,8 @@ class AuditSubcommand: Subcommand {
         // Audit all tools in the file first
         ToolAuditor.audit(zincfile.tools)
         
-        // Audit package managed dependencies
+        // TODO: Audit package managed dependencies
         
-        // Audit remote files
+        // TODO: Audit remote files
     }
 }
