@@ -30,7 +30,7 @@ jobs:
     needs: [lint]
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, ubuntu-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
