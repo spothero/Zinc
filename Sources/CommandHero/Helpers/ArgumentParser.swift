@@ -43,7 +43,7 @@ public class ArgumentParser {
     }
     
     public func exists(_ names: [String]) throws -> Bool {
-        return !Set(self.args).intersection(names).isEmpty
+        return !Set(self.args).isDisjoint(with: names)
     }
     
     // MARK: Value for Argument
@@ -116,7 +116,10 @@ public class ArgumentParser {
         }
     }
     
-    public func value<T>(forOption name: String, shortName: String? = nil, defaultValue: T? = nil, type: T.Type = T.self) throws -> T where T: ValidArgument {
+    public func value<T>(forOption name: String,
+                         shortName: String? = nil,
+                         defaultValue: T? = nil,
+                         type: T.Type = T.self) throws -> T where T: ValidArgument {
         if let index = self.args.firstIndex(of: "--\(name)") {
             return try self.valueForOption(atIndex: index, type: type)
         } else if let shortName = shortName, let index = self.args.firstIndex(of: "-\(shortName)") {

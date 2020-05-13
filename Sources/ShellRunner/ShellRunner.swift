@@ -24,6 +24,8 @@ import Lumberjack
             
             task.waitUntilExit()
             
+            // We're fine with force unwrapping here because we want the command to fail if there is no output
+            // swiftlint:disable:next force_unwrapping
             return output!
         }
         
