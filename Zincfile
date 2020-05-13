@@ -18,5 +18,6 @@ files:
   # SwiftFormat
   - source_path: Tools/SwiftFormat/.swiftformat
   # Git Hooks
-  - source_path: Scripts/git-hooks/pre-commit
+  - source_path: Scripts/git-hooks/pre-commit-spm
     destination_path: scripts/git-hooks
+    name: pre-commit
