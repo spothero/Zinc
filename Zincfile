@@ -15,8 +15,6 @@ files:
     destination_path: scripts
   - source_path: Scripts/swift_build.sh
     destination_path: scripts
-  - source_path: Scripts/swiftlint_run_script.sh
-    destination_path: scripts
   - source_path: Scripts/xcode_build.sh
     destination_path: scripts
   # SwiftLint
