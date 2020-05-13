@@ -22,8 +22,8 @@ final class SyncSubcommand: Subcommand {
         static let isVerbose = Option<Bool>("verbose", defaultValue: false, description: "Logs additional debug messages if enabled.")
     }
     
-    private let isVerbose: Bool
     private let file: String?
+    private let isVerbose: Bool
     
     // MARK: - Methods
     
