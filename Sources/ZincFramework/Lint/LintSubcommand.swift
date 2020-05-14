@@ -1,45 +1,35 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-import CommandHero
+import ArgumentParser
 import FileHero
 import Lumberjack
 import ShellRunner
 
-final class LintSubcommand: Subcommand {
-    // MARK: - Properties
+struct LintSubcommand: ParsableCommand {
+    // MARK: Command Configuration
     
-    // MARK: Command Metadata
-    
-    static var name = "lint"
-    static var usageDescription = "Performs basic linting against a Zincfile to identify issues and errors."
-    static var arguments: [ArgumentDescribing] = []
-    static var options: [OptionDescribing] = []
+    static var configuration = CommandConfiguration(
+        commandName: "lint",
+        abstract: "Performs basic linting against a Zincfile to identify issues and errors."
+    )
     
     // MARK: Options
     
-    private let file: String?
+    /// The Zincfile to parse.
+    @Option(name: .shortAndLong, help: "The Zincfile to parse and lint. Will default to the Zincfile in the root if left unspecified.")
+    private var file: String?
     
-    // MARK: - Methods
-    
-    // MARK: Initializers
-    
-    required init(from parser: ArgumentParser) throws {
-        self.file = try parser.valueIfPresent(forOption: "file", shortName: "f")
-    }
-    
-    // MARK: Subcommand
+    // MARK: Methods
     
     func run() throws {
         try self.lint(self.file)
     }
     
-    // MARK: Utilities
-    
     func lint(_ filename: String? = nil) throws {
-        guard let zincfile = try ZincfileParser.shared.fetch(filename) else {
+        guard try ZincfileParser.shared.fetch(filename) != nil else {
             return
         }
         
-        Lumberjack.shared.log("\(String(describing: zincfile.filename)) linted successfully.")
+        Lumberjack.shared.log("\(filename ?? "Zincfile") linted successfully.")
     }
 }

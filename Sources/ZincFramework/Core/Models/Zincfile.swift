@@ -23,10 +23,6 @@ public struct Zincfile: Codable {
     public let sourceTag: String?
     public let variables: YamlDictionary
     
-    // MARK: Post-Parse Properties
-    
-    public var filename: String?
-    
     // MARK: Methods
     
     public init(from decoder: Decoder) throws {
