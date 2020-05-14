@@ -8,7 +8,7 @@ import ShellRunner
 struct LintSubcommand: ParsableCommand {
     // MARK: Command Configuration
     
-    public static var configuration = CommandConfiguration(
+    static var configuration = CommandConfiguration(
         commandName: "lint",
         abstract: "Performs basic linting against a Zincfile to identify issues and errors."
     )
@@ -25,7 +25,7 @@ struct LintSubcommand: ParsableCommand {
     }
     
     func lint(_ filename: String? = nil) throws {
-        guard let _ = try ZincfileParser.shared.fetch(filename) else {
+        guard try ZincfileParser.shared.fetch(filename) != nil else {
             return
         }
         

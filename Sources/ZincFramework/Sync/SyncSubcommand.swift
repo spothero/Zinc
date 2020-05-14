@@ -8,7 +8,7 @@ import ShellRunner
 struct SyncSubcommand: ParsableCommand {
     // MARK: Command Configuration
     
-    public static var configuration = CommandConfiguration(
+    static var configuration = CommandConfiguration(
         commandName: "sync",
         abstract: "Syncs local files with remote files as defined by a Zincfile."
     )
