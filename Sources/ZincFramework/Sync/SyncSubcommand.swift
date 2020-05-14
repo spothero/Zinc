@@ -15,21 +15,21 @@ struct SyncSubcommand: ParsableCommand {
     
     // MARK: Options
     
-    @Option(name: .shortAndLong, help: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
-    private var file: String?
+    @Option(name: .shortAndLong, default: "Zincfile", help: "The Zincfile to parse and use for syncing.")
+    private var file: String
     
-    @Option(name: .shortAndLong, default: false, help: "Logs additional debug messages if enabled.")
-    private var isVerbose: Bool
+    @Flag(name: .long, help: "Logs additional debug messages if enabled.")
+    private var verbose: Bool
     
     // MARK: Methods
     
     func run() throws {
-        Lumberjack.shared.isDebugEnabled = self.isVerbose
+        Lumberjack.shared.isDebugEnabled = self.verbose
         
         try self.sync(self.file)
     }
     
-    func sync(_ filename: String? = nil) throws {
+    func sync(_ filename: String) throws {
         guard let zincfile = try ZincfileParser.shared.fetch(filename) else {
             return
         }

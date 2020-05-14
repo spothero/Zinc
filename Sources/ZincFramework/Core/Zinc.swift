@@ -13,8 +13,12 @@ public struct Zinc: ParsableCommand {
             LintSubcommand.self,
             SyncSubcommand.self,
         ],
-        defaultSubcommand: SyncSubcommand.self
+        defaultSubcommand: SyncSubcommand.self,
+        helpNames: .long
     )
+    
+    @Flag(name: .long, help: "Logs additional debug messages if enabled.")
+    private var verbose: Bool
     
     // MARK: Methods
     
