@@ -15,7 +15,8 @@ struct LintSubcommand: ParsableCommand {
     
     // MARK: Options
     
-    @Option(name: .shortAndLong, help: "The Zincfile to parse. Will default to the Zincfile in the root if left unspecified.")
+    /// The Zincfile to parse.
+    @Option(name: .shortAndLong, help: "The Zincfile to parse and lint. Will default to the Zincfile in the root if left unspecified.")
     private var file: String?
     
     // MARK: Methods

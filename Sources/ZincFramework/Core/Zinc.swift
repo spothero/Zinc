@@ -17,9 +17,6 @@ public struct Zinc: ParsableCommand {
         helpNames: .long
     )
     
-    @Flag(name: .long, help: "Logs additional debug messages if enabled.")
-    private var verbose: Bool
-    
     // MARK: Methods
     
     public init() {}

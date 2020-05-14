@@ -15,9 +15,11 @@ struct SyncSubcommand: ParsableCommand {
     
     // MARK: Options
     
+    /// The Zincfile to parse.
     @Option(name: .shortAndLong, default: "Zincfile", help: "The Zincfile to parse and use for syncing.")
     private var file: String
     
+    /// Logs additional debug messages if enabled.
     @Flag(name: .long, help: "Logs additional debug messages if enabled.")
     private var verbose: Bool
     
