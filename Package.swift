@@ -12,7 +12,10 @@ let package = Package(
         .watchOS(.v2),      // minimum supported version via SPM
     ],
     products: [
+        .executable(name: "cobalt", targets: ["cobalt"]),
         .executable(name: "zinc", targets: ["zinc"]),
+        .library(name: "CarbonFramework", targets: ["CarbonFramework"]),
+        .library(name: "CobaltFramework", targets: ["CobaltFramework"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
@@ -23,38 +26,41 @@ let package = Package(
     targets: [
         // Executable Product Targets
         .target(
+            name: "cobalt",
+            dependencies: [
+                .target(name: "CobaltFramework"),
+            ],
+            path: "Sources/Executables/cobalt"
+        ),
+        .target(
             name: "zinc",
             dependencies: [
                 .target(name: "ZincFramework"),
-            ]
+            ],
+            path: "Sources/Executables/zinc"
         ),
         // Library Product Targets
         .target(
+            name: "CarbonFramework",
+            dependencies: [],
+            path: "Sources/Libraries/CarbonFramework"
+        ),
+        .target(
+            name: "CobaltFramework",
+            dependencies: [
+                .target(name: "CarbonFramework"),
+                "ArgumentParser",
+            ],
+            path: "Sources/Libraries/CobaltFramework"
+        ),
+        .target(
             name: "ZincFramework",
             dependencies: [
-                .target(name: "FileHero"),
-                .target(name: "Lumberjack"),
+                .target(name: "CarbonFramework"),
                 "ArgumentParser",
                 "Yams",
-            ]
-        ),
-        // Internal Targets
-        .target(
-            name: "FileHero",
-            dependencies: [
-                .target(name: "Lumberjack"),
-                .target(name: "ShellRunner"),
-            ]
-        ),
-        .target(
-            name: "ShellRunner",
-            dependencies: [
-                .target(name: "Lumberjack"),
-            ]
-        ),
-        .target(
-            name: "Lumberjack",
-            dependencies: []
+            ],
+            path: "Sources/Libraries/ZincFramework"
         ),
         // Test Targets
         .testTarget(

@@ -1,9 +1,7 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import ArgumentParser
-import FileHero
-import Lumberjack
-import ShellRunner
+import CarbonFramework
 
 struct SyncSubcommand: ParsableCommand {
     // MARK: Command Configuration

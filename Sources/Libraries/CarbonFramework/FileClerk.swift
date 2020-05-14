@@ -1,7 +1,6 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import Foundation
-import Lumberjack
 
 public class FileClerk {
     // MARK: - Shared Instance

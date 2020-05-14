@@ -1,6 +1,6 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-import FileHero
+import CarbonFramework
 import Foundation
 
 class ZincfileParser {
