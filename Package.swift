@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Zinc",
+    name: "Elements",
     platforms: [
         .iOS(.v8),          // minimum supported version via SPM
         .macOS(.v10_10),    // minimum supported version via SPM
