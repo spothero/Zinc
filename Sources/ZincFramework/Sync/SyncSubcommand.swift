@@ -1,50 +1,33 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-import CommandHero
+import ArgumentParser
 import FileHero
 import Lumberjack
 import ShellRunner
 
-final class SyncSubcommand: Subcommand {
-    // MARK: - Properties
+struct SyncSubcommand: ParsableCommand {
+    // MARK: Command Configuration
     
-    // MARK: Command Metadata
-    
-    static var name = "sync"
-    static var usageDescription = "(default) Syncs local files with remote files as defined by a Zincfile."
-    static var arguments: [ArgumentDescribing] = []
-    static var options: [OptionDescribing] = [Options.file, Options.isVerbose]
+    public static var configuration = CommandConfiguration(
+        commandName: "sync",
+        abstract: "Syncs local files with remote files as defined by a Zincfile."
+    )
     
     // MARK: Options
     
-    struct Options {
-        static let file = Option<String>("file",
-                                         shortName: "f",
-                                         description: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
-        static let isVerbose = Option<Bool>("verbose", defaultValue: false, description: "Logs additional debug messages if enabled.")
-    }
+    @Option(name: .shortAndLong, help: "The Zincfile to use. Will default to the Zincfile in the root if left unspecified.")
+    private var file: String?
     
-    private let file: String?
-    private let isVerbose: Bool
+    @Option(name: .shortAndLong, default: false, help: "Logs additional debug messages if enabled.")
+    private var isVerbose: Bool
     
-    // MARK: - Methods
-    
-    // MARK: Initializers
-    
-    required init(from parser: ArgumentParser) throws {
-        self.file = try parser.valueIfPresent(for: Options.file)
-        self.isVerbose = try parser.value(for: Options.isVerbose)
-    }
-    
-    // MARK: Subcommand
+    // MARK: Methods
     
     func run() throws {
         Lumberjack.shared.isDebugEnabled = self.isVerbose
         
         try self.sync(self.file)
     }
-    
-    // MARK: Utilities
     
     func sync(_ filename: String? = nil) throws {
         guard let zincfile = try ZincfileParser.shared.fetch(filename) else {

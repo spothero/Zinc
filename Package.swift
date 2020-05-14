@@ -14,10 +14,11 @@ let package = Package(
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
-        .library(name: "CommandHero", targets: ["CommandHero"]),
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
+        // Source stability for ArgumentParser is only guaranteed up to the next minor version
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.0.5")),
     ],
     targets: [
         // Executable Product Targets
@@ -29,29 +30,15 @@ let package = Package(
         ),
         // Library Product Targets
         .target(
-            name: "CommandHero",
-            dependencies: [
-                .target(name: "Lumberjack"),
-                .target(name: "ShellRunner"),
-            ]
-        ),
-        .target(
             name: "ZincFramework",
             dependencies: [
-                .target(name: "CommandHero"),
                 .target(name: "FileHero"),
                 .target(name: "Lumberjack"),
+                "ArgumentParser",
                 "Yams",
             ]
         ),
         // Internal Targets
-        .target(
-            name: "CommandHeroDemo",
-            dependencies: [
-                .target(name: "CommandHero"),
-                .target(name: "Lumberjack"),
-            ]
-        ),
         .target(
             name: "FileHero",
             dependencies: [
@@ -68,12 +55,6 @@ let package = Package(
         .target(
             name: "Lumberjack",
             dependencies: []
-        ),
-        .testTarget(
-            name: "CommandHeroTests",
-            dependencies: [
-                .target(name: "CommandHero"),
-            ]
         ),
         .testTarget(
             name: "ZincTests",

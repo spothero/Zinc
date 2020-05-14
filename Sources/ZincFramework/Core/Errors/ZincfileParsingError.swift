@@ -12,7 +12,7 @@ extension ZincfileParsingError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case let .fileNotFound(.some(filename)):
-            return "\(filename) not found."
+            return "File '\(filename)' not found."
         case .fileNotFound:
             return ZincfileParsingError.fileNotFound("Zincfile").errorDescription
         case let .textCouldNotBeRead(filename):
