@@ -56,6 +56,7 @@ let package = Package(
             name: "Lumberjack",
             dependencies: []
         ),
+        // Test Targets
         .testTarget(
             name: "ZincTests",
             dependencies: [
