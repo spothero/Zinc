@@ -5,6 +5,9 @@ import Foundation
 
 public typealias LumberjackCompletion = () throws -> Void
 
+// Should we update to use TerminalController for printing colors?
+// https://github.com/apple/swift-tools-support-core/blob/master/Sources/TSCBasic/TerminalController.swift
+
 public class Lumberjack {
     public static let shared = Lumberjack()
     
