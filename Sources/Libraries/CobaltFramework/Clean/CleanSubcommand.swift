@@ -4,12 +4,12 @@ import ArgumentParser
 import CarbonFramework
 import Foundation
 
-struct LaunchSubcommand: ParsableCommand {
+struct CleanSubcommand: ParsableCommand {
     // MARK: Command Configuration
     
     static var configuration = CommandConfiguration(
-        commandName: "launch",
-        abstract: "Launches a simulator."
+        commandName: "clean",
+        abstract: "Removes all unavailable simulators."
     )
     
     // MARK: Options
@@ -22,5 +22,11 @@ struct LaunchSubcommand: ParsableCommand {
     
     func run() throws {
         Lumberjack.shared.isDebugEnabled = self.verbose
+        
+        Lumberjack.shared.log("Removing unavailable simulators...")
+        
+        try SimulatorController.deleteUnavailable()
+        
+        Lumberjack.shared.log("Cleanup complete!")
     }
 }

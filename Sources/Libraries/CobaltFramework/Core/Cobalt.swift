@@ -11,7 +11,9 @@ public struct Cobalt: ParsableCommand {
         abstract: "Cobalt helps with evaluating and launching Xcode simulators for a specific project.",
         shouldDisplay: false,
         subcommands: [
+            CleanSubcommand.self,
             LaunchSubcommand.self,
+            ListSubcommand.self,
         ],
         defaultSubcommand: LaunchSubcommand.self,
         helpNames: .long

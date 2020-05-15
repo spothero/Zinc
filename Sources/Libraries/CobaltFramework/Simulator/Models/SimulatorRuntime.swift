@@ -2,20 +2,20 @@
 
 import Foundation
 
-struct SimulatorRuntime: Codable {
-    let buildVersion: String
-    let bundlePath: String
-    let identifier: String
-    let isAvailable: Bool
-    let name: String
-    let runtimeRoot: String
-    let version: String
+public struct SimulatorRuntime: Codable {
+    public let buildVersion: String
+    public let bundlePath: String
+    public let identifier: String
+    public let isAvailable: Bool
+    public let name: String
+    public let runtimeRoot: String
+    public let version: String
     
     private enum SIMCTLCodingKeys: String, CodingKey {
         case buildVersion = "buildversion"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.bundlePath = try values.decode(String.self, forKey: .bundlePath)

@@ -79,24 +79,36 @@ public class Lumberjack {
         case success
     }
     
+    public struct LogOption: OptionSet {
+        public let rawValue: Int
+        
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+        
+        public static let prettyPrint = LogOption(rawValue: 1 << 0)
+        
+        public static let all: LogOption = [.prettyPrint]
+    }
+    
     // MARK: Logging
     
-    public func log(_ item: Any, level: LogLevel = .message, file: String = #file, line: UInt = #line) {
+    public func log(_ item: Any, level: LogLevel = .message, options: LogOption = [], file: String = #file, line: UInt = #line) {
         guard level != .debug || self.isDebugEnabled else {
             return
         }
         
         let color = self.color(for: level)
         
-        if let jsonObject = item as? Encodable {
-            self.print(jsonObject, inColor: color, file: file, line: line)
+        if let jsonObject = item as? Encodable, options.contains(.prettyPrint) {
+            self.prettyPrint(jsonObject, inColor: color, file: file, line: line)
         } else {
             let message = String(describing: item)
             self.print(message, inColor: color, file: file, line: line)
         }
     }
     
-    private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, file: String = #file, line: UInt = #line) {
+    private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, options: LogOption = [], file: String = #file, line: UInt = #line) {
         let logMessage: String
         let errorMessage = ErrorCleaner.cleanedMessage(for: error)
         
@@ -106,29 +118,29 @@ public class Lumberjack {
             logMessage = errorMessage
         }
         
-        self.log(logMessage, level: level, file: file, line: line)
+        self.log(logMessage, level: level, options: options, file: file, line: line)
     }
     
     // MARK: Convenience
     
-    public func debug(_ item: Any, file: String = #file, line: UInt = #line) {
-        self.log(item, level: .debug, file: file, line: line)
+    public func debug(_ item: Any, options: LogOption = [], file: String = #file, line: UInt = #line) {
+        self.log(item, level: .debug, options: options, file: file, line: line)
     }
     
-    public func warn(_ item: Any, file: String = #file, line: UInt = #line) {
-        self.log(item, level: .warning, file: file, line: line)
+    public func warn(_ item: Any, options: LogOption = [], file: String = #file, line: UInt = #line) {
+        self.log(item, level: .warning, options: options, file: file, line: line)
     }
     
-    public func report(_ error: Error, message: String? = nil, file: String = #file, line: UInt = #line) {
-        self.log(error, message: message, file: file, line: line)
+    public func report(_ error: Error, message: String? = nil, options: LogOption = [], file: String = #file, line: UInt = #line) {
+        self.log(error, message: message, options: options, file: file, line: line)
     }
     
-    public func report(_ messages: String..., file: String = #file, line: UInt = #line) {
-        self.log(messages, level: .error, file: file, line: line)
+    public func report(_ messages: String..., options: LogOption = [], file: String = #file, line: UInt = #line) {
+        self.log(messages, level: .error, options: options, file: file, line: line)
     }
     
-    public func success(_ item: Any, file: String = #file, line: UInt = #line) {
-        self.log(item, level: .success, file: file, line: line)
+    public func success(_ item: Any, options: LogOption = [], file: String = #file, line: UInt = #line) {
+        self.log(item, level: .success, options: options, file: file, line: line)
     }
     
     // MARK: Measuring
@@ -185,7 +197,7 @@ public class Lumberjack {
         Swift.print(message)
     }
     
-    private func print(_ jsonObject: Encodable, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
+    private func prettyPrint(_ jsonObject: Encodable, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
         do {
             let message = try jsonObject.toPrettyPrintedJSON() ?? String(describing: jsonObject)
             self.print(message, inColor: color, bright: bright, file: file, line: line)

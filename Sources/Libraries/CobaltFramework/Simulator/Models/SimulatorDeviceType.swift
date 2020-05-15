@@ -1,10 +1,10 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-struct SimulatorDeviceType: Codable {
-    let minRuntimeVersion: Int
-    let bundlePath: String
-    let maxRuntimeVersion: Int
-    let name: String
-    let identifier: String
-    let productFamily: String
+public struct SimulatorDeviceType: Codable {
+    public let minRuntimeVersion: Int
+    public let bundlePath: String
+    public let maxRuntimeVersion: Int
+    public let name: String
+    public let identifier: String
+    public let productFamily: String
 }

@@ -1,17 +1,17 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
-struct SimulatorList: Codable {
-    let devices: [String: [SimulatorDevice]]
-    let devicePairs: [String: SimulatorDevicePair]
-    let deviceTypes: [SimulatorDeviceType]
-    let runtimes: [SimulatorRuntime]
+public struct SimulatorList: Codable {
+    public let devices: [String: [SimulatorDevice]]
+    public let devicePairs: [String: SimulatorDevicePair]
+    public let deviceTypes: [SimulatorDeviceType]
+    public let runtimes: [SimulatorRuntime]
     
     private enum SIMCTLCodingKeys: String, CodingKey {
         case devicePairs = "pairs"
         case deviceTypes = "devicetypes"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.devices = try values.decode([String: [SimulatorDevice]].self, forKey: .devices)
