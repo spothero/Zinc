@@ -2,6 +2,7 @@
 
 import ArgumentParser
 import CarbonFramework
+import Foundation
 
 struct LaunchSubcommand: ParsableCommand {
     // MARK: Command Configuration
@@ -22,6 +23,7 @@ struct LaunchSubcommand: ParsableCommand {
     func run() throws {
         Lumberjack.shared.isDebugEnabled = self.verbose
         
-        print("Hello, world!")
+        let list = try SimulatorController.list()
+        Lumberjack.shared.log(list)
     }
 }

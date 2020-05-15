@@ -6,10 +6,11 @@ import PackageDescription
 let package = Package(
     name: "Elements",
     platforms: [
-        .iOS(.v8),          // minimum supported version via SPM
         .macOS(.v10_10),    // minimum supported version via SPM
-        .tvOS(.v9),         // minimum supported version via SPM
-        .watchOS(.v2),      // minimum supported version via SPM
+        
+        // iOS is unsupported due to the use of command line utilities
+        // tvOS is unsupported due to the use of command line utilities
+        // watchOS is unsupported due to the use of command line utilities
     ],
     products: [
         .executable(name: "cobalt", targets: ["cobalt"]),
@@ -63,6 +64,18 @@ let package = Package(
             path: "Sources/Libraries/ZincFramework"
         ),
         // Test Targets
+        .testTarget(
+            name: "CarbonTests",
+            dependencies: [
+                .target(name: "CarbonFramework"),
+            ]
+        ),
+        .testTarget(
+            name: "CobaltTests",
+            dependencies: [
+                .target(name: "CobaltFramework"),
+            ]
+        ),
         .testTarget(
             name: "ZincTests",
             dependencies: [

@@ -92,6 +92,14 @@ public class FileClerk {
         }
     }
     
+    public func readRelativeFile(_ relativeFilePath: String, sourceFile: StaticString = #file) -> String? {
+        let sourceFileURL = URL(fileURLWithPath: "\(sourceFile)", isDirectory: false)
+        let sourceFileDirectory = sourceFileURL.deletingLastPathComponent()
+        let filePath = "\(sourceFileDirectory.path)/\(relativeFilePath)"
+        
+        return self.read(file: filePath)
+    }
+    
     // MARK: Remove
     
     public func remove(_ path: String) {

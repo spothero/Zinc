@@ -46,10 +46,10 @@ struct SyncSubcommand: ParsableCommand {
         // }
         
         // clone the default repo first
-        self.cloneDefaultRepository(zincfile)
+        try self.cloneDefaultRepository(zincfile)
         
         // aggregate the sources into a master dictionary
-        self.cloneFileRepositories(zincfile)
+        try self.cloneFileRepositories(zincfile)
         
         // sync all the files
         self.syncFiles(zincfile)
@@ -58,7 +58,7 @@ struct SyncSubcommand: ParsableCommand {
         FileClerk.shared.removeTempDirectory()
     }
     
-    private func cloneDefaultRepository(_ zincfile: Zincfile) {
+    private func cloneDefaultRepository(_ zincfile: Zincfile) throws {
         guard !zincfile.source.isEmpty else {
             Lumberjack.shared.debug("No default repository to sync.")
             return
@@ -86,12 +86,12 @@ struct SyncSubcommand: ParsableCommand {
         
         Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
         
-        ShellRunner.shared.gitClone(url,
-                                    branch: zincfile.sourceBranch ?? zincfile.sourceTag,
-                                    directory: directory)
+        try ShellRunner.shared.gitClone(url,
+                                        branch: zincfile.sourceBranch ?? zincfile.sourceTag,
+                                        directory: directory)
     }
     
-    private func cloneFileRepositories(_ zincfile: Zincfile) {
+    private func cloneFileRepositories(_ zincfile: Zincfile) throws {
         guard !zincfile.files.isEmpty else {
             Lumberjack.shared.report("Error: Files not found.")
             return
@@ -126,9 +126,9 @@ struct SyncSubcommand: ParsableCommand {
             
             Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
             
-            ShellRunner.shared.gitClone(url,
-                                        branch: file.sourceBranch ?? file.sourceTag,
-                                        directory: directory)
+            try ShellRunner.shared.gitClone(url,
+                                            branch: file.sourceBranch ?? file.sourceTag,
+                                            directory: directory)
         }
     }
     

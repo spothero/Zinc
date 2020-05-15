@@ -1,6 +1,7 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 import ArgumentParser
+import CarbonFramework
 
 public struct Cobalt: ParsableCommand {
     // MARK: Command Configuration

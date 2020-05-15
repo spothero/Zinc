@@ -94,11 +94,12 @@ public class Lumberjack {
     
     private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, file: String = #file, line: UInt = #line) {
         let logMessage: String
+        let errorMessage = ErrorCleaner.cleanedMessage(for: error)
         
         if let message = message {
-            logMessage = "\(message) \(error.localizedDescription)"
+            logMessage = "\(message) \(errorMessage)"
         } else {
-            logMessage = error.localizedDescription
+            logMessage = errorMessage
         }
         
         self.log(logMessage, level: level, file: file, line: line)
