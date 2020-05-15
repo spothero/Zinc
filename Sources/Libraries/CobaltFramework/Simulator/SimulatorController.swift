@@ -122,7 +122,7 @@ extension SimulatorController {
         /// Trigger iCloud sync on a device.
         case iCloudSync = "icloud_sync"
         /// Set up a device IO operation, such as recording video or taking a screenshot.
-        case io
+        case io // swiftlint:disable:this identifier_name
         /// Manipulate a device's keychain.
         case keychain
         /// Open a URL in a device.
@@ -134,7 +134,7 @@ extension SimulatorController {
         /// Set or clear status bar overrides.
         case statusBar = "status_bar"
         /// Get or set user interface appearance.
-        case ui
+        case ui // swiftlint:disable:this identifier_name
         
         // MARK: Diagnostic Commands
         

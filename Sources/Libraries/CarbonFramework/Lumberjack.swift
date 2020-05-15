@@ -93,7 +93,11 @@ public class Lumberjack {
     
     // MARK: Logging
     
-    public func log(_ item: Any, level: LogLevel = .message, options: LogOption = [], file: String = #file, line: UInt = #line) {
+    public func log(_ item: Any,
+                    level: LogLevel = .message,
+                    options: LogOption = [],
+                    file: String = #file,
+                    line: UInt = #line) {
         guard level != .debug || self.isDebugEnabled else {
             return
         }
@@ -108,7 +112,11 @@ public class Lumberjack {
         }
     }
     
-    private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, options: LogOption = [], file: String = #file, line: UInt = #line) {
+    private func log(_ error: Error, message: String? = nil,
+                     level: LogLevel = .error,
+                     options: LogOption = [],
+                     file: String = #file,
+                     line: UInt = #line) {
         let logMessage: String
         let errorMessage = ErrorCleaner.cleanedMessage(for: error)
         
