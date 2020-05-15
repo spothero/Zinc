@@ -1,10 +1,10 @@
 import XCTest
 
-import CommandHeroTests
+import CarbonTests
 import ZincTests
 
 var tests = [XCTestCaseEntry]()
-tests += CommandHeroTests.__allTests()
+tests += CarbonTests.__allTests()
 tests += ZincTests.__allTests()
 
 XCTMain(tests)

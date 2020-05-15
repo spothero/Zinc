@@ -4,20 +4,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Zinc",
+    name: "Elements",
     platforms: [
-        .iOS(.v8),          // minimum supported version via SPM
         .macOS(.v10_10),    // minimum supported version via SPM
-        .tvOS(.v9),         // minimum supported version via SPM
-        .watchOS(.v2),      // minimum supported version via SPM
+        // iOS is unsupported due to the use of command line utilities
+        // tvOS is unsupported due to the use of command line utilities
+        // watchOS is unsupported due to the use of command line utilities
     ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
+        .library(name: "CarbonFramework", targets: ["CarbonFramework"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
-        .library(name: "CommandHero", targets: ["CommandHero"]),
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
+        // Source stability for ArgumentParser is only guaranteed up to the next minor version
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.0.5")),
     ],
     targets: [
         // Executable Product Targets
@@ -25,54 +27,29 @@ let package = Package(
             name: "zinc",
             dependencies: [
                 .target(name: "ZincFramework"),
-            ]
+            ],
+            path: "Sources/Executables/zinc"
         ),
         // Library Product Targets
         .target(
-            name: "CommandHero",
-            dependencies: [
-                .target(name: "Lumberjack"),
-                .target(name: "ShellRunner"),
-            ]
+            name: "CarbonFramework",
+            dependencies: [],
+            path: "Sources/Libraries/CarbonFramework"
         ),
         .target(
             name: "ZincFramework",
             dependencies: [
-                .target(name: "CommandHero"),
-                .target(name: "FileHero"),
-                .target(name: "Lumberjack"),
+                .target(name: "CarbonFramework"),
+                "ArgumentParser",
                 "Yams",
-            ]
+            ],
+            path: "Sources/Libraries/ZincFramework"
         ),
-        // Internal Targets
-        .target(
-            name: "CommandHeroDemo",
-            dependencies: [
-                .target(name: "CommandHero"),
-                .target(name: "Lumberjack"),
-            ]
-        ),
-        .target(
-            name: "FileHero",
-            dependencies: [
-                .target(name: "Lumberjack"),
-                .target(name: "ShellRunner"),
-            ]
-        ),
-        .target(
-            name: "ShellRunner",
-            dependencies: [
-                .target(name: "Lumberjack"),
-            ]
-        ),
-        .target(
-            name: "Lumberjack",
-            dependencies: []
-        ),
+        // Test Targets
         .testTarget(
-            name: "CommandHeroTests",
+            name: "CarbonTests",
             dependencies: [
-                .target(name: "CommandHero"),
+                .target(name: "CarbonFramework"),
             ]
         ),
         .testTarget(
