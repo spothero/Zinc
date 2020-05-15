@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Zinc",
+    name: "Elements",
     platforms: [
         .macOS(.v10_10),    // minimum supported version via SPM
         // iOS is unsupported due to the use of command line utilities
@@ -13,6 +13,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
+        .library(name: "CarbonFramework", targets: ["CarbonFramework"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
@@ -26,37 +27,31 @@ let package = Package(
             name: "zinc",
             dependencies: [
                 .target(name: "ZincFramework"),
-            ]
+            ],
+            path: "Sources/Executables/zinc"
         ),
         // Library Product Targets
         .target(
+            name: "CarbonFramework",
+            dependencies: [],
+            path: "Sources/Libraries/CarbonFramework"
+        ),
+        .target(
             name: "ZincFramework",
             dependencies: [
-                .target(name: "FileHero"),
-                .target(name: "Lumberjack"),
+                .target(name: "CarbonFramework"),
                 "ArgumentParser",
                 "Yams",
-            ]
-        ),
-        // Internal Targets
-        .target(
-            name: "FileHero",
-            dependencies: [
-                .target(name: "Lumberjack"),
-                .target(name: "ShellRunner"),
-            ]
-        ),
-        .target(
-            name: "ShellRunner",
-            dependencies: [
-                .target(name: "Lumberjack"),
-            ]
-        ),
-        .target(
-            name: "Lumberjack",
-            dependencies: []
+            ],
+            path: "Sources/Libraries/ZincFramework"
         ),
         // Test Targets
+        .testTarget(
+            name: "CarbonTests",
+            dependencies: [
+                .target(name: "CarbonFramework"),
+            ]
+        ),
         .testTarget(
             name: "ZincTests",
             dependencies: [
