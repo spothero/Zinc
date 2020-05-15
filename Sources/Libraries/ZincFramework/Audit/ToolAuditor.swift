@@ -101,9 +101,9 @@ private extension String {
     func matches(for pattern: String) -> [String] {
         do {
             let regex = try NSRegularExpression(pattern: pattern)
-            let results = regex.matches(in: self,
-                                        range: NSRange(self.startIndex..., in: self))
+            let results = regex.matches(in: self, range: NSRange(self.startIndex..., in: self))
             return results.map {
+                // swiftlint:disable:next force_unwrapping
                 String(self[Range($0.range, in: self)!])
             }
         } catch {
