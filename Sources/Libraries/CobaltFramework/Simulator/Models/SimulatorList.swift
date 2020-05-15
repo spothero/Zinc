@@ -9,7 +9,7 @@ struct SimulatorList: Codable {
     }
     
     let devices: [String: [SimulatorDevice]]
-    let deviceTypes: [SimulatorDeviceType]
     let devicePairs: [String: SimulatorDevicePair]
+    let deviceTypes: [SimulatorDeviceType]
     let runtimes: [SimulatorRuntime]
 }

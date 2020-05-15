@@ -1,6 +1,16 @@
 // Copyright © 2020 SpotHero, Inc. All rights reserved.
 
 struct SimulatorRuntime: Codable {
+    public enum CodingKeys: String, CodingKey {
+        case buildVersion = "buildversion"
+        case bundlePath
+        case identifier
+        case isAvailable
+        case name
+        case runtimeRoot
+        case version
+    }
+    
     let buildVersion: String
     let bundlePath: String
     let identifier: String

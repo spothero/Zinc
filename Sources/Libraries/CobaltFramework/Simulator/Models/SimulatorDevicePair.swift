@@ -3,7 +3,7 @@
 struct SimulatorDevicePair: Codable {
     let watch: SimulatorPairedDevice
     let phone: SimulatorPairedDevice
-    let state: String
+    let state: String // TODO: Enum?
     
 //    "B345071D-5966-4176-952D-0AED295B5926" : {
 //      "watch" : {

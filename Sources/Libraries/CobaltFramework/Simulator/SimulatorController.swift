@@ -12,7 +12,7 @@ class SimulatorController {
     
     static func list() throws -> SimulatorList {
         let json = try self.run("xcrun simctl list --json")
-        return try self.parseListJSON(json)
+        return try self.parseSimulatorListJSON(json)
     }
     
 //    static func listBooted() -> String {
@@ -34,7 +34,7 @@ class SimulatorController {
         try self.run("open \(simulatorAppPath)")
     }
     
-    static func parseListJSON(_ json: String) throws -> SimulatorList {
+    static func parseSimulatorListJSON(_ json: String) throws -> SimulatorList {
         guard let jsonData = json.data(using: .utf8) else {
             throw Error.cannotParseData
         }
