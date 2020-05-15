@@ -112,7 +112,8 @@ public class Lumberjack {
         }
     }
     
-    private func log(_ error: Error, message: String? = nil,
+    private func log(_ error: Error,
+                     message: String? = nil,
                      level: LogLevel = .error,
                      options: LogOption = [],
                      file: String = #file,

@@ -13,6 +13,9 @@ struct LintSubcommand: ParsableCommand {
     
     // MARK: Options
     
+    /// Global options.
+    @OptionGroup() var globalOptions: Zinc.GlobalOptions
+    
     /// The Zincfile to parse.
     @Option(name: .shortAndLong, help: "The Zincfile to parse and lint. Will default to the Zincfile in the root if left unspecified.")
     private var file: String?
@@ -20,6 +23,8 @@ struct LintSubcommand: ParsableCommand {
     // MARK: Methods
     
     func run() throws {
+        Lumberjack.shared.isDebugEnabled = self.globalOptions.verbose
+        
         try self.lint(self.file)
     }
     

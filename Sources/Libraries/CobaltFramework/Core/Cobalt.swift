@@ -19,6 +19,14 @@ public struct Cobalt: ParsableCommand {
         helpNames: .long
     )
     
+    // MARK: Global Options
+    
+    struct GlobalOptions: ParsableArguments {
+        /// Logs additional debug messages if enabled.
+        @Flag(name: .long, help: "Logs additional debug messages if enabled.")
+        var verbose: Bool
+    }
+    
     // MARK: Methods
     
     public init() {}

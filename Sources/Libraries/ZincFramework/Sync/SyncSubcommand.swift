@@ -13,18 +13,17 @@ struct SyncSubcommand: ParsableCommand {
     
     // MARK: Options
     
+    /// Global options.
+    @OptionGroup() var globalOptions: Zinc.GlobalOptions
+    
     /// The Zincfile to parse.
     @Option(name: .shortAndLong, default: "Zincfile", help: "The Zincfile to parse and use for syncing.")
     private var file: String
     
-    /// Logs additional debug messages if enabled.
-    @Flag(name: .long, help: "Logs additional debug messages if enabled.")
-    private var verbose: Bool
-    
     // MARK: Methods
     
     func run() throws {
-        Lumberjack.shared.isDebugEnabled = self.verbose
+        Lumberjack.shared.isDebugEnabled = self.globalOptions.verbose
         
         try self.sync(self.file)
     }

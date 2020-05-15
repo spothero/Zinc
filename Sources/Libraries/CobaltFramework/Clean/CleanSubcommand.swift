@@ -14,14 +14,13 @@ struct CleanSubcommand: ParsableCommand {
     
     // MARK: Options
     
-    /// Logs additional debug messages if enabled.
-    @Flag(name: .long, help: "Logs additional debug messages if enabled.")
-    private var verbose: Bool
+    /// Global options.
+    @OptionGroup() var globalOptions: Cobalt.GlobalOptions
     
     // MARK: Methods
     
     func run() throws {
-        Lumberjack.shared.isDebugEnabled = self.verbose
+        Lumberjack.shared.isDebugEnabled = self.globalOptions.verbose
         
         Lumberjack.shared.log("Removing unavailable simulators...")
         
