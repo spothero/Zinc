@@ -6,7 +6,7 @@ extension SimulatorParsingTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__SimulatorParsingTests = [
-        ("testParsingJSON", testParsingJSON),
+        ("testParsingSimulatorListJSON", testParsingSimulatorListJSON),
     ]
 }
 
