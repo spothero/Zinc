@@ -200,6 +200,8 @@ final class ErrorCleanerTests: XCTestCase {
     }
     
     private func decode(_ json: String, withExpectedMessage expectedMessage: String, file: StaticString = #file, line: UInt = #line) {
+        // We don't care about force unwrapping in tests, we want to know if this fails
+        // swiftlint:disable:next force_unwrapping
         let jsonData = json.data(using: .utf8)!
         
         do {

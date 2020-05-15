@@ -27,12 +27,13 @@ final class SimulatorParsingTests: XCTestCase {
         XCTAssertEqual(simulatorList.runtimes.count, 3)
         
         // Test parsing a devices dictionary
-        if let (runtime, devices) = simulatorList.devices.sorted(by: { $0.key < $1.key }).first {
+        if let (runtime, devices) = simulatorList.devices.min(by: { $0.key < $1.key }) {
             XCTAssertEqual(runtime, "com.apple.CoreSimulator.SimRuntime.iOS-13-4")
             
             // Test parsing a device array
             if let device = devices.first {
-                XCTAssertEqual(device.dataPath, "/Users/brian.drelling/Library/Developer/CoreSimulator/Devices/4DEF74B9-E671-4C7A-8E0D-F7344E1CA2E3/data")
+                XCTAssertEqual(device.dataPath,
+                               "/Users/brian.drelling/Library/Developer/CoreSimulator/Devices/4DEF74B9-E671-4C7A-8E0D-F7344E1CA2E3/data")
                 XCTAssertEqual(device.logPath, "/Users/brian.drelling/Library/Logs/CoreSimulator/4DEF74B9-E671-4C7A-8E0D-F7344E1CA2E3")
                 XCTAssertEqual(device.udid, "4DEF74B9-E671-4C7A-8E0D-F7344E1CA2E3")
                 XCTAssertEqual(device.isAvailable, true)
@@ -43,7 +44,7 @@ final class SimulatorParsingTests: XCTestCase {
         }
         
         // Test parsing a device pairs dictionary
-        if let (udid, pair) = simulatorList.devicePairs.sorted(by: { $0.key < $1.key }).first {
+        if let (udid, pair) = simulatorList.devicePairs.min(by: { $0.key < $1.key }) {
             XCTAssertEqual(udid, "B345071D-5966-4176-952D-0AED295B5926")
             
             XCTAssertEqual(pair.state, "(active, disconnected)")
@@ -59,6 +60,7 @@ final class SimulatorParsingTests: XCTestCase {
         
         // Test parsing a device type
         if let deviceType = simulatorList.deviceTypes.first {
+            // swiftlint:disable:next line_length
             XCTAssertEqual(deviceType.bundlePath, #"/Applications/Xcode 11.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 4s.simdevicetype"#)
             XCTAssertEqual(deviceType.identifier, "com.apple.CoreSimulator.SimDeviceType.iPhone-4s")
             XCTAssertEqual(deviceType.minRuntimeVersion, 327680)
@@ -69,6 +71,7 @@ final class SimulatorParsingTests: XCTestCase {
         
         // Test parsing a runtime
         if let runtime = simulatorList.runtimes.first {
+            // swiftlint:disable:next line_length
             let bundlePath = #"/Applications/Xcode 11.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime"#
             let runtimeRootFromBundle = #"/Contents/Resources/RuntimeRoot"#
             
