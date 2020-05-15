@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "Zinc",
     platforms: [
-        .iOS(.v8),          // minimum supported version via SPM
         .macOS(.v10_10),    // minimum supported version via SPM
-        .tvOS(.v9),         // minimum supported version via SPM
-        .watchOS(.v2),      // minimum supported version via SPM
+        // iOS is unsupported due to the use of command line utilities
+        // tvOS is unsupported due to the use of command line utilities
+        // watchOS is unsupported due to the use of command line utilities
     ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),

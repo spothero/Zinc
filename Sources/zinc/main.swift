@@ -3,5 +3,5 @@
 import ZincFramework
 
 // We have a single entry point to process arguments
-// The Zinc framework will handle all the work!
+// The framework will handle all the rest!
 Zinc.main()
