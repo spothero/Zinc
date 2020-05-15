@@ -19,7 +19,7 @@ class SimulatorController {
 //        return self.run("xcrun simctl list | booted")
 //    }
     
-    static func cleanup() throws {
+    static func deleteUnavailable() throws {
         try self.run("xcrun simctl delete unavailable")
     }
     

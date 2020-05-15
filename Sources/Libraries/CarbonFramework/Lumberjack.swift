@@ -86,10 +86,14 @@ public class Lumberjack {
             return
         }
         
-        let message = String(describing: item)
         let color = self.color(for: level)
         
-        self.print(message, inColor: color, file: file, line: line)
+        if let jsonObject = item as? Encodable {
+            self.print(jsonObject, inColor: color, file: file, line: line)
+        } else {
+            let message = String(describing: item)
+            self.print(message, inColor: color, file: file, line: line)
+        }
     }
     
     private func log(_ error: Error, message: String? = nil, level: LogLevel = .error, file: String = #file, line: UInt = #line) {
@@ -181,6 +185,15 @@ public class Lumberjack {
         Swift.print(message)
     }
     
+    private func print(_ jsonObject: Encodable, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
+        do {
+            let message = try jsonObject.toPrettyPrintedJSON() ?? String(describing: jsonObject)
+            self.print(message, inColor: color, bright: bright, file: file, line: line)
+        } catch {
+            self.report(error)
+        }
+    }
+    
     private func print(_ message: String, inColor color: Color?, bright: Bool = false, file: String = #file, line: UInt = #line) {
         // Make message mutable
         var message = message
@@ -241,5 +254,15 @@ public class Lumberjack {
         for color in Color.allCases {
             self.print("Wow!", inColor: color, bright: true)
         }
+    }
+}
+
+private extension Encodable {
+    func toPrettyPrintedJSON() throws -> String? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        let jsonData = try encoder.encode(self)
+        return String(data: jsonData, encoding: .utf8)
     }
 }
