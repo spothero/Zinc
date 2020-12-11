@@ -5,9 +5,6 @@ files:
   - source_path: Tools/GitHub/CODEOWNERS
     destination_path: .github
   - source_path: Tools/GitHub/.gitignore
-  # Rubocop
-  - source_path: Tools/Rubocop/rubocop.yml
-    name: .rubocop.yml
   # Scripts
   - source_path: Scripts/danger_lint.sh
     destination_path: scripts
