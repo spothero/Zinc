@@ -17,9 +17,9 @@ let package = Package(
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
+        .package(url: "https://github.com/jpsim/Yams.git", .upToNextMajor(from: "4.0.2")),
         // Source stability for ArgumentParser is only guaranteed up to the next minor version
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.0.5")),
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.3.1")),
     ],
     targets: [
         // Executable Product Targets
