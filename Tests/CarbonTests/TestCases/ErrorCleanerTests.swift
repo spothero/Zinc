@@ -1,4 +1,4 @@
-// Copyright © 2020 SpotHero, Inc. All rights reserved.
+// Copyright © 2021 SpotHero, Inc. All rights reserved.
 
 @testable import CarbonFramework
 import Foundation
@@ -200,7 +200,10 @@ final class ErrorCleanerTests: XCTestCase {
     }
     
     private func decode(_ json: String, withExpectedMessage expectedMessage: String, file: StaticString = #file, line: UInt = #line) {
-        let jsonData = json.data(using: .utf8)!
+        guard let jsonData = json.data(using: .utf8) else {
+            XCTFail("Decoding failed! Unable to convert JSON string into UTF8 data.", file: file, line: line)
+            return
+        }
         
         do {
             _ = try JSONDecoder().decode(Example.self, from: jsonData)
@@ -209,7 +212,7 @@ final class ErrorCleanerTests: XCTestCase {
             let cleanedMessage = ErrorCleaner.cleanedMessage(for: decodingError)
             XCTAssertEqual(cleanedMessage, expectedMessage, file: file, line: line)
         } catch {
-            XCTFail("Invalid error type!", file: file, line: line)
+            XCTFail("Decoding failed! Invalid error type.", file: file, line: line)
         }
     }
 }

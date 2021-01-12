@@ -1,8 +1,8 @@
-// Copyright © 2020 SpotHero, Inc. All rights reserved.
+// Copyright © 2021 SpotHero, Inc. All rights reserved.
 
 import Foundation
 
-public final class ErrorCleaner {
+public enum ErrorCleaner {
     public static func cleanedMessage(for error: Error) -> String {
         switch error {
         case let decodingError as DecodingError:
@@ -31,8 +31,8 @@ public final class ErrorCleaner {
     }
 }
 
-extension Array where Element == CodingKey {
-    fileprivate var jsonPath: String {
+private extension Array where Element == CodingKey {
+    var jsonPath: String {
         var path = ""
         
         for key in self {
