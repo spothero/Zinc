@@ -3,8 +3,8 @@
 [![CI Status](https://github.com/spothero/Elements/workflows/CI/badge.svg)](https://github.com/spothero/Elements/actions?query=workflow%3A%22CI%22)
 [![Latest Release](https://img.shields.io/github/v/tag/spothero/Elements?color=blue&label=latest)](https://github.com/spothero/Elements/releases)
 [![Swift Version](https://img.shields.io/static/v1?label=swift&message=5.2&color=red&logo=swift&logoColor=white)](https://developer.apple.com/swift)
-[![Platform Support](https://img.shields.io/static/v1?label=platform&message=macOS&color=darkgray)](https://github.com/spothero/Elements/blob/master/Package.swift)
-[![License](https://img.shields.io/github/license/spothero/Zinc)](https://github.com/spothero/Elements/blob/master/LICENSE)
+[![Platform Support](https://img.shields.io/static/v1?label=platform&message=macOS&color=darkgray)](https://github.com/spothero/Elements/blob/main/Package.swift)
+[![License](https://img.shields.io/github/license/spothero/Zinc)](https://github.com/spothero/Elements/blob/main/LICENSE)
 
 Elements is a collection of command-line tools written in Swift for assisting with a variety of common development tasks.
 
