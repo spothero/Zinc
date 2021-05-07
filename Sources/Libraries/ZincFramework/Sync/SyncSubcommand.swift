@@ -48,7 +48,7 @@ struct SyncSubcommand: ParsableCommand {
         // clone the default repo first
         try self.cloneDefaultRepository(zincfile)
         
-        // aggregate the sources into a master dictionary
+        // aggregate the sources into a primary dictionary
         try self.cloneFileRepositories(zincfile)
         
         // sync all the files

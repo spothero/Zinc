@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 env:
   DEPLOY_DIRECTORY: deploy
-  DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
 
 jobs:
   lint:
@@ -25,8 +25,8 @@ jobs:
           brew install swiftformat
       - name: Run Danger
         run: sh ./scripts/danger_lint.sh
-  test:
-    name: Test ${{ matrix.os }}
+  spm:
+    name: SPM (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: [lint]
     strategy:
@@ -37,8 +37,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Tests
         run: sh ./scripts/swift_build.sh
-      - name: Upload Test Output
+      - name: Upload Step Output
         uses: actions/upload-artifact@v1
         with:
-          name: "${{ matrix.os }} Test Output"
+          name: SPM Output
           path: ${{ env.DEPLOY_DIRECTORY }}
