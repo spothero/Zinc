@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Elements",
+    name: "Zinc",
     platforms: [
         .macOS(.v10_10),    // minimum supported version via SPM
         // iOS is unsupported due to the use of command line utilities
@@ -13,7 +13,6 @@ let package = Package(
     ],
     products: [
         .executable(name: "zinc", targets: ["zinc"]),
-        .library(name: "CarbonFramework", targets: ["CarbonFramework"]),
         .library(name: "ZincFramework", targets: ["ZincFramework"]),
     ],
     dependencies: [
