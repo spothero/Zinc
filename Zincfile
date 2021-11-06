@@ -1,10 +1,24 @@
 ---
-source: https://github.com/bdrelling/Template-Swift.git
+source: https://github.com/spothero/Shared-iOS.git
 files:
-  # - source_path: scripts/
-  # - source_path: .gitignore
-  # - source_path: .swift-version
-  # - source_path: .swiftformat
-  # - source_path: .swiftlint.yml
-  # - source_path: Gemfile
-  - source_path: Mintfile
+  # GitHub
+  - source_path: Tools/GitHub/CODEOWNERS
+    destination_path: .github
+  - source_path: Tools/GitHub/.gitignore
+  # Scripts
+  - source_path: Scripts/danger_lint.sh
+    destination_path: scripts
+  - source_path: Scripts/onboard.sh
+    destination_path: scripts
+  - source_path: Scripts/swift_build.sh
+    destination_path: scripts
+  - source_path: Scripts/xcode_build.sh
+    destination_path: scripts
+  # SwiftLint
+  - source_path: Tools/SwiftLint/.swiftlint.yml
+  # SwiftFormat
+  - source_path: Tools/SwiftFormat/.swiftformat
+  # Git Hooks
+  - source_path: Scripts/git-hooks/pre-commit-spm
+    destination_path: scripts/git-hooks
+    name: pre-commit
