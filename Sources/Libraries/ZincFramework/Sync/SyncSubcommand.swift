@@ -14,12 +14,12 @@ struct SyncSubcommand: ParsableCommand {
     // MARK: Options
     
     /// The Zincfile to parse.
-    @Option(name: .shortAndLong, default: "Zincfile", help: "The Zincfile to parse and use for syncing.")
-    private var file: String
+    @Option(name: .shortAndLong, help: "The Zincfile to parse and use for syncing.")
+    private var file: String = "Zincfile"
     
     /// Logs additional debug messages if enabled.
     @Flag(name: .long, help: "Logs additional debug messages if enabled.")
-    private var verbose: Bool
+    private var verbose: Bool = false
     
     // MARK: Methods
     
@@ -86,9 +86,11 @@ struct SyncSubcommand: ParsableCommand {
         
         Lumberjack.shared.debug("Cloning default (\(url)) into \(directory)...")
         
-        try ShellRunner.shared.gitClone(url,
-                                        branch: zincfile.sourceBranch ?? zincfile.sourceTag,
-                                        directory: directory)
+        try ProcessRunner.shared.gitClone(
+            url,
+            branch: zincfile.sourceBranch ?? zincfile.sourceTag,
+            directory: directory
+        )
     }
     
     private func cloneFileRepositories(_ zincfile: Zincfile) throws {
@@ -126,9 +128,11 @@ struct SyncSubcommand: ParsableCommand {
             
             Lumberjack.shared.debug("Cloning \(name) (\(url)) into \(directory)...")
             
-            try ShellRunner.shared.gitClone(url,
-                                            branch: file.sourceBranch ?? file.sourceTag,
-                                            directory: directory)
+            try ProcessRunner.shared.gitClone(
+                url,
+                branch: file.sourceBranch ?? file.sourceTag,
+                directory: directory
+            )
         }
     }
     
