@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Zinc",
     platforms: [
-        .macOS(.v10_10),    // minimum supported version via SPM
+        .macOS(.v10_13),    // supports updated Process API
         // iOS is unsupported due to the use of command line utilities
         // tvOS is unsupported due to the use of command line utilities
         // watchOS is unsupported due to the use of command line utilities
