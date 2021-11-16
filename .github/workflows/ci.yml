@@ -12,7 +12,7 @@ env:
 jobs:
   lint:
     name: Lint
-    runs-on: macos-latest
+    runs-on: macos-11
     env:
       DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
@@ -35,7 +35,7 @@ jobs:
     needs: [lint]
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-11]
         xcode_version: ["13.0"]
     steps:
       - name: Checkout
